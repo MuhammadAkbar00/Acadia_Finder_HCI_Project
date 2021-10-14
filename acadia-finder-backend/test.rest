@@ -1,0 +1,34 @@
+POST http://localhost:3000/acadia_finder_db/sales
+Content-Type: application/json
+
+{
+  "salesId": "011jlksjdf",
+  "sellerId": "03khfjksdf",
+  "purchaserId": "isjdflkjs",
+  "bookId": "jklsjdf",
+  "dateSold": "08/08/08",
+  "listedPrice": 9000
+}
+###
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+  "name": "011jlksjdfre",
+  "courseId": "03khfjksdffds",
+  "edition": "isjdflkjsfs",
+  "author": "jklsjdffds",
+  "bookImage": "fsdfadsfas",
+  "userId": "fsdfsd4",
+  "buyPrice": 9000,
+  "rentPrice": 9000,
+  "forRent": true,
+  "forSale": false
+}
+
+###
+
+GET http://localhost:3000/books
+
+###
+DELETE http://localhost:3000/books/61677ff84e43dce3ba40b911
