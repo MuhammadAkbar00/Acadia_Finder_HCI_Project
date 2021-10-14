@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
 
 const BooksSchema = mongoose.Schema({
-  bookId: {
-    type: String,
-    required: true
-  },
+
   name: {
     type: String,
     required: true,
@@ -22,7 +19,7 @@ const BooksSchema = mongoose.Schema({
     required: false,
   },
   bookImage: {
-    type: File,
+    type: String,
     required: true
   },
   userId: {
