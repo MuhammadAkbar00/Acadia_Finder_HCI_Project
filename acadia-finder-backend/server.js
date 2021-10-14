@@ -17,9 +17,11 @@ app.use(express.json())
 // middleware
 const usersRouter = require('./endpoints/users')
 const booksRouter = require('./endpoints/books')
+const notesRouter = require('./endpoints/notes')
 
 app.use('/users', usersRouter)
 app.use('/books', booksRouter)
+app.use('/notes', notesRouter)
 
 
 app.listen(3000, () => console.log("server started"))
