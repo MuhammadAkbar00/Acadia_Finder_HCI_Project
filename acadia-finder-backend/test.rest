@@ -31,4 +31,25 @@ Content-Type: application/json
 GET http://localhost:3000/books
 
 ###
-DELETE http://localhost:3000/books/61677ff84e43dce3ba40b911
+DELETE http://localhost:3000/books/616789aeaf29979a70e4a501
+
+###
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "userName": "Muhammad",
+  "password": "112233",
+  "firstName": "Muhammad",
+  "lastName": "Akbar",
+  "phoneNumber": "902-648-3002",
+  "email": "makbar@gmail.com",
+  "major": "Computer Science"
+}
+
+###
+
+GET http://localhost:3000/users
+
+###
+DELETE http://localhost:3000/users/616789aeaf29979a70e4a501

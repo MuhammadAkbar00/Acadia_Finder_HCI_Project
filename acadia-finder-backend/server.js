@@ -15,7 +15,10 @@ db.once('open', () => console.log("Connected to Database"))
 app.use(express.json())
 
 // middleware
+const usersRouter = require('./endpoints/users')
 const booksRouter = require('./endpoints/books')
+
+app.use('/users', usersRouter)
 app.use('/books', booksRouter)
 
 
