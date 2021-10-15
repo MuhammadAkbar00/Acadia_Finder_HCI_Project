@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
 
 const PurchasesSchema = mongoose.Schema({
-  purchaseId: {
-    type: String,
-    required: true
-  },
+
   sellerId: {
     type: String,
     required: true
