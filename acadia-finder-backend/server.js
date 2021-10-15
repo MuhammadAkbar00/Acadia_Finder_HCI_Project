@@ -17,6 +17,8 @@ app.use(express.json())
 // middleware
 const usersRouter = require('./endpoints/users')
 const booksRouter = require('./endpoints/books')
+const rentalsRouter = require('./endpoints/rentals')
+
 const notesRouter = require('./endpoints/notes')
 const holdingsRouter = require('./endpoints/holdings')
 
@@ -24,6 +26,7 @@ app.use('/users', usersRouter)
 app.use('/books', booksRouter)
 app.use('/notes', notesRouter)
 app.use('/holdings', holdingsRouter)
+app.use('/rentals', rentalsRouter)
 
 
 app.listen(3000, () => console.log("server started"))
