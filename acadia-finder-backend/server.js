@@ -17,13 +17,24 @@ app.use(express.json())
 // middleware
 const usersRouter = require('./endpoints/users')
 const booksRouter = require('./endpoints/books')
+const rentalsRouter = require('./endpoints/rentals')
+
 const notesRouter = require('./endpoints/notes')
+<<<<<<< HEAD
 const purchasesRouter = require('./endpoints/purchases')
+=======
+const holdingsRouter = require('./endpoints/holdings')
+>>>>>>> origin/main
 
 app.use('/users', usersRouter)
 app.use('/books', booksRouter)
 app.use('/notes', notesRouter)
+<<<<<<< HEAD
 app.use('/purchases', purchasesRouter)
+=======
+app.use('/holdings', holdingsRouter)
+app.use('/rentals', rentalsRouter)
+>>>>>>> origin/main
 
 
 app.listen(3000, () => console.log("server started"))

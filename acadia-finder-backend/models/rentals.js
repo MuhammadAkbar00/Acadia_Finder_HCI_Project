@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const RentalsSchema = mongoose.Schema({
-  rentalId: {
-    type: String,
-    required: true,
-  },
   renterId: {
     type: String,
     required: true
@@ -18,11 +14,11 @@ const RentalsSchema = mongoose.Schema({
     required: true
   },
   rentedDate: {
-    type: Date,
+    type: String,
     required: true
   },
   returnDate: {
-    type: Date,
+    type: String,
     required: true
   },
 })
