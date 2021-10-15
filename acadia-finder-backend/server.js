@@ -18,10 +18,12 @@ app.use(express.json())
 const usersRouter = require('./endpoints/users')
 const booksRouter = require('./endpoints/books')
 const notesRouter = require('./endpoints/notes')
+const purchasesRouter = require('./endpoints/purchases')
 
 app.use('/users', usersRouter)
 app.use('/books', booksRouter)
 app.use('/notes', notesRouter)
+app.use('/purchases', purchasesRouter)
 
 
 app.listen(3000, () => console.log("server started"))
