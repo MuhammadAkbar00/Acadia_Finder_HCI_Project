@@ -53,3 +53,23 @@ GET http://localhost:3000/users
 
 ###
 DELETE http://localhost:3000/users/616789aeaf29979a70e4a501
+
+###
+POST http://localhost:3000/notes
+Content-Type: application/json
+
+{
+  "courseId": "courseid1",
+  "providerId": "pid1",
+  "noteFile": "This will be the file",
+  "datePosted": "08/08/00",
+  "description": "This is the note for the class yeee",
+  "semester": "FA22"
+}
+
+###
+
+GET http://localhost:3000/notes
+
+###
+DELETE http://localhost:3000/notes/616789aeaf29979a70e4a501

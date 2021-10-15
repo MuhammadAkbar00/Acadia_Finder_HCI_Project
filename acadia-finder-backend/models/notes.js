@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const NotesSchema = mongoose.Schema({
-  noteId: {
-    type: String,
-    required: true
-  },
   courseId: {
     type: String,
     required: true
@@ -14,7 +10,7 @@ const NotesSchema = mongoose.Schema({
     required: true
   },
   noteFile: {
-    type: File,
+    type: String,
     required: true
   },
   datePosted: {
