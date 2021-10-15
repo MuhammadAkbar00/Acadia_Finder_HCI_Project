@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
 
 const HoldingsSchema = mongoose.Schema({
-  holdingId: {
-    type: String,
-    required: true,
-  },
+
   bookId: {
     type: String,
     required: true
