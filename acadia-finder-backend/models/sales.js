@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
 
 const SalesSchema = mongoose.Schema({
-  salesId: {
-    type: String,
-    required: true
-  },
+  
   sellerId: {
     type: String,
     required: true
@@ -18,7 +15,7 @@ const SalesSchema = mongoose.Schema({
     required: true
   },
   dateSold: {
-    type: Date,
+    type: String,
     required: true
   },
   listedPrice: {
