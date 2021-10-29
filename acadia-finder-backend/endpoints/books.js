@@ -37,10 +37,10 @@ router.post('/', async (req, res) => {
 
 
 // Delete one
-router.delete('/:id', getItem, async (req, res) => {
+router.delete('/:id', getBook, async (req, res) => {
   try {
-      await res.item.remove()
-      res.json({ message: "Deleted item" })
+      await res.book.remove()
+      res.json({ message: "Deleted Book" })
   } catch (err) {
       res.status(500).json({ message: err.message })
   }
@@ -48,8 +48,8 @@ router.delete('/:id', getItem, async (req, res) => {
 
 // Delete many
 router.delete('/',  async (req, res) => {
-  Item.deleteMany({}).then(() => { 
-      res.json({ message: "Deleted all item" })
+  Book.deleteMany({}).then(() => { 
+      res.json({ message: "Deleted all Books" })
   }).catch((err) => { 
       res.status(500).json({ message: err.message })
 
@@ -58,18 +58,18 @@ router.delete('/',  async (req, res) => {
 })
 
 // Middleware
-async function getItem(req, res, next) {
+async function getBook(req, res, next) {
 
-  let item
+  let book
   try {
-      item = await Book.findById(req.params.id)
-      if (item == null) {
-          return res.status(404).json({ message: "Cannot find item" })
+      book = await Book.findById(req.params.id)
+      if (book == null) {
+          return res.status(404).json({ message: "Cannot find Book" })
       }
   } catch (err) {
       return res.status(500).json({ message: err.message })
   }
-  res.item = item
+  res.book = book
   next()
 }
 

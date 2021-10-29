@@ -8,3 +8,28 @@ A web application that helps students buy, sell or rent books amongst themselves
 - cd into `acadia-finder-hci-project` and you should be able to see two folders there: `acadia-finder-front-end` and `acadia-finder-backend`
 
 
+### pages needed
+- Hero page (landing page)
+- login - view
+- signup - view
+- profile - purchases, rentals, holdings and sales
+- books
+- notes 
+- similar program students - only show up when logged in - view
+
+
+### to run the front-end
+- cd to `acadia-finder-front-end`
+- run `yarn`
+- run `yarn serve`
+
+### front-end components setup
+- create a named component e.g. Book.vue in the `components` directory (login and signup do not need components)
+- create a view for the component e.g. Books.vue in the `views` directory
+- update the `router.js` accordingly
+- update the `index.js` file in the store accordingly
+- use google to get nice looking features for the view you are creating
+- use vuetify website `https://vuetifyjs.com/en/introduction/why-vuetify/`
+
+
+
