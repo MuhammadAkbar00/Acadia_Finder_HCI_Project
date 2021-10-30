@@ -5,7 +5,7 @@ const Note = require('../models/notes')
 
 // Get all books
 router.get('/', cors(), async (req, res) => {
-    console.log("Getting all notes")
+    console.log("Getting all Notes")
     try {
         const notes = await Note.find()
         res.send(notes)
@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
 router.delete('/:id', getNote, async (req, res) => {
   try {
       await res.note.remove()
-      res.json({ message: "Deleted note" })
+      res.json({ message: "Deleted Note" })
   } catch (err) {
       res.status(500).json({ message: err.message })
   }
@@ -45,7 +45,7 @@ router.delete('/:id', getNote, async (req, res) => {
 // Delete many
 router.delete('/',  async (req, res) => {
   Note.deleteMany({}).then(() => { 
-      res.json({ message: "Deleted all note" })
+      res.json({ message: "Deleted all Notes" })
   }).catch((err) => { 
       res.status(500).json({ message: err.message })
 
@@ -60,7 +60,7 @@ async function getNote(req, res, next) {
   try {
       note = await Note.findById(req.params.id)
       if (note == null) {
-          return res.status(404).json({ message: "Cannot find note" })
+          return res.status(404).json({ message: "Cannot find Note" })
       }
   } catch (err) {
       return res.status(500).json({ message: err.message })

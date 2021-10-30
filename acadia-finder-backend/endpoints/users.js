@@ -5,7 +5,7 @@ const User = require('../models/users')
 
 // Get all user
 router.get('/', cors(), async (req, res) => {
-    console.log("Getting all users")
+    console.log("Getting all Users")
     try {
         const users = await User.find()
         res.send(users)
@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
 router.delete('/:id', getUser, async (req, res) => {
   try {
       await res.user.remove()
-      res.json({ message: "Deleted user" })
+      res.json({ message: "Deleted User" })
   } catch (err) {
       res.status(500).json({ message: err.message })
   }
@@ -46,7 +46,7 @@ router.delete('/:id', getUser, async (req, res) => {
 // Delete many
 router.delete('/',  async (req, res) => {
   User.deleteMany({}).then(() => { 
-      res.json({ message: "Deleted all user" })
+      res.json({ message: "Deleted all Users" })
   }).catch((err) => { 
       res.status(500).json({ message: err.message })
 
@@ -61,7 +61,7 @@ async function getUser(req, res, next) {
   try {
       user = await User.findById(req.params.id)
       if (user == null) {
-          return res.status(404).json({ message: "Cannot find user" })
+          return res.status(404).json({ message: "Cannot find User" })
       }
   } catch (err) {
       return res.status(500).json({ message: err.message })

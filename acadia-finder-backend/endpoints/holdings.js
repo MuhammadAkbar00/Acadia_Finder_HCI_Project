@@ -5,7 +5,7 @@ const Holding = require('../models/holdings')
 
 // Get all holdings
 router.get('/', cors(), async (req, res) => {
-    console.log("Getting all holdings")
+    console.log("Getting all Holdings")
     try {
         const holdings = await Holding.find()
         res.send(holdings)
@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
 router.delete('/:id', getHolding, async (req, res) => {
   try {
       await res.holding.remove()
-      res.json({ message: "Deleted holding" })
+      res.json({ message: "Deleted Holding" })
   } catch (err) {
       res.status(500).json({ message: err.message })
   }
@@ -44,7 +44,7 @@ router.delete('/:id', getHolding, async (req, res) => {
 // Delete many
 router.delete('/',  async (req, res) => {
   Holding.deleteMany({}).then(() => { 
-      res.json({ message: "Deleted all holdings" })
+      res.json({ message: "Deleted all Holdings" })
   }).catch((err) => { 
       res.status(500).json({ message: err.message })
 
@@ -59,7 +59,7 @@ async function getHolding(req, res, next) {
   try {
       holding = await Holding.findById(req.params.id)
       if (holding == null) {
-          return res.status(404).json({ message: "Cannot find holding" })
+          return res.status(404).json({ message: "Cannot find Holding" })
       }
   } catch (err) {
       return res.status(500).json({ message: err.message })
