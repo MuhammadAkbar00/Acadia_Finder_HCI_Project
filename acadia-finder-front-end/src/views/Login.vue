@@ -5,10 +5,10 @@
       <v-row justify="center">
         <v-col cols="12" md="5">
           <v-text-field
-            v-model="username"
+            v-model="email"
             :counter="50"
-            label="Username"
-            :rules="usernameRules"
+            label="Email"
+            :rules="emailRules"
             required
             class="my-5"
           ></v-text-field>
@@ -24,7 +24,7 @@
             {{ errors }}
           </div>
           <v-card-actions>
-            <v-checkbox color="#000000" label="Remember Username"></v-checkbox>
+            <v-checkbox color="#000000" label="Remember Login"></v-checkbox>
           </v-card-actions>
           <div align="right">
             <router-link to="/resetPassword">Forgot Password?</router-link>
@@ -46,8 +46,8 @@ export default {
   data: () => ({
     valid: false,
     errors: "",
-    username: "",
-    usernameRules: [
+    email: "",
+    emailRules: [
       (v) => !!v || "Username is required",
       (v) => v.length <= 50 || "Username must be 50 characters or less",
     ],
