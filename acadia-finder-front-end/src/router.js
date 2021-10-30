@@ -5,6 +5,7 @@ import Books from "./views/Books.vue";
 import Users from "./views/Users.vue";
 import Login from "./views/Login.vue";
 import Signup from "./views/Signup.vue";
+import AddBooks from "./views/AddBooks.vue";
 
 
 Vue.use(Router);
@@ -37,6 +38,11 @@ export default new Router({
       path: "/signup",
       name: "signup",
       component: Signup
+    },
+    {
+      path: "/addbooks",
+      name: "addbooks",
+      component: AddBooks
     }
   ]
 });

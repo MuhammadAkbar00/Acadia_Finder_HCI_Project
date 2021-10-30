@@ -16,6 +16,28 @@ router.get('/', cors(), async (req, res) => {
   }
 })
 
+
+// Get userId with token to match their books and notes
+router.get('/user', (req, res) => {
+  let token = req.headers.token; //token
+  jwt.verify(token, 'secretkey', (err, decoded) => {
+      if (err) return res.status(401).json({
+          title: 'Unauthorized'
+      })
+      //token is valid
+      User.findOne({ _id: decoded.userId }, (err, user) => {
+          if (err) return console.log(err)
+          return res.status(200).json({
+              title: 'User Retrieved!',
+              user: {
+                  _id: user._id,
+              }
+          })
+      })
+
+  })
+})
+
 router.post('/signup', async (req, res) => {
   const user = new User({
     userName: req.body.userName,
