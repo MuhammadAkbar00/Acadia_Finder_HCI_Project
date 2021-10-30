@@ -5,7 +5,7 @@ const Rental = require('../models/rentals')
 
 // Get all rental
 router.get('/', cors(), async (req, res) => {
-    console.log("Getting all rentals")
+    console.log("Getting all Rentals")
     try {
         const rentals = await Rental.find()
         res.send(rentals)
@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
 router.delete('/:id', getRental, async (req, res) => {
   try {
       await res.rental.remove()
-      res.json({ message: "Deleted rental" })
+      res.json({ message: "Deleted Rental" })
   } catch (err) {
       res.status(500).json({ message: err.message })
   }
@@ -44,7 +44,7 @@ router.delete('/:id', getRental, async (req, res) => {
 // Delete many
 router.delete('/',  async (req, res) => {
   Rental.deleteMany({}).then(() => { 
-      res.json({ message: "Deleted all rentals" })
+      res.json({ message: "Deleted all Rentals" })
   }).catch((err) => { 
       res.status(500).json({ message: err.message })
 
@@ -59,7 +59,7 @@ async function getRental(req, res, next) {
   try {
       rental = await Rental.findById(req.params.id)
       if (rental == null) {
-          return res.status(404).json({ message: "Cannot find rental" })
+          return res.status(404).json({ message: "Cannot find Rental" })
       }
   } catch (err) {
       return res.status(500).json({ message: err.message })

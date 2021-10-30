@@ -31,5 +31,12 @@ A web application that helps students buy, sell or rent books amongst themselves
 - use google to get nice looking features for the view you are creating
 - use vuetify website `https://vuetifyjs.com/en/introduction/why-vuetify/`
 
+### To Do
+- centre books on screen resize
+- create password reset endpoint
+- add password validation
+- add login validation
+- Remember login
+
 
 

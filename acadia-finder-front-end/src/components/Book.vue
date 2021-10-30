@@ -1,12 +1,12 @@
 <template>
   <v-container>
-    <v-row align="center">
-      <v-col>
         <v-card-title>
           <h3>
             {{ name }}
           </h3>
         </v-card-title>
+    <v-row align="center">
+      <v-col cols="12" lg="8" md="8" sm="12">
         <p class="ml-5">Author: {{ author }}</p>
         <p class="ml-5">Edition: {{ edition }}</p>
 
@@ -16,7 +16,7 @@
           <div>course name: {{ courseId }}</div>
         </div>
       </v-col>
-      <v-col>
+      <v-col cols="12" lg="4" md="4" sm="12">
           <v-img width="100" :src="bookImage"></v-img>
       </v-col>
     </v-row>
