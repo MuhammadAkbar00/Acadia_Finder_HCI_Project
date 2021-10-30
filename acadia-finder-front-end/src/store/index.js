@@ -18,6 +18,9 @@ export default new Vuex.Store({
     GET_BOOKS(state, books) {
       state.books = books
     },
+    GET_NOTES(state, notes) {
+      state.notes = notes
+    }, 
   },
   actions: {
 
@@ -30,6 +33,25 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
+    
+   // Get all books
+   getNotes({ commit }) {
+    return axios.get("http://localhost:3000/notes")
+      .then(response => {
+        commit("GET_NOTES", response.data)
+      }).catch(err => {
+        console.log(err)
+      })
+  },
+    
   },
   modules: {}
-});
+
+}
+);
+
+
+
+
+
+
