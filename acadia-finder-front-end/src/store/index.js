@@ -18,6 +18,9 @@ export default new Vuex.Store({
     GET_BOOKS(state, books) {
       state.books = books
     },
+    GET_USERS(state, users) {
+      state.users = users
+    },
   },
   actions: {
 
@@ -26,6 +29,15 @@ export default new Vuex.Store({
       return axios.get("http://localhost:3000/books")
         .then(response => {
           commit("GET_BOOKS", response.data)
+        }).catch(err => {
+          console.log(err)
+        })
+    },
+    // Get all users
+    getUsers({ commit }) {
+      return axios.get("http://localhost:3000/users")
+        .then(response => {
+          commit("GET_USERS", response.data)
         }).catch(err => {
           console.log(err)
         })
