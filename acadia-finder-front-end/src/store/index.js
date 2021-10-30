@@ -21,6 +21,9 @@ export default new Vuex.Store({
     GET_NOTES(state, notes) {
       state.notes = notes
     }, 
+    GET_USERS(state, users) {
+      state.users = users
+    },
   },
   actions: {
 
@@ -44,6 +47,15 @@ export default new Vuex.Store({
       })
   },
     
+    // Get all users
+    getUsers({ commit }) {
+      return axios.get("http://localhost:3000/users")
+        .then(response => {
+          commit("GET_USERS", response.data)
+        }).catch(err => {
+          console.log(err)
+        })
+    },
   },
   modules: {}
 

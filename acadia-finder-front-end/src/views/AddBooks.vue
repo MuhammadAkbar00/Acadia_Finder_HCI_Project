@@ -2,99 +2,119 @@
   <validation-observer ref="observer">
     <v-row justify="center" class="mt-10 pa-5">
       <v-col lg="6" sm="12" md="8">
-        <h2 class="mb-5">Signup Form</h2>
+        <h2 class="mb-5">Add Book Form</h2>
         <form @submit.prevent="submit">
+          <validation-provider v-slot="{ errors }" name="Name" rules="required">
+            <v-text-field
+              v-model="name"
+              :error-messages="errors"
+              label="Name"
+              required
+            ></v-text-field>
+          </validation-provider>
           <validation-provider
             v-slot="{ errors }"
-            name="First name"
+            name="Course ID"
             rules="required"
           >
             <v-text-field
-              v-model="firstName"
+              v-model="courseId"
               :error-messages="errors"
-              label="First name"
+              label="Course ID"
               required
             ></v-text-field>
           </validation-provider>
           <validation-provider
             v-slot="{ errors }"
-            name="Last name"
+            name="Edition"
             rules="required"
           >
             <v-text-field
-              v-model="lastName"
+              v-model="edition"
               :error-messages="errors"
-              label="Last name"
-              required
-            ></v-text-field>
-          </validation-provider>
-          <validation-provider
-            v-slot="{ errors }"
-            name="Username"
-            rules="required"
-          >
-            <v-text-field
-              v-model="userName"
-              :error-messages="errors"
-              label="Username"
-              required
-            ></v-text-field>
-          </validation-provider>
-          <validation-provider
-            v-slot="{ errors }"
-            name="Password"
-            rules="required"
-          >
-            <v-text-field
-              v-model="password"
-              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="show1 ? 'text' : 'password'"
-              :error-messages="errors"
-              label="Password"
-              hint="At least 8 characters"
-              @click:append="show1 = !show1"
-              required
-            ></v-text-field>
-          </validation-provider>
-          <validation-provider
-            v-slot="{ errors }"
-            name="Phone Number"
-            :rules="{
-              required: true,
-              digits: 10,
-            }"
-          >
-            <v-text-field
-              v-model="phoneNumber"
-              :error-messages="errors"
-              label="Phone Number"
-              required
-            ></v-text-field>
-          </validation-provider>
-          <validation-provider
-            v-slot="{ errors }"
-            name="Email"
-            rules="required|email"
-          >
-            <v-text-field
-              v-model="email"
-              :error-messages="errors"
-              label="E-mail"
+              label="Edition"
               required
             ></v-text-field>
           </validation-provider>
 
           <validation-provider
             v-slot="{ errors }"
-            name="Major"
+            name="Author"
             rules="required"
           >
             <v-text-field
-              v-model="major"
+              v-model="author"
               :error-messages="errors"
-              label="Major - Program of Study"
+              label="Book Author"
               required
             ></v-text-field>
+          </validation-provider>
+          <validation-provider
+            v-slot="{ errors }"
+            name="Book Image"
+            rules="required"
+          >
+            <v-text-field
+              v-model="bookImage"
+              :error-messages="errors"
+              label="Book Image"
+              required
+            ></v-text-field>
+          </validation-provider>
+          <validation-provider
+            v-slot="{ errors }"
+            name="Buying Price"
+            rules="required"
+          >
+            <v-text-field
+              v-model="buyPrice"
+              :error-messages="errors"
+              label="Buying Price"
+              type="Number"
+              required
+            ></v-text-field>
+          </validation-provider>
+          <validation-provider
+            v-slot="{ errors }"
+            name="Rent Price"
+            rules="required"
+          >
+            <v-text-field
+              v-model="rentPrice"
+              :error-messages="errors"
+              label="Rent Price"
+              type="Number"
+              required
+            ></v-text-field>
+          </validation-provider>
+
+          <validation-provider
+            v-slot="{ errors }"
+            rules="required"
+            name="For Rent"
+          >
+            <v-checkbox
+              v-model="forRent"
+              :error-messages="errors"
+              value="1"
+              label="For Rent"
+              type="checkbox"
+              required
+            ></v-checkbox>
+          </validation-provider>
+          <validation-provider
+            v-slot="{ errors }"
+            rules="required"
+            name="For Sale"
+          >
+            <v-checkbox
+              v-model="forSale"
+              :error-messages="errors"
+              value="1"
+              label="For Sale"
+              type="checkbox"
+              required
+            ></v-checkbox>
           </validation-provider>
 
           <v-btn dark class="mr-4" color="green" type="submit" rounded>
@@ -121,7 +141,7 @@ setInteractionMode("eager");
 
 extend("digits", {
   ...digits,
-  message: "{_field_} must to be {length} digits. ({_value_})",
+  message: "{_field_} needs to be {length} digits. ({_value_})",
 });
 
 extend("required", {
@@ -140,33 +160,57 @@ export default {
     ValidationObserver,
   },
   data: () => ({
-    firstName: "",
-    lastName: "",
-    userName: "",
-    password: "",
-    phoneNumber: "",
-    email: "",
-    major: "",
+    name: "",
+    courseId: "",
+    edition: "",
+    author: "",
+    bookImage: "",
+    userId: "",
+    buyPrice: "",
+    rentPrice: "",
+    forRent: Boolean,
+    forSale: Boolean,
     show1: false,
+    user_id: "",
   }),
 
   methods: {
+    // Get the user with token given
+    async getUser() {
+      if (localStorage.getItem("token") != null) {
+        await axios
+          .get("http://localhost:3000/users/user", {
+            headers: { token: localStorage.getItem("token") },
+          })
+          .then((res) => {
+            console.log(res);
+            this.user_id = res.data.user._id;
+          })
+          .catch((err) => {
+            this.errors = err.response.data.message;
+          });
+      }
+    },
+
     async submit() {
       if (this.$refs.observer.validate()) {
         await axios
-          .post("http://localhost:3000/users/signup", {
-            firstName: this.firstName,
-            lastName: this.lastName,
-            userName: this.userName,
-            email: this.email,
-            password: this.password,
-            phoneNumber: this.phoneNumber,
-            major: this.major,
+          .post("http://localhost:3000/books", {
+            name: this.name,
+            courseId: this.courseId,
+            edition: this.edition,
+            author: this.author,
+            bookImage: this.bookImage,
+            userId: this.user_id,
+            buyPrice: this.buyPrice,
+            rentPrice: this.rentPrice,
+            forRent: this.forRent,
+            forSale: this.forSale,
           })
           .then(
             (res) => {
               console.log(res);
-              this.$router.push("/");
+              this.$router.push("/books");
               this.$router.go();
             },
             (err) => {
@@ -177,15 +221,23 @@ export default {
       }
     },
     clear() {
-      this.firstName = "";
-      this.lastName = "";
-      this.userName = "";
-      this.password = "";
-      this.phoneNumber = "";
-      this.email = "";
-      this.major = "";
+      this.name = "";
+      this.courseId = "";
+      this.edition = "";
+      this.author = "";
+      this.bookImage = "";
+      this.userId = "";
+      this.buyPrice = "";
+      this.rentPrice = "";
+      this.forRent = "";
+      this.forSale = "";
+      this.user_id = "";
       this.$refs.observer.reset();
     },
+  },
+
+  created() {
+    this.getUser();
   },
 };
 </script>
