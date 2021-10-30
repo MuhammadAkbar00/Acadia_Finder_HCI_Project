@@ -5,7 +5,7 @@
       <v-col cols="12" lg="6" md="8">
         <div>
           <v-text-field
-            label="Search a book by name or author"
+            label="Search for a book by Name or Author"
             hide-details="auto"
             v-model="search"
           ></v-text-field>

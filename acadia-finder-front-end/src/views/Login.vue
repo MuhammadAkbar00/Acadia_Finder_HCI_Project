@@ -33,6 +33,7 @@
           <div class="my-10 pt-5">
             Don't have an Account yet?
             <router-link to="/signup">Sign up</router-link>
+            now
           </div>
         </v-col>
       </v-row>
