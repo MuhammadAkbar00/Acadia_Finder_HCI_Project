@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const router = express.Router()
+const bcrypt = require("bcryptjs");
 const User = require('../models/users')
 
 // Get all user
@@ -14,10 +15,10 @@ router.get('/', cors(), async (req, res) => {
     }
 })
 
-router.post('/', async (req, res) => {
+router.post('/signup', async (req, res) => {
   const user = new User({
     userName: req.body.userName,
-    password: req.body.password,
+    password: bcrypt.hashSync(req.body.password, 10),
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     phoneNumber: req.body.phoneNumber,
