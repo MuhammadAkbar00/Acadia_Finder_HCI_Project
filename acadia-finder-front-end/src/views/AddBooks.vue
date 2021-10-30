@@ -171,9 +171,30 @@ export default {
     forRent: Boolean,
     forSale: Boolean,
     show1: false,
+    user_id: "",
   }),
 
   methods: {
+    // Get the user with token given
+    async getUser() {
+      if (localStorage.getItem("token") != null) {
+        console.log("======");
+        await axios
+          .get("http://localhost:3000/users/user", {
+            headers: { token: localStorage.getItem("token") },
+          })
+          .then((res) => {
+            console.log(res);
+            this.user_id = res.data.user._id;
+          })
+          .catch((err) => {
+            this.errors = err.response.data.message;
+          });
+      } else {
+        console.log("+++++++++ token is null");
+      }
+    },
+
     async submit() {
       if (this.$refs.observer.validate()) {
         await axios
@@ -183,7 +204,7 @@ export default {
             edition: this.edition,
             author: this.author,
             bookImage: this.bookImage,
-            userId: this.userId,
+            userId: this.user_id,
             buyPrice: this.buyPrice,
             rentPrice: this.rentPrice,
             forRent: this.forRent,
@@ -213,8 +234,13 @@ export default {
       this.rentPrice = "";
       this.forRent = "";
       this.forSale = "";
+      this.user_id = "";
       this.$refs.observer.reset();
     },
+  },
+
+  created() {
+    this.getUser();
   },
 };
 </script>
