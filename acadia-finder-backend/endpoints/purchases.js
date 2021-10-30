@@ -5,7 +5,7 @@ const Purchase = require('../models/purchases')
 
 // Get all books
 router.get('/', cors(), async (req, res) => {
-    console.log("Getting all purchases")
+    console.log("Getting all Purchases")
     try {
         const purchases = await Purchase.find()
         res.send(purchases)
@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
 router.delete('/:id', getPurchase, async (req, res) => {
   try {
       await res.purchase.remove()
-      res.json({ message: "Deleted note" })
+      res.json({ message: "Deleted Purchase" })
   } catch (err) {
       res.status(500).json({ message: err.message })
   }
@@ -45,7 +45,7 @@ router.delete('/:id', getPurchase, async (req, res) => {
 // Delete many
 router.delete('/',  async (req, res) => {
   Purchase.deleteMany({}).then(() => { 
-      res.json({ message: "Deleted all purchase" })
+      res.json({ message: "Deleted all Purchases" })
   }).catch((err) => { 
       res.status(500).json({ message: err.message })
 
@@ -60,7 +60,7 @@ async function getPurchase(req, res, next) {
   try {
       purchase = await Purchase.findById(req.params.id)
       if (purchase == null) {
-          return res.status(404).json({ message: "Cannot find purchase" })
+          return res.status(404).json({ message: "Cannot find Purchase" })
       }
   } catch (err) {
       return res.status(500).json({ message: err.message })

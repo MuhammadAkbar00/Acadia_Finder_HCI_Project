@@ -5,7 +5,7 @@ const Sale = require('../models/sales')
 
 // Get all sale
 router.get('/', cors(), async (req, res) => {
-    console.log("Getting all sales")
+    console.log("Getting all Sales")
     try {
         const sales = await Sale.find()
         res.send(sales)
@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
 router.delete('/:id', getSale, async (req, res) => {
   try {
       await res.sale.remove()
-      res.json({ message: "Deleted sale" })
+      res.json({ message: "Deleted Sale" })
   } catch (err) {
       res.status(500).json({ message: err.message })
   }
@@ -44,7 +44,7 @@ router.delete('/:id', getSale, async (req, res) => {
 // Delete many
 router.delete('/',  async (req, res) => {
   Sale.deleteMany({}).then(() => { 
-      res.json({ message: "Deleted all sales" })
+      res.json({ message: "Deleted all Sales" })
   }).catch((err) => { 
       res.status(500).json({ message: err.message })
 
@@ -59,7 +59,7 @@ async function getSale(req, res, next) {
   try {
       sale = await Sale.findById(req.params.id)
       if (sale == null) {
-          return res.status(404).json({ message: "Cannot find sale" })
+          return res.status(404).json({ message: "Cannot find Sale" })
       }
   } catch (err) {
       return res.status(500).json({ message: err.message })

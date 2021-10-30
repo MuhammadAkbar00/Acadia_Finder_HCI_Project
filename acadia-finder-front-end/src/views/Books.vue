@@ -4,7 +4,7 @@
       All Books Available
     </h2>
     <v-row>
-      <v-col cols="6" v-for="(book, i) in booksArray" :key="i">
+      <v-col cols="12" lg="6" md="12" sm="12" v-for="(book, i) in booksArray" :key="i">
         <v-card>
           <Book
             :name="book.name"
