@@ -45,7 +45,7 @@
         <v-btn text class="ma-1" rounded to="/notes"> Notes </v-btn>
         <v-btn text class="ma-1" rounded to="/signup"> Signup </v-btn>
         <v-btn text class="ma-1" rounded to="/login"> Login </v-btn>
-        <v-btn text class="ma-1" rounded to="/profle"> User Profile </v-btn>
+        <v-btn text class="ma-1" rounded to="/profile"> User Profile </v-btn>
       </div>
     </v-app-bar>
   </div>

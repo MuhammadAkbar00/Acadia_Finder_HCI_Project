@@ -31,6 +31,12 @@ router.get('/user', (req, res) => {
               title: 'User Retrieved!',
               user: {
                   _id: user._id,
+                  firstName: user.firstName,
+                  lastName: user.lastName,
+                  email: user.email,
+                  phoneNumber: user.phoneNumber,
+                  userName: user.userName,
+                  major: user.major
               }
           })
       })

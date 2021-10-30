@@ -136,6 +136,7 @@ import {
   setInteractionMode,
 } from "vee-validate";
 import axios from "axios";
+import { mapActions, mapState } from "vuex";
 
 setInteractionMode("eager");
 
@@ -174,22 +175,16 @@ export default {
     user_id: "",
   }),
 
+  computed: {
+    ...mapState(["current_user"])
+  },
+
   methods: {
+    ...mapActions(["getUser"]),
     // Get the user with token given
-    async getUser() {
-      if (localStorage.getItem("token") != null) {
-        await axios
-          .get("http://localhost:3000/users/user", {
-            headers: { token: localStorage.getItem("token") },
-          })
-          .then((res) => {
-            console.log(res);
-            this.user_id = res.data.user._id;
-          })
-          .catch((err) => {
-            this.errors = err.response.data.message;
-          });
-      }
+    async getUser_() {
+      await this.getUser();
+      this.user_id = this.current_user._id;
     },
 
     async submit() {
@@ -237,7 +232,11 @@ export default {
   },
 
   created() {
-    this.getUser();
+    
+    if (localStorage.getItem("token") === null) {
+      this.$router.push("/login");
+    }
+    this.getUser_();
   },
 };
 </script>

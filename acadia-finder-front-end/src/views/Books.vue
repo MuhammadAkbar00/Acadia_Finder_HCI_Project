@@ -36,6 +36,21 @@
             :forSale="book.forSale"
             :rentPrice="book.rentPrice"
           />
+          <v-card-actions>
+            <v-btn
+              outlined
+              rounded
+              text
+              v-if="book.forSale"
+              @click="purchase_(book)"
+            >
+              Buy
+            </v-btn>
+            <v-btn outlined rounded text v-if="book.forRent" @click="rent_(book)">
+              Rent
+            </v-btn>
+            <v-btn outlined rounded text> Add to holding </v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -67,10 +82,16 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["getBooks"]),
+    ...mapActions(["getBooks", "purchase", "rent"]),
     async loadBooks() {
       await this.getBooks();
       this.booksArray = this.books;
+    },
+    purchase_(book) {
+      this.purchase(book);
+    },
+    rent_(book) {
+      this.rent(book);
     },
   },
   created() {
