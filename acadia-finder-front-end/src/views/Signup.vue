@@ -58,7 +58,7 @@
           </validation-provider>
           <validation-provider
             v-slot="{ errors }"
-            name="phoneNumber"
+            name="Phone Number"
             :rules="{
               required: true,
               digits: 10,
@@ -73,7 +73,7 @@
           </validation-provider>
           <validation-provider
             v-slot="{ errors }"
-            name="email"
+            name="Email"
             rules="required|email"
           >
             <v-text-field
@@ -92,7 +92,7 @@
             <v-text-field
               v-model="major"
               :error-messages="errors"
-              label="Major - program of study"
+              label="Major - Program of Study"
               required
             ></v-text-field>
           </validation-provider>
@@ -121,12 +121,12 @@ setInteractionMode("eager");
 
 extend("digits", {
   ...digits,
-  message: "{_field_} needs to be {length} digits. ({_value_})",
+  message: "{_field_} must to be {length} digits. ({_value_})",
 });
 
 extend("required", {
   ...required,
-  message: "{_field_} can not be empty",
+  message: "{_field_} cannot be empty",
 });
 
 extend("email", {

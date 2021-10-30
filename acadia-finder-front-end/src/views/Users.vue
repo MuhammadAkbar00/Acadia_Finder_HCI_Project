@@ -1,7 +1,13 @@
 <template>
-  <div class="team">
+  <div class="team ma-5" >
     <h1 class="subheading grey--text">Users</h1>
-    <input type="text" v-model="search" placeholder="search program" />
+    <v-col cols="12" lg="4" md="4" sm="6">
+    <v-text-field
+      v-model="search"
+      placeholder="Search by Program"
+      dense
+    ></v-text-field>
+    </v-col>
 
     <v-container class="my-5">
       <v-layout row wrap>

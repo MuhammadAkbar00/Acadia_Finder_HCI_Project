@@ -146,7 +146,7 @@ extend("digits", {
 
 extend("required", {
   ...required,
-  message: "{_field_} can not be empty",
+  message: "{_field_} cannot be empty",
 });
 
 extend("email", {
@@ -189,7 +189,6 @@ export default {
           .catch((err) => {
             this.errors = err.response.data.message;
           });
-      } else {
       }
     },
 

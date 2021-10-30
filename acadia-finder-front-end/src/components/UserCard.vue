@@ -14,7 +14,7 @@
         <div class="grey--text">{{ major }}</div>
       </v-card-text>
       <v-card-actions>
-        <v-btn flat color="#FFFFFF">
+        <v-btn color="#FFFFFF">
           <v-icon x-small>mdi-account-plus</v-icon>
           <span class="add-friend">Add</span>
         </v-btn>
