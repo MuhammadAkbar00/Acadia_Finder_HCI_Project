@@ -9,7 +9,9 @@
     >
       <v-list dense class="pt-0">
         <v-list-item class="bg-color py-2">
-          <v-btn text class="add-pointer text-capitalize" dark rounded to="/"> Acadia Finder </v-btn>
+          <v-btn text class="add-pointer text-capitalize" dark rounded to="/">
+            Acadia Finder
+          </v-btn>
         </v-list-item>
         <v-divider></v-divider>
         <v-list-item>
@@ -30,14 +32,12 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar color="grey" dark absolute flat app>
+    <v-app-bar color="white" absolute flat app>
       <v-app-bar-nav-icon
         @click.stop="drawer = !drawer"
         class="hidden-md-and-up"
       ></v-app-bar-nav-icon>
-
-      <v-toolbar-title @click="routerPush('/')" class="add-hover">Acadia Finder</v-toolbar-title>
-
+      <v-img max-height="140" max-width="140" contain src="@/assets/logo1.png" @click="routerPush('/')" class="add-hover"></v-img>
       <v-spacer></v-spacer>
       <div class="hidden-sm-and-down">
         <v-btn text class="ma-1" rounded to="/books"> Books </v-btn>

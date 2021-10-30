@@ -7,6 +7,7 @@ import Login from "./views/Login.vue";
 import Signup from "./views/Signup.vue";
 import Notes from "./views/Notes.vue";
 import AddBooks from "./views/AddBooks.vue";
+import AddNotes from "./views/AddNotes.vue";
 
 
 Vue.use(Router);
@@ -50,6 +51,11 @@ export default new Router({
       path: "/addbooks",
       name: "addbooks",
       component: AddBooks
+    },
+    {
+      path: "/addnotes",
+      name: "addnotes",
+      component: AddNotes
     }
   ]
 });
