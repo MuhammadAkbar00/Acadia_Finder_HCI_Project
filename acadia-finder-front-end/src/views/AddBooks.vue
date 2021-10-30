@@ -178,7 +178,6 @@ export default {
     // Get the user with token given
     async getUser() {
       if (localStorage.getItem("token") != null) {
-        console.log("======");
         await axios
           .get("http://localhost:3000/users/user", {
             headers: { token: localStorage.getItem("token") },
@@ -191,7 +190,6 @@ export default {
             this.errors = err.response.data.message;
           });
       } else {
-        console.log("+++++++++ token is null");
       }
     },
 

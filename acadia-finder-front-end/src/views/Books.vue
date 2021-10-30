@@ -1,10 +1,29 @@
 <template>
   <v-container class="mt-10">
-    <h2 class="mb-10">
-      All Books Available
-    </h2>
+    <h2 class="mb-10">All Books Available</h2>
+    <v-row class="my-10">
+      <v-col cols="12" lg="6" md="8">
+        <div>
+          <v-text-field
+            label="Search a book by name or author"
+            hide-details="auto"
+            v-model="search"
+          ></v-text-field>
+        </div>
+      </v-col>
+      <v-col cols="12" lg="6" md="4">
+        <v-btn to="/addbooks" class="float-right" rounded> Add a book </v-btn>
+      </v-col>
+    </v-row>
     <v-row>
-      <v-col cols="12" lg="6" md="12" sm="12" v-for="(book, i) in booksArray" :key="i">
+      <v-col
+        cols="12"
+        lg="6"
+        md="12"
+        sm="12"
+        v-for="(book, i) in filteredBooks"
+        :key="i"
+      >
         <v-card>
           <Book
             :name="book.name"
@@ -30,6 +49,7 @@ export default {
   data() {
     return {
       booksArray: [],
+      search: "",
     };
   },
   components: {
@@ -37,6 +57,14 @@ export default {
   },
   computed: {
     ...mapState(["books"]),
+    filteredBooks: function () {
+      return this.booksArray.filter((book) => {
+        return (
+          book.name.toLowerCase().match(this.search.toLowerCase()) ||
+          book.author.toLowerCase().match(this.search.toLowerCase())
+        );
+      });
+    },
   },
   methods: {
     ...mapActions(["getBooks"]),
