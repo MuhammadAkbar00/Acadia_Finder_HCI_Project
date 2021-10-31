@@ -11,7 +11,7 @@
           ></v-text-field>
         </div>
       </v-col>
-      <v-col cols="12" lg="6" md="4">
+      <v-col cols="12" lg="6" md="4" v-if="isLoggedIn">
         <v-btn to="/addbooks" class="float-right" rounded> Add a book </v-btn>
       </v-col>
     </v-row>
@@ -38,19 +38,26 @@
           />
           <v-card-actions>
             <v-btn
+              v-if="isLoggedIn"
               outlined
               rounded
               text
-              v-if="book.forSale"
-              @click="purchase_(book)"
+              @click="addToHoldings(book, user_id)"
             >
-              Buy
+              Add to holding
             </v-btn>
-            <v-btn outlined rounded text v-if="book.forRent" @click="rent_(book)">
-              Rent
-            </v-btn>
-            <v-btn outlined rounded text> Add to holding </v-btn>
+            <div>
+              <h3>
+                <v-btn text rounded outlined class="text-capitalize" to="/login"
+                  >Login</v-btn
+                >
+                to ask the seller/renter to hold it for you
+              </h3>
+            </div>
           </v-card-actions>
+          <div class="pa-4 red--text">
+            {{ errors }}
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -65,13 +72,14 @@ export default {
     return {
       booksArray: [],
       search: "",
+      user_id: "",
     };
   },
   components: {
     Book,
   },
   computed: {
-    ...mapState(["books"]),
+    ...mapState(["books", "current_user", "errors", "isLoggedIn"]),
     filteredBooks: function () {
       return this.booksArray.filter((book) => {
         return (
@@ -82,20 +90,25 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["getBooks", "purchase", "rent"]),
+    ...mapActions(["getBooks", "getUser", "hold"]),
+    async getUser_() {
+      if (this.isLoggedIn) {
+        await this.getUser();
+        this.user_id = this.current_user._id;
+      }
+    },
     async loadBooks() {
       await this.getBooks();
       this.booksArray = this.books;
     },
-    purchase_(book) {
-      this.purchase(book);
-    },
-    rent_(book) {
-      this.rent(book);
+    addToHoldings(book, user_id) {
+      const payload = { book, user_id };
+      this.hold(payload);
     },
   },
   created() {
     this.loadBooks();
+    this.getUser_();
   },
 };
 </script>

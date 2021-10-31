@@ -1,6 +1,9 @@
  <template>
   <div>
     <v-card align="center" flat>
+      <v-card-title>
+        User Profile
+      </v-card-title>
       <v-icon size="150"> mdi-account </v-icon>
       <h4>{{ firstName }} {{ lastName }}</h4>
       <div class="mt-5">
@@ -14,15 +17,46 @@
         </div>
       </div>
     </v-card>
-    <v-card>
-      
-    </v-card>
+    <div class="ma-5">
+      <h3 class="my-5">Holdings</h3>
+      <v-row>
+        <v-col
+          cols="12"
+          lg="6"
+          md="12"
+          sm="12"
+          v-for="(book, i) in holdings"
+          :key="i"
+        >
+          <v-card>
+            <Book
+              :name="book.name"
+              :author="book.author"
+              :buyPrice="book.buyPrice"
+              :edition="book.edition"
+              :bookImage="book.bookImage"
+              :courseId="book.courseId"
+              :forRent="book.forRent"
+              :forSale="book.forSale"
+              :rentPrice="book.rentPrice"
+            />
+            <v-card-actions>
+              <v-btn outlined rounded text> Remove </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
+import Book from "../components/Book.vue";
 export default {
+  components: {
+    Book,
+  },
   data() {
     return {
       firstName: "",
@@ -32,11 +66,12 @@ export default {
       phoneNumber: "",
       major: "",
       user_id: "",
+      holdings_: [],
     };
   },
 
   computed: {
-    ...mapState(["current_user"]),
+    ...mapState(["current_user", "holdings"]),
   },
 
   created() {
@@ -44,9 +79,10 @@ export default {
       this.$router.push("/login");
     }
     this.getUser_();
+    this.getHoldings_();
   },
   methods: {
-    ...mapActions(["getUser"]),
+    ...mapActions(["getUser", "getHoldings"]),
     async getUser_() {
       await this.getUser();
       this.firstName = this.current_user.firstName;
@@ -56,6 +92,10 @@ export default {
       this.phoneNumber = this.current_user.phoneNumber;
       this.major = this.current_user.major;
       this.user_id = this.current_user._id;
+    },
+    async getHoldings_() {
+      await this.getHoldings();
+      this.holdings_ = this.holdings;
     },
   },
 };
