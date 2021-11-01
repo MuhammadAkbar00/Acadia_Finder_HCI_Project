@@ -56,6 +56,47 @@
         </v-col>
       </v-row>
     </div>
+    <div class="ma-5">
+      <h3>Items uploaded and people who have holds on them</h3>
+      <v-row>
+        <v-col v-for="(book, i) in ownerBooks_" :key="i">
+          <v-card>
+            <Book
+              :name="book.name"
+              :author="book.author"
+              :buyPrice="book.buyPrice"
+              :edition="book.edition"
+              :bookImage="book.bookImage"
+              :courseId="book.courseId"
+              :forRent="book.forRent"
+              :forSale="book.forSale"
+              :rentPrice="book.rentPrice"
+            />
+          </v-card>
+          <div class="mt-5" v-if="book._id === holdCount_.bookId">
+            <span class="font-weight-bold"> Number of holds: </span>
+            <span class="green--text font-weight-bold">{{
+              holdCount_.count
+            }}</span>
+          </div>
+          <h3 v-if="ownerHoldsUsers_.length > 0" class="my-5">
+            Here is the list of users who have hold on this item. You can
+            contact them via the email or phone number listed
+          </h3>
+          <v-row>
+            <v-col v-for="(user, j) in ownerHoldsUsers_" :key="j">
+              <span class="font-weight-bold"> Full name: </span>{{ user.firstName }} {{ user.lastName }}
+              <div>
+                <span class="font-weight-bold"> Phone number: </span>{{ user.phoneNumber }}
+              </div>
+              <div>
+                <span class="font-weight-bold">Email: </span>{{ user.email }}
+              </div>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </div>
   </div>
 </template>
 
@@ -78,11 +119,20 @@ export default {
       user_id: "",
       holdings_: [],
       loaded: false,
+      ownerHoldsUsers_: [],
+      ownerBooks_: [],
+      holdCount_: {},
     };
   },
 
   computed: {
-    ...mapState(["current_user", "holdings"]),
+    ...mapState([
+      "current_user",
+      "holdings",
+      "ownerHoldsUsers",
+      "holdCount",
+      "ownerBooks",
+    ]),
   },
 
   created() {
@@ -91,11 +141,17 @@ export default {
     }
     this.getUser_();
     this.getHoldings_();
-    
+    this.getHoldsAndUsers_();
   },
   mounted() {},
   methods: {
-    ...mapActions(["getUser", "removeHold", "getHoldings"]),
+    ...mapActions([
+      "getUser",
+      "removeHold",
+      "getHoldings",
+      "getHoldsAndUsers",
+      "getBooks",
+    ]),
     async getUser_() {
       await this.getUser();
       this.firstName = this.current_user.firstName;
@@ -107,12 +163,20 @@ export default {
       this.user_id = this.current_user._id;
     },
     async getHoldings_() {
-      await this.getUser_()
+      await this.getUser_();
       await this.getHoldings(this.current_user._id);
       this.holdings_ = this.holdings;
     },
     async removeHold_(bookId) {
       await this.removeHold(bookId);
+    },
+    async getHoldsAndUsers_() {
+      await this.getUser_();
+      await this.getBooks();
+      await this.getHoldsAndUsers(this.current_user._id);
+      this.ownerHoldsUsers_ = this.ownerHoldsUsers;
+      this.ownerBooks_ = this.ownerBooks;
+      this.holdCount_ = this.holdCount;
     },
   },
 };

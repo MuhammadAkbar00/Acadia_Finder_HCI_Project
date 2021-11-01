@@ -20,6 +20,12 @@ export default new Vuex.Store({
       "id": ""
     },
     isLoggedIn: false,
+    holdCount: {
+      "count": 0,
+      "bookId": ""
+    },
+    ownerHoldsUsers: [],
+    ownerBooks: []
   },
   mutations: {
     GET_BOOKS(state, books) {
@@ -102,12 +108,11 @@ export default new Vuex.Store({
         );
     },
 
-    getHoldings({ },userID) {
+    getHoldings({ }, userID) {
       return axios
         .get("http://localhost:3000/holdings")
         .then((response) => {
           response.data.forEach((holding) => {
-            console.log(holding.userId,userID)
             this.state.holdings.splice(0);
             if (holding.bookId && holding.userId === userID) {
               const url = "http://localhost:3000/books";
@@ -124,6 +129,35 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err);
         });
+    },
+
+    getHoldsAndUsers({ }, userID) {
+      this.state.books.forEach((book) => {
+        this.state.ownerBooks.splice(0);
+        this.state.holdCount.count = 0;
+        this.state.holdCount.bookId = ""
+        this.state.ownerHoldsUsers.splice(0);
+        if (book.userId === userID) {
+          this.state.ownerBooks.push(book);
+          axios.get("http://localhost:3000/holdings").then((response) => {
+            response.data.forEach((holding) => {
+              if (holding.bookId === book._id) {
+                // this.state.ownerHolds.push(book)
+                this.state.holdCount.count++
+                this.state.holdCount.bookId = book._id
+                axios.get("http://localhost:3000/users").then((result) => {
+                  result.data.forEach((user) => {
+                    if (user._id === holding.userId) {
+                      console.log("===", user)
+                      this.state.ownerHoldsUsers.push(user)
+                    }
+                  })
+                })
+              }
+            })
+          })
+        }
+      })
     },
 
     // delete book from holdings
