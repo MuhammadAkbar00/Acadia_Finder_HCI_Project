@@ -70,7 +70,7 @@ export default {
                 localStorage.setItem("token", res.data.token);
                 this.$router.push("/");
               }
-              this.$store.state.loggedIn = true;
+              this.$store.state.isLoggedIn = true;
             },
             (err) => {
               this.errors = err.response.data.error;

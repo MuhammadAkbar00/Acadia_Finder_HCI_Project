@@ -23,7 +23,7 @@ Content-Type: application/json
   "buyPrice": 9000,
   "rentPrice": 9000,
   "forRent": true,
-  "forSale": false
+  "forSale": true
 }
 
 ###

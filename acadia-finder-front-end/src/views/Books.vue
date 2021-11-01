@@ -11,7 +11,7 @@
           ></v-text-field>
         </div>
       </v-col>
-      <v-col cols="12" lg="6" md="4">
+      <v-col cols="12" lg="6" md="4" v-if="isLoggedIn">
         <v-btn to="/addbooks" class="float-right" rounded> Add a book </v-btn>
       </v-col>
     </v-row>
@@ -36,6 +36,26 @@
             :forSale="book.forSale"
             :rentPrice="book.rentPrice"
           />
+          <v-card-actions>
+            <v-btn
+              v-if="isLoggedIn"
+              outlined
+              rounded
+              text
+              @click="addToHoldings(book, user_id)"
+            >
+              Add to holding
+            </v-btn>
+            <div v-else>
+              <v-btn text rounded outlined color="primary" class="text-capitalize" to="/login"
+                >Login</v-btn
+              >
+              <span class="font-weight-bold"> to ask the seller/renter to hold it for you </span>
+            </div>
+          </v-card-actions>
+          <div class="pa-4 red--text" v-if="errors && errors.id == book._id">
+            {{ errors.error }}
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -50,13 +70,14 @@ export default {
     return {
       booksArray: [],
       search: "",
+      user_id: "",
     };
   },
   components: {
     Book,
   },
   computed: {
-    ...mapState(["books"]),
+    ...mapState(["books", "current_user", "errors", "isLoggedIn"]),
     filteredBooks: function () {
       return this.booksArray.filter((book) => {
         return (
@@ -67,14 +88,32 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["getBooks"]),
+    ...mapActions(["getBooks", "getUser", "hold"]),
+    async getUser_() {
+      if (this.isLoggedIn) {
+        await this.getUser();
+        this.user_id = this.current_user._id;
+      }
+    },
     async loadBooks() {
       await this.getBooks();
       this.booksArray = this.books;
     },
+    addToHoldings(book, user_id) {
+      const payload = { book, user_id };
+      this.hold(payload);
+    },
   },
   created() {
     this.loadBooks();
+    this.getUser_();
   },
 };
 </script>
+
+
+<style scoped>
+.color-text {
+  color: blue;
+}
+</style>

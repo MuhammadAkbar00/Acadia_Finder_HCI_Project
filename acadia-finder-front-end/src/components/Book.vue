@@ -20,10 +20,6 @@
           <v-img width="100" :src="bookImage"></v-img>
       </v-col>
     </v-row>
-    <v-card-actions>
-      <v-btn outlined rounded text v-if="forSale"> Buy </v-btn>
-      <v-btn outlined rounded text v-if="forRent"> Rent </v-btn>
-    </v-card-actions>
   </v-container>
 </template>
 

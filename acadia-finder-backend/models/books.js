@@ -36,11 +36,18 @@ const BooksSchema = mongoose.Schema({
   },
   forRent: {
     type: Boolean,
-    required: true
   },
   forSale: {
     type: Boolean,
-    required: true
+  },
+  holding: {
+    type: Boolean,
+  },
+  availability: {
+    type: Boolean
+  },
+  sold: {
+    type: Boolean
   }
 })
 

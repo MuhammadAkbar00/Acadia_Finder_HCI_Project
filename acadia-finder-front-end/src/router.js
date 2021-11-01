@@ -8,6 +8,7 @@ import Signup from "./views/Signup.vue";
 import Notes from "./views/Notes.vue";
 import AddBooks from "./views/AddBooks.vue";
 import AddNotes from "./views/AddNotes.vue";
+import UserProfile from "./views/UserProfile.vue";
 
 
 Vue.use(Router);
@@ -56,6 +57,11 @@ export default new Router({
       path: "/addnotes",
       name: "addnotes",
       component: AddNotes
+    },
+    {
+      path: "/profile",
+      name: "profile",
+      component: UserProfile
     }
   ]
 });

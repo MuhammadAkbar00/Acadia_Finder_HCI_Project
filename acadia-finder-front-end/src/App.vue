@@ -19,9 +19,10 @@ export default {
     Header,
     Footer
   },
-
-  data: () => ({
-    //
-  }),
+    created() {
+    if (localStorage.getItem("token") != null) {
+      this.$store.state.isLoggedIn = true;
+    }
+  },
 };
 </script>
