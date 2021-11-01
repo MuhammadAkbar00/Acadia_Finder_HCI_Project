@@ -1,9 +1,7 @@
  <template>
   <div>
     <v-card align="center" flat>
-      <v-card-title>
-        User Profile
-      </v-card-title>
+      <v-card-title> User Profile </v-card-title>
       <v-icon size="150"> mdi-account </v-icon>
       <h4>{{ firstName }} {{ lastName }}</h4>
       <div class="mt-5">
@@ -25,7 +23,7 @@
           lg="6"
           md="12"
           sm="12"
-          v-for="(book, i) in holdings"
+          v-for="(book, i) in holdings_[0]"
           :key="i"
         >
           <v-card>
@@ -41,7 +39,12 @@
               :rentPrice="book.rentPrice"
             />
             <v-card-actions>
-              <v-btn outlined rounded text> Remove </v-btn>
+              <v-btn :disabled="!book.availability" outlined rounded text @click="removeHold_(book._id)">
+                Remove Hold
+              </v-btn>
+              <span class="ml-2 red--text" v-if="!book.availability">
+                Item has been sold
+              </span>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -53,6 +56,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import Book from "../components/Book.vue";
+// import axios from "axios";
 export default {
   components: {
     Book,
@@ -67,6 +71,7 @@ export default {
       major: "",
       user_id: "",
       holdings_: [],
+      loaded: false,
     };
   },
 
@@ -81,8 +86,10 @@ export default {
     this.getUser_();
     this.getHoldings_();
   },
+  mounted() {
+  },
   methods: {
-    ...mapActions(["getUser", "getHoldings"]),
+    ...mapActions(["getUser", "removeHold", "getHoldings"]),
     async getUser_() {
       await this.getUser();
       this.firstName = this.current_user.firstName;
@@ -94,8 +101,11 @@ export default {
       this.user_id = this.current_user._id;
     },
     async getHoldings_() {
-      await this.getHoldings();
-      this.holdings_ = this.holdings;
+      await this.getHoldings()
+      this.holdings_ = this.holdings
+    },
+    async removeHold_(bookId) {
+      await this.removeHold(bookId);
     },
   },
 };

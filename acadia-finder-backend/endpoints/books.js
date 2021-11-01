@@ -25,7 +25,8 @@ router.post('/', async (req, res) => {
     buyPrice: req.body.buyPrice,
     rentPrice: req.body.rentPrice,
     forRent: req.body.forRent,
-    forSale: req.body.forSale
+    forSale: req.body.forSale,
+    availability: true
   })
   try {
     const newBook = await book.save()

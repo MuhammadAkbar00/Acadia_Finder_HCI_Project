@@ -45,6 +45,9 @@ const BooksSchema = mongoose.Schema({
   },
   availability: {
     type: Boolean
+  },
+  sold: {
+    type: Boolean
   }
 })
 

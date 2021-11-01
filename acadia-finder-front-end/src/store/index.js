@@ -10,12 +10,15 @@ export default new Vuex.Store({
     books: [],
     notes: [],
     users: [],
-    holdings: [],
     purchases: [],
     sales: [],
     rentals: [],
     current_user: {},
-    errors: "",
+    holdings: [],
+    errors: {
+      "error": "",
+      "id": ""
+    },
     isLoggedIn: false,
   },
   mutations: {
@@ -30,9 +33,6 @@ export default new Vuex.Store({
     },
     SET_CURRENT_USER(state, user) {
       state.current_user = user
-    },
-    GET_HOLDINGS(state, holdings) {
-      state.holdings.push(holdings)
     }
   },
   actions: {
@@ -81,7 +81,6 @@ export default new Vuex.Store({
 
     /* eslint-disable no-empty-pattern */
     hold({ }, payload) {
-      console.log("++++++++", payload)
       axios
         .post("http://localhost:3000/holdings", {
           bookId: payload.book._id,
@@ -97,26 +96,41 @@ export default new Vuex.Store({
           },
           (err) => {
             console.log(err.response.data);
-            this.state.errors = err.response.data.message;
+            this.state.errors.error = err.response.data.message,
+              this.state.errors.id = payload.book._id
           }
         );
     },
 
-    getHoldings({ commit }) {
-      return axios.get("http://localhost:3000/holdings")
-        .then(response => {
-          response.data.forEach(holding => {
+    getHoldings({ },) {
+      return axios
+        .get("http://localhost:3000/holdings")
+        .then((response) => {
+          response.data.forEach((holding) => {
             if (holding.bookId) {
               const url = "http://localhost:3000/books";
-              axios.get(url, { id: holding.bookId }).then(result => {
-                commit("GET_HOLDINGS", result.data[0])
-              })
+              axios.get(url, { id: holding.bookId }).then((result) => {
+                this.state.holdings.splice(0);
+                this.state.holdings.push(result.data);
+              });
             }
           });
-        }).catch(err => {
-          console.log(err)
         })
+        .catch((err) => {
+          console.log(err);
+        });
     },
+
+    // delete book from holdings
+    removeHold({ }, bookId) {
+      return axios.get("http://localhost:3000/holdings", { id: bookId }).then(result => {
+        result.data.forEach(holding => {
+          if (holding.bookId == bookId) {
+            axios.delete("http://localhost:3000/holdings/" + holding._id);
+          }
+        })
+      })
+    }
   },
   modules: {}
 

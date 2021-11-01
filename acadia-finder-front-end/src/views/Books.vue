@@ -46,17 +46,15 @@
             >
               Add to holding
             </v-btn>
-            <div>
-              <h3>
-                <v-btn text rounded outlined class="text-capitalize" to="/login"
-                  >Login</v-btn
-                >
-                to ask the seller/renter to hold it for you
-              </h3>
+            <div v-else>
+              <v-btn text rounded outlined color="primary" class="text-capitalize" to="/login"
+                >Login</v-btn
+              >
+              <span class="font-weight-bold"> to ask the seller/renter to hold it for you </span>
             </div>
           </v-card-actions>
-          <div class="pa-4 red--text">
-            {{ errors }}
+          <div class="pa-4 red--text" v-if="errors && errors.id == book._id">
+            {{ errors.error }}
           </div>
         </v-card>
       </v-col>
@@ -112,3 +110,10 @@ export default {
   },
 };
 </script>
+
+
+<style scoped>
+.color-text {
+  color: blue;
+}
+</style>
