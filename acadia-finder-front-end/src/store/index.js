@@ -102,16 +102,21 @@ export default new Vuex.Store({
         );
     },
 
-    getHoldings({ },) {
+    getHoldings({ },userID) {
       return axios
         .get("http://localhost:3000/holdings")
         .then((response) => {
           response.data.forEach((holding) => {
-            if (holding.bookId) {
+            console.log(holding.userId,userID)
+            this.state.holdings.splice(0);
+            if (holding.bookId && holding.userId === userID) {
               const url = "http://localhost:3000/books";
               axios.get(url, { id: holding.bookId }).then((result) => {
-                this.state.holdings.splice(0);
-                this.state.holdings.push(result.data);
+                result.data.forEach((book) => {
+                  if (book._id === holding.bookId) {
+                    this.state.holdings.push(book);
+                  }
+                })
               });
             }
           });

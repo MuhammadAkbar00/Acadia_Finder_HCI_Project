@@ -35,7 +35,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar color="white" absolute flat app>
+    <v-app-bar color="rgba(10,10,10,0.5)" dark flat fixed>
       <v-app-bar-nav-icon
         @click.stop="drawer = !drawer"
         class="hidden-md-and-up"

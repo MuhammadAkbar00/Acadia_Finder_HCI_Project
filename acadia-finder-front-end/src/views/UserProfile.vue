@@ -23,7 +23,7 @@
           lg="6"
           md="12"
           sm="12"
-          v-for="(book, i) in holdings_[0]"
+          v-for="(book, i) in holdings_"
           :key="i"
         >
           <v-card>
@@ -39,7 +39,13 @@
               :rentPrice="book.rentPrice"
             />
             <v-card-actions>
-              <v-btn :disabled="!book.availability" outlined rounded text @click="removeHold_(book._id)">
+              <v-btn
+                :disabled="!book.availability"
+                outlined
+                rounded
+                text
+                @click="removeHold_(book._id)"
+              >
                 Remove Hold
               </v-btn>
               <span class="ml-2 red--text" v-if="!book.availability">
@@ -85,9 +91,9 @@ export default {
     }
     this.getUser_();
     this.getHoldings_();
+    
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     ...mapActions(["getUser", "removeHold", "getHoldings"]),
     async getUser_() {
@@ -101,8 +107,9 @@ export default {
       this.user_id = this.current_user._id;
     },
     async getHoldings_() {
-      await this.getHoldings()
-      this.holdings_ = this.holdings
+      await this.getUser_()
+      await this.getHoldings(this.current_user._id);
+      this.holdings_ = this.holdings;
     },
     async removeHold_(bookId) {
       await this.removeHold(bookId);
