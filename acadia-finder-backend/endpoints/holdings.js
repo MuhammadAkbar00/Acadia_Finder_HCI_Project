@@ -14,6 +14,11 @@ router.get('/', cors(), async (req, res) => {
     }
 })
 
+// Get one
+router.get('/:id', getHolding, (req, res) => {
+  res.json(res.holding)
+})
+
 router.post('/', async (req, res) => {
   const holding = new Holding({
     bookId: req.body.bookId,

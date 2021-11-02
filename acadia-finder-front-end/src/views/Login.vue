@@ -1,6 +1,6 @@
 <template>
-  <v-form @submit.prevent="loginUser" v-model="valid" ref="form">
-    <v-container class="mt-15 pt-15 text-center">
+  <v-container class="mt-15 pt-15 text-center">
+    <v-form @submit.prevent="loginUser" v-model="valid" ref="form">
       <h1>Log in to Your Account</h1>
       <v-row justify="center">
         <v-col cols="12" md="5">
@@ -23,22 +23,18 @@
           <div v-if="errors" class="text-left errors">
             {{ errors }}
           </div>
-          <v-card-actions>
-            <v-checkbox color="#000000" label="Remember Login"></v-checkbox>
-          </v-card-actions>
-          <div align="right">
-            <router-link to="/resetPassword">Forgot Password?</router-link>
-          </div>
-          <v-btn block rounded dark class="mt-5" color="blue" type="submit">Login</v-btn>
+          <v-btn block rounded dark class="mt-5" color="green" type="submit"
+            >Login</v-btn
+          >
           <div class="my-10 pt-5">
-            Don't have an Account yet?
+            Don't have an Account yet? You can
             <router-link to="/signup">Sign up</router-link>
             now
           </div>
         </v-col>
       </v-row>
-    </v-container>
-  </v-form>
+    </v-form>
+  </v-container>
 </template>
 
 <script>

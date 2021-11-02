@@ -29,6 +29,9 @@
         <v-list-item v-if="isLoggedIn">
           <v-btn text class="ma-1" rounded to="/profile"> User Profile </v-btn>
         </v-list-item>
+        <v-list-item v-if="isLoggedIn">
+          <v-btn text class="ma-1" rounded to="/users"> Users </v-btn>
+        </v-list-item>
         <v-list-item>
           <v-btn text class="ma-1" rounded @click="logout" v-if="isLoggedIn"> Logout </v-btn>
         </v-list-item>
@@ -67,7 +70,8 @@
         </span>
         <span v-else>
           <v-btn text class="ma-1" rounded to="/profile"> User Profile </v-btn>
-          <v-btn text class="ma-1" @click="logout">  Logout </v-btn>
+          <v-btn text class="ma-1" rounded @click="logout">  Logout </v-btn>
+          <v-btn text rounded class="ma-1" to="/users">  Users </v-btn>
         </span>
       </div>
     </v-app-bar>
