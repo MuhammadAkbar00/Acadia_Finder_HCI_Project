@@ -26,7 +26,7 @@
         v-for="(book, i) in filteredBooks"
         :key="i"
       >
-        <v-card>
+        <v-card @click="redirect(book._id)">
           <Book
             :name="book.name"
             :author="book.author"
@@ -117,6 +117,9 @@ export default {
       const payload = { book, user_id };
       this.hold(payload);
     },
+    redirect(id) {
+      return this.$router.push(`book/${id}`)
+    }
   },
   created() {
     this.loadBooks();

@@ -25,6 +25,7 @@
           :phoneNumber="user.phoneNumber"
           :email="user.email"
           :major="user.major"
+          :_id="user._id"
         />
       </v-col>
     </v-row>
