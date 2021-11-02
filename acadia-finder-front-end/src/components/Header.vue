@@ -38,14 +38,14 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar color="rgba(10,10,10,0.5)" dark flat fixed>
+    <v-app-bar color="rgba(255,255,255,0.5)" flat fixed>
       <v-app-bar-nav-icon
         @click.stop="drawer = !drawer"
         class="hidden-md-and-up"
       ></v-app-bar-nav-icon>
       <v-img
-        max-height="140"
-        max-width="140"
+        max-height="120"
+        max-width="120"
         contain
         src="@/assets/logo1.png"
         @click="routerPush('/')"
