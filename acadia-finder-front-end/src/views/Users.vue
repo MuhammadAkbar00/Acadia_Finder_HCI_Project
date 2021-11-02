@@ -1,28 +1,34 @@
 <template>
-  <div class="team ma-5" >
-    <h1 class="subheading grey--text">Users</h1>
-    <v-col cols="12" lg="4" md="4" sm="6">
-    <v-text-field
-      v-model="search"
-      placeholder="Search by Program"
-      dense
-    ></v-text-field>
-    </v-col>
+  <v-container class="mt-15 pt-15">
+    <h1 class="my-5">Users</h1>
+    <v-row class="">
+      <v-col cols="12" lg="4" md="4" sm="6">
+        <v-text-field
+          v-model="search"
+          placeholder="Search by Program"
+          dense
+        ></v-text-field>
+      </v-col>
+    </v-row>
 
-    <v-container class="my-5">
-      <v-layout row wrap>
-        <v-flex xs12 sm6 md4 lg3 v-for="user in filteredUsers" :key="user.name">
-          <UserCard
-            :firstName="user.firstName"
-            :lastName="user.lastName"
-            :phoneNumber="user.phoneNumber"
-            :email="user.email"
-            :major="user.major"
-          />
-        </v-flex>
-      </v-layout>
-    </v-container>
-  </div>
+    <v-row>
+      <v-col
+        sm="6"
+        lg="3"
+        md="4"
+        v-for="user in filteredUsers"
+        :key="user.name"
+      >
+        <UserCard
+          :firstName="user.firstName"
+          :lastName="user.lastName"
+          :phoneNumber="user.phoneNumber"
+          :email="user.email"
+          :major="user.major"
+        />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -32,7 +38,7 @@ export default {
   data() {
     return {
       usersArray: [],
-      search: '',
+      search: "",
     };
   },
   components: {
@@ -40,22 +46,27 @@ export default {
   },
   computed: {
     ...mapState(["users"]),
-    filteredUsers: function(){
+    filteredUsers: function () {
       return this.usersArray.filter((user) => {
-        let searching = this.search.toLowerCase()
-        return user.major.toLowerCase().match(searching)
-      })
-    }
+        let searching = this.search.toLowerCase();
+        return user.major.toLowerCase().match(searching) ||
+        user.firstName.toLowerCase().match(searching) ||
+        user.lastName.toLowerCase().match(searching);
+      });
+    },
   },
   methods: {
     ...mapActions(["getUsers"]),
-    async loadUsers() {
+    async loadUsers_() {
       await this.getUsers();
       this.usersArray = this.users;
     },
   },
   created() {
-    this.loadUsers();
+    if (localStorage.getItem("token") === null) {
+      this.$router.push("/login");
+    }
+    this.loadUsers_();
   },
 };
 </script>

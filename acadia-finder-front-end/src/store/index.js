@@ -160,15 +160,42 @@ export default new Vuex.Store({
       })
     },
 
-    // delete book from holdings
     removeHold({ }, bookId) {
-      return axios.get("http://localhost:3000/holdings", { id: bookId }).then(result => {
+      axios.get("http://localhost:3000/holdings").then((result) => {
         result.data.forEach(holding => {
-          if (holding.bookId == bookId) {
-            axios.delete("http://localhost:3000/holdings/" + holding._id);
+          if (holding.bookId === bookId) {
+            const url = "http://localhost:3000/holdings/" + holding._id
+            axios.delete(url).then((res) => {
+              console.log(res)
+            }).catch((err) => {
+              console.log(err)
+              router.go()
+            })
           }
         })
       })
+    },
+    markSold({ }, bookId) {
+      const url = "http://localhost:3000/books/" + bookId
+      return axios.get(url).then(result => {
+        console.log(result.data.availability)
+        axios.patch(url, {
+          availability: false,
+          author: result.data.author,
+          bookImage: result.data.bookImage,
+          buyPrice: result.data.buyPrice,
+          courseId: result.data.courseId,
+          edition: result.data.edition,
+          forRent: result.data.forRent,
+          forSale: result.data.forSale,
+          name: result.data.name,
+          rentPrice: result.data.rentPrice,
+          userId: result.data.userId
+        }).then(() => {
+          window.location.reload()
+        })
+      })
+
     }
   },
   modules: {}

@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-10">
+  <v-container class="mt-10 pt-15">
     <h2 class="mb-10">All Books Available</h2>
     <v-row class="my-10">
       <v-col cols="12" lg="6" md="8">
@@ -12,7 +12,9 @@
         </div>
       </v-col>
       <v-col cols="12" lg="6" md="4" v-if="isLoggedIn">
-        <v-btn to="/addbooks" class="float-right" rounded> Add a book </v-btn>
+        <v-btn to="/addbooks" class="float-right" rounded outlined>
+          Add a book
+        </v-btn>
       </v-col>
     </v-row>
     <v-row>
@@ -42,16 +44,28 @@
               outlined
               rounded
               text
+              :disabled="!book.availability"
               @click="addToHoldings(book, user_id)"
             >
               Add to holding
             </v-btn>
             <div v-else>
-              <v-btn text rounded outlined color="primary" class="text-capitalize" to="/login"
+              <v-btn
+                text
+                rounded
+                outlined
+                color="primary"
+                class="text-capitalize"
+                to="/login"
                 >Login</v-btn
               >
-              <span class="font-weight-bold"> to ask the seller/renter to hold it for you </span>
+              <span class="font-weight-bold">
+                to ask the seller/renter to hold it for you
+              </span>
             </div>
+            <span v-if="!book.availability" class="red--text mx-2">
+              Item not available anymore
+            </span>
           </v-card-actions>
           <div class="pa-4 red--text" v-if="errors && errors.id == book._id">
             {{ errors.error }}

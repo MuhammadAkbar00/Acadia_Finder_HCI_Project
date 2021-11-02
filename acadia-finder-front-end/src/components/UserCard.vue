@@ -10,8 +10,9 @@
         </v-avatar>
       </v-responsive>
       <v-card-text>
-        <div class="subheading">{{ firstName + " " + lastName }}</div>
-        <div class="grey--text">{{ major }}</div>
+        <div class="subheading font-weight-bold text-capitalize">{{ firstName + " " + lastName }}</div>
+        <div class="grey--text"><span class="font-weight-bold">Program: </span>{{ major }}</div>
+        <div class="grey--text"><span class="font-weight-bold"> Email: </span>{{ email }}</div>
       </v-card-text>
       <v-card-actions>
         <v-btn color="#FFFFFF">

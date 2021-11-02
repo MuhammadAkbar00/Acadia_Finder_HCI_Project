@@ -1,5 +1,5 @@
  <template>
-  <div>
+  <div class="mt-15 pt-5">
     <v-card align="center" flat>
       <v-card-title> User Profile </v-card-title>
       <v-icon size="150"> mdi-account </v-icon>
@@ -16,7 +16,7 @@
       </div>
     </v-card>
     <div class="ma-5">
-      <h3 class="my-5">Holdings</h3>
+      <h2 class="my-5">Holdings</h2>
       <v-row>
         <v-col
           cols="12"
@@ -56,9 +56,11 @@
         </v-col>
       </v-row>
     </div>
-    <div class="ma-5">
-      <h3>Items uploaded and people who have holds on them</h3>
-      <v-row>
+    <div class="mx-5">
+      <h3 v-if="ownerBooks_.length > 0">
+        Items uploaded and people who have holds on them
+      </h3>
+      <v-row class="my-5 mb-8">
         <v-col v-for="(book, i) in ownerBooks_" :key="i">
           <v-card>
             <Book
@@ -79,21 +81,41 @@
               holdCount_.count
             }}</span>
           </div>
-          <h3 v-if="ownerHoldsUsers_.length > 0" class="my-5">
-            Here is the list of users who have hold on this item. You can
-            contact them via the email or phone number listed
-          </h3>
-          <v-row>
-            <v-col v-for="(user, j) in ownerHoldsUsers_" :key="j">
-              <span class="font-weight-bold"> Full name: </span>{{ user.firstName }} {{ user.lastName }}
-              <div>
-                <span class="font-weight-bold"> Phone number: </span>{{ user.phoneNumber }}
-              </div>
-              <div>
-                <span class="font-weight-bold">Email: </span>{{ user.email }}
-              </div>
-            </v-col>
-          </v-row>
+          <div v-if="ownerHoldsUsers_.length > 0">
+            <h3 class="my-5">
+              Here is the list of users who have hold on this item. You can
+              contact them via the email or phone number listed
+            </h3>
+            <v-row>
+              <v-col v-for="(user, j) in ownerHoldsUsers_" :key="j">
+                <span class="font-weight-bold"> Full name: </span
+                >{{ user.firstName }} {{ user.lastName }}
+                <div>
+                  <span class="font-weight-bold"> Phone number: </span
+                  >{{ user.phoneNumber }}
+                </div>
+                <div>
+                  <span class="font-weight-bold">Email: </span>{{ user.email }}
+                </div>
+              </v-col>
+            </v-row>
+            <v-row justify="center">
+              <v-btn
+                rounded
+                block
+                @click="markSold(book._id)"
+                :disabled="!book.availability"
+              >
+                Mark as sold
+              </v-btn>
+              <span v-if="!book.availability" class="red--text my-3">
+                Item is not available anymore
+              </span>
+            </v-row>
+          </div>
+          <div v-else>
+            <h4 class="red--text my-3">No holds on this item yet</h4>
+          </div>
         </v-col>
       </v-row>
     </div>
@@ -151,6 +173,7 @@ export default {
       "getHoldings",
       "getHoldsAndUsers",
       "getBooks",
+      "markSold",
     ]),
     async getUser_() {
       await this.getUser();
@@ -177,6 +200,9 @@ export default {
       this.ownerHoldsUsers_ = this.ownerHoldsUsers;
       this.ownerBooks_ = this.ownerBooks;
       this.holdCount_ = this.holdCount;
+    },
+    async markSold_(bookId) {
+      await this.markSold(bookId);
     },
   },
 };

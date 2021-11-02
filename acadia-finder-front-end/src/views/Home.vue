@@ -1,24 +1,27 @@
 <template>
-    <v-carousel
-      height="95vh"
-      cycle
-      interval="3000"
-      show-arrows-on-hover
-      hide-delimiters
+  <v-carousel
+    height="95vh"
+    cycle
+    interval="3000"
+    show-arrows-on-hover
+    hide-delimiters
+  >
+    <v-carousel-item
+      v-for="(item, i) in items"
+      :key="i"
+      :src="item.src"
+      gradient="to top right, rgba(20,25,21,.7), rgba(10,10,10,0.5)"
     >
-      <v-carousel-item
-        v-for="(item, i) in items"
-        :key="i"
-        :src="item.src"
-        gradient="to top right, rgba(20,25,21,.7), rgba(10,10,10,0.5)"
-      >
-        <v-row class="fill-height" align="center" justify="center">
+      <v-row class="fill-height" align="center" justify="center">
+        <div class="text-center" >
           <h2 class="white--text">
             {{ item.title }}
           </h2>
-        </v-row>
-      </v-carousel-item>
-    </v-carousel>
+          <v-btn class="my-5" large :to="item.btnUrl" rounded dark outlined> {{ item.btnName }} </v-btn>
+        </div>
+      </v-row>
+    </v-carousel-item>
+  </v-carousel>
 </template>
 <script>
 export default {
@@ -27,14 +30,20 @@ export default {
       {
         src: require("../assets/homepage_slide1.jpeg"),
         title: "It's all at your finger tips",
+        btnUrl: "/signup",
+        btnName: "Sign up",
       },
       {
         src: require("../assets/homepage_slide2.jpg"),
         title: "Upload and browse for textbooks and notes",
+        btnUrl: "/books",
+        btnName: "Books",
       },
       {
         src: require("../assets/homepage_slide3.jpg"),
         title: "Connect with students in your Program",
+        btnUrl: "/login",
+        btnName: "Login",
       },
     ],
   }),
