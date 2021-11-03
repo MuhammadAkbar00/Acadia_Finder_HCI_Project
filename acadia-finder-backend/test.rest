@@ -23,7 +23,7 @@ Content-Type: application/json
   "buyPrice": 9000,
   "rentPrice": 9000,
   "forRent": true,
-  "forSale": false
+  "forSale": true
 }
 
 ###
@@ -31,7 +31,23 @@ Content-Type: application/json
 GET http://localhost:3000/books
 
 ###
-DELETE http://localhost:3000/books/616789aeaf29979a70e4a501
+
+DELETE http://localhost:3000/books
+
+###
+
+GET http://localhost:3000/comments
+
+###
+
+DELETE http://localhost:3000/comments
+
+###
+
+GET http://localhost:3000/books/617c00fd88c7d3944755055d
+
+###
+DELETE http://localhost:3000/books/617c00fd88c7d3944755055d
 
 ###
 POST http://localhost:3000/users
@@ -52,7 +68,11 @@ Content-Type: application/json
 GET http://localhost:3000/users
 
 ###
-DELETE http://localhost:3000/users/616789aeaf29979a70e4a501
+
+GET http://localhost:3000/users/617da58dab4ecd46974ea7351/friendship
+
+###
+DELETE http://localhost:3000/users/617c0d603b67bc21014c08d0
 
 ###
 POST http://localhost:3000/notes
@@ -73,3 +93,24 @@ GET http://localhost:3000/notes
 
 ###
 DELETE http://localhost:3000/notes/616789aeaf29979a70e4a501
+
+###
+POST http://localhost:3000/friendship
+Content-Type: application/json
+
+{
+  "requester": "courseid1",
+  "recipient": "pid1",
+  "status": "This will be the file",
+}
+
+###
+
+GET http://localhost:3000/friendship
+
+###
+DELETE http://localhost:3000/friendship/616789aeaf29979a70e4a501
+
+###
+
+GET http://localhost:3000/friendship

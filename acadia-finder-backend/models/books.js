@@ -20,7 +20,7 @@ const BooksSchema = mongoose.Schema({
   },
   bookImage: {
     type: String,
-    required: true
+    required: false,
   },
   userId: {
     type: String,
@@ -36,12 +36,23 @@ const BooksSchema = mongoose.Schema({
   },
   forRent: {
     type: Boolean,
-    required: true
   },
   forSale: {
     type: Boolean,
-    required: true
-  }
+  },
+  holding: {
+    type: Boolean,
+  },
+  availability: {
+    type: Boolean
+  },
+  sold: {
+    type: Boolean
+  },
+  comments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comments'
+  }]
 })
 
 module.exports = mongoose.model("Books", BooksSchema)

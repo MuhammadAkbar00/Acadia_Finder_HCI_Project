@@ -4,6 +4,7 @@ const express = require('express')
 const app = express()
 
 app.use(cors())
+app.use('/book_uploads', express.static('book_uploads'))
 
 const mongoose = require('mongoose')
 
@@ -22,6 +23,8 @@ const purchasesRouter = require('./endpoints/purchases')
 const holdingsRouter = require('./endpoints/holdings')
 const rentalsRouter = require('./endpoints/rentals')
 const salesRouter = require('./endpoints/sales')
+const friendshipRouter = require('./endpoints/friendship')
+const commentsRouter = require('./endpoints/comments')
 
 app.use('/users', usersRouter)
 app.use('/books', booksRouter)
@@ -30,6 +33,8 @@ app.use('/purchases', purchasesRouter)
 app.use('/holdings', holdingsRouter)
 app.use('/rentals', rentalsRouter)
 app.use('/sales', salesRouter)
+app.use('/friendship', friendshipRouter)
+app.use('/comments', commentsRouter)
 
 
 app.listen(3000, () => console.log("server started"))

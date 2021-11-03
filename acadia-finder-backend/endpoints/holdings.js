@@ -14,6 +14,11 @@ router.get('/', cors(), async (req, res) => {
     }
 })
 
+// Get one
+router.get('/:id', getHolding, (req, res) => {
+  res.json(res.holding)
+})
+
 router.post('/', async (req, res) => {
   const holding = new Holding({
     bookId: req.body.bookId,
@@ -26,7 +31,7 @@ router.post('/', async (req, res) => {
     const newHolding = await holding.save()
       res.status(201).json(newHolding)
   } catch (err) {
-      res.status(400).json({ message: err.message })
+      res.status(400).json({ message: "Item already exists in your Holdings" })
   }
 })
 

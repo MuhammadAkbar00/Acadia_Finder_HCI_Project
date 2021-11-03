@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-10">
+  <v-container class="mt-15 pt-15">
     <h2 class="mb-10">Available Notes</h2>
     <v-row class="my-10">
       <v-col cols="12" lg="6" md="8">
@@ -12,7 +12,7 @@
         </div>
       </v-col>
       <v-col cols="12" lg="6" md="4">
-        <v-btn to="/addnotes" class="float-right" rounded> Add a note </v-btn>
+        <v-btn to="/addnotes" class="float-right" rounded outlined> Add a note </v-btn>
       </v-col>
     </v-row>
     <v-row>

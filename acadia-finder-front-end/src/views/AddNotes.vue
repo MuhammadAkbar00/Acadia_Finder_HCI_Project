@@ -1,79 +1,81 @@
 <template>
-  <validation-observer ref="observer">
-    <v-row justify="center" class="mt-10 pa-5">
-      <v-col lg="6" sm="12" md="8">
-        <h2 class="mb-5">Add Notes Form</h2>
-        <form @submit.prevent="submit">
-          <validation-provider
-            v-slot="{ errors }"
-            name="Course ID"
-            rules="required"
-          >
-            <v-text-field
-              v-model="courseId"
-              :error-messages="errors"
-              label="Course ID"
-              required
-            ></v-text-field>
-          </validation-provider>
-          <validation-provider
-            v-slot="{ errors }"
-            name="Note File"
-            rules="required"
-          >
-            <v-text-field
-              v-model="noteFile"
-              :error-messages="errors"
-              label="Note File"
-              required
-            ></v-text-field>
-          </validation-provider>
+  <div class="mt-15 pt-5">
+    <validation-observer ref="observer">
+      <v-row justify="center" class="mt-10 pa-5">
+        <v-col lg="6" sm="12" md="8">
+          <h2 class="mb-5">Add Notes Form</h2>
+          <form @submit.prevent="submit">
+            <validation-provider
+              v-slot="{ errors }"
+              name="Course ID"
+              rules="required"
+            >
+              <v-text-field
+                v-model="courseId"
+                :error-messages="errors"
+                label="Course ID"
+                required
+              ></v-text-field>
+            </validation-provider>
+            <validation-provider
+              v-slot="{ errors }"
+              name="Note File"
+              rules="required"
+            >
+              <v-text-field
+                v-model="noteFile"
+                :error-messages="errors"
+                label="Note File"
+                required
+              ></v-text-field>
+            </validation-provider>
 
-          <validation-provider
-            v-slot="{ errors }"
-            name="Date Posted"
-            rules="required"
-          >
-            <v-text-field
-              v-model="datePosted"
-              :error-messages="errors"
-              type="Date"
-              required
-            ></v-text-field>
-          </validation-provider>
-          <validation-provider
-            v-slot="{ errors }"
-            name="Description"
-            rules="required"
-          >
-            <v-text-field
-              v-model="description"
-              :error-messages="errors"
-              label="Description"
-              required
-            ></v-text-field>
-          </validation-provider>
-          <validation-provider
-            v-slot="{ errors }"
-            name="Semester"
-            rules="required"
-          >
-            <v-text-field
-              v-model="semester"
-              :error-messages="errors"
-              label="Semester (Eg. FA01)"
-              required
-            ></v-text-field>
-          </validation-provider>
+            <validation-provider
+              v-slot="{ errors }"
+              name="Date Posted"
+              rules="required"
+            >
+              <v-text-field
+                v-model="datePosted"
+                :error-messages="errors"
+                type="Date"
+                required
+              ></v-text-field>
+            </validation-provider>
+            <validation-provider
+              v-slot="{ errors }"
+              name="Description"
+              rules="required"
+            >
+              <v-text-field
+                v-model="description"
+                :error-messages="errors"
+                label="Description"
+                required
+              ></v-text-field>
+            </validation-provider>
+            <validation-provider
+              v-slot="{ errors }"
+              name="Semester"
+              rules="required"
+            >
+              <v-text-field
+                v-model="semester"
+                :error-messages="errors"
+                label="Semester (Eg. FA01)"
+                required
+              ></v-text-field>
+            </validation-provider>
 
-          <v-btn dark class="mr-4" color="green" type="submit" rounded>
-            submit
-          </v-btn>
-          <v-btn dark @click="clear" color="red" rounded> clear </v-btn>
-        </form>
-      </v-col>
-    </v-row>
-  </validation-observer>
+            <v-btn dark class="mr-4" color="green" type="submit" rounded>
+              submit
+            </v-btn>
+            <v-btn dark @click="clear" color="red" rounded> clear </v-btn>
+          </form>
+        </v-col>
+      </v-row>
+    </validation-observer>
+  </div>
 </template>
 
 <script>
