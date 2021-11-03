@@ -8,8 +8,8 @@ import Signup from "./views/Signup.vue";
 import Notes from "./views/Notes.vue";
 import AddBooks from "./views/AddBooks.vue";
 import AddNotes from "./views/AddNotes.vue";
-import UserProfile from "./views/UserProfile.vue";
 import ContactUs from "./views/ContactUs.vue";
+import UserProfile from "./views/UserProfile.vue";
 import ViewBook from "./views/ViewBook.vue";
 
 
@@ -20,14 +20,14 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/login",
-      name: "login",
-      component: Login
-    },
-    {
       path: "/",
       name: "home",
       component: Home
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: Login
     },
     {
       path: "/books",
@@ -61,14 +61,14 @@ export default new Router({
       component: AddNotes
     },
     {
+      path: "/contact",
+      name: "contact",
+      component: ContactUs
+    },
+    {
       path: "/profile",
       name: "profile",
       component: UserProfile
-    },
-    {
-      path: "/contactus",
-      name: "contactus",
-      component: ContactUs
     },
     {
       path: "/book/:id",
