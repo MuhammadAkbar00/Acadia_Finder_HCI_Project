@@ -8,6 +8,7 @@ import Signup from "./views/Signup.vue";
 import Notes from "./views/Notes.vue";
 import AddBooks from "./views/AddBooks.vue";
 import AddNotes from "./views/AddNotes.vue";
+import ContactUs from "./views/ContactUs.vue";
 
 
 Vue.use(Router);
@@ -17,14 +18,14 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/login",
-      name: "login",
-      component: Login
-    },
-    {
       path: "/",
       name: "home",
       component: Home
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: Login
     },
     {
       path: "/books",
@@ -56,6 +57,11 @@ export default new Router({
       path: "/addnotes",
       name: "addnotes",
       component: AddNotes
+    },
+    {
+      path: "/contact",
+      name: "contact",
+      component: ContactUs
     }
   ]
 });

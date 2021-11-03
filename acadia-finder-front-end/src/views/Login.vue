@@ -3,7 +3,7 @@
     <v-container class="mt-15 pt-15 text-center">
       <h1>Log in to Your Account</h1>
       <v-row justify="center">
-        <v-col cols="12" md="5">
+        <v-col cols="12" md="6">
           <v-text-field
             v-model="email"
             :counter="50"
