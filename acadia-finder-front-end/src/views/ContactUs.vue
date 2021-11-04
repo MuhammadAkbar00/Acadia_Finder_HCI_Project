@@ -1,5 +1,5 @@
 <template>
-  <v-container class="fill-height" fluid>
+  <v-container class="fill-height mt-9" fluid>
     <v-row justify="center" align="center" dense>
       <v-col cols="12" lg="5" md="5" sm="8">
         <div class="div-label" justify="center" align="center">
@@ -9,7 +9,7 @@
         <v-card elevation="0" class="pt-2">
           <v-img src="../assets/logo2.png" max-height="110" contain></v-img>
           <v-card-text>
-            <v-form class="pt-10" ref="form" v-model="valid" lazy-validation>
+            <v-form class="pt-10" ref="form" @submit.prevent="sendMessage" v-model="valid" lazy-validation>
               <v-text-field
                 v-model="name"
                 :counter="20"
@@ -34,7 +34,7 @@
                   class="white--text mr-4"
                   :disabled="!valid"
                   color="light-blue darken-4"
-                  @click="validate"
+                  type="submit"
                   >Submit</v-btn
                 >
                 <v-btn color="red darken-3" class="white--text mr-4" @click="reset">Reset</v-btn>
@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "ContactUs",
   data: () => ({
@@ -69,17 +70,37 @@ export default {
     ],
   }),
   methods: {
-    validate() {
+    async sendMessage() {
       if (this.$refs.form.validate()) {
-        this.snackbar = true;
+        await axios
+          .post("http://localhost:3000/contact", {
+            name: this.name,
+            email: this.email,
+            message: this.message,
+          })
+          .then(
+            (res) => {
+              console.log(res);
+              this.$router.push("/messageSent");
+              this.$router.go();
+            },
+            (err) => {
+              console.log(err.response);
+              this.errors = err.response.data.error;
+            }
+          );
       }
     },
     reset() {
+      this.name = "";
+      this.email = "";
+      this.message = "";
       this.$refs.form.reset();
     },
   },
 };
 </script>
+
 <style scoped>
 .div-label {
   font-family: sans-serif;
