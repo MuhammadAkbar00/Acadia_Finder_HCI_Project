@@ -17,13 +17,15 @@
           <h2 class="white--text">
             {{ item.title }}
           </h2>
-          <v-btn class="my-5" large :to="item.btnUrl" rounded dark outlined> {{ item.btnName }} </v-btn>
+          <v-btn v-if="isLoggedIn && item.btnName === 'Books'" class="my-5" large :to="item.btnUrl" rounded dark outlined> {{ item.btnName }} </v-btn>
+          <v-btn v-else-if="!isLoggedIn && (item.btnName === 'Login' || item.btnName === 'Sign up' || item.btnName === 'Books')" class="my-5" large :to="item.btnUrl" rounded dark outlined> {{ item.btnName }} </v-btn>
         </div>
       </v-row>
     </v-carousel-item>
   </v-carousel>
 </template>
 <script>
+import { mapState } from 'vuex';
 export default {
   data: () => ({
     items: [
@@ -47,6 +49,9 @@ export default {
       },
     ],
   }),
+  computed: {
+    ...mapState(["isLoggedIn"])
+  }
 };
 </script>
 <style scoped>
