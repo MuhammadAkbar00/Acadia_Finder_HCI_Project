@@ -25,6 +25,7 @@ const rentalsRouter = require('./endpoints/rentals')
 const salesRouter = require('./endpoints/sales')
 const friendshipRouter = require('./endpoints/friendship')
 const commentsRouter = require('./endpoints/comments')
+const contactRouter = require('./endpoints/contact')
 
 app.use('/users', usersRouter)
 app.use('/books', booksRouter)
@@ -35,6 +36,7 @@ app.use('/rentals', rentalsRouter)
 app.use('/sales', salesRouter)
 app.use('/friendship', friendshipRouter)
 app.use('/comments', commentsRouter)
+app.use('/contact', contactRouter)
 
 
 app.listen(3000, () => console.log("server started"))

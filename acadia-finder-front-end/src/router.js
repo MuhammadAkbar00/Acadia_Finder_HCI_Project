@@ -11,7 +11,7 @@ import AddNotes from "./views/AddNotes.vue";
 import ContactUs from "./views/ContactUs.vue";
 import UserProfile from "./views/UserProfile.vue";
 import ViewBook from "./views/ViewBook.vue";
-
+import MessageSentConfirmation from "./views/MessageSentConfirmation.vue";
 
 Vue.use(Router);
 
@@ -74,6 +74,11 @@ export default new Router({
       path: "/book/:id",
       name: "viewbook",
       component: ViewBook
+    },
+    {
+      path: "/messageSent",
+      name: "messageSent",
+      component: MessageSentConfirmation
     }
   ]
 });
