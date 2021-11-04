@@ -26,7 +26,7 @@
         v-for="(book, i) in filteredBooks"
         :key="i"
       >
-        <v-card @click="redirect(book._id)">
+        <v-card @click="redirect(book._id)" height="100%" class="d-flex flex-column">
           <Book
             :name="book.name"
             :author="book.author"
@@ -38,17 +38,22 @@
             :forSale="book.forSale"
             :rentPrice="book.rentPrice"
           />
+          <v-spacer></v-spacer>
           <v-card-actions>
             <v-btn
-              v-if="isLoggedIn"
+              v-if="isLoggedIn && current_user._id != book.userId"
               outlined
               rounded
               text
               :disabled="!book.availability"
               @click="addToHoldings(book, user_id)"
+              class="text-capitalize font-weight-bold"
             >
-              Add to holding
+              See book details
             </v-btn>
+            <div v-else-if="current_user._id == book.userId" class="red--text">
+              Can't buy/rent. You are the owner.
+            </div>
             <div v-else>
               <v-btn
                 text

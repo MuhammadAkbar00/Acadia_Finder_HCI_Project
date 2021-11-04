@@ -1,21 +1,51 @@
  <template>
-  <div class="mt-15 pt-5">
-    <v-card align="center" flat>
-      <v-card-title> User Profile </v-card-title>
-      <v-icon size="150"> mdi-account </v-icon>
-      <h4>{{ firstName }} {{ lastName }}</h4>
-      <div class="mt-5">
-        <h3 class="mb-2">Personal Details</h3>
-        <div><span class="font-weight-bold"> Email: </span>{{ email }}</div>
-        <div>
-          <span class="font-weight-bold">Phone Number: </span>{{ phoneNumber }}
-        </div>
-        <div>
-          <span class="font-weight-bold">Program of study:</span> {{ major }}
-        </div>
-      </div>
-    </v-card>
-    <div class="ma-5">
+  <div class="mt-15 pt-15 mx-5">
+    <h2 class="my-10">User Profile</h2>
+    <v-row>
+      <v-col align="center">
+        <v-card class="pa-5" align="left" max-width="800">
+          <div class="text-center mt-n16">
+            <v-avatar size="150" color="blue" class="elevation-15">
+              <v-icon size="150"> mdi-account </v-icon>
+            </v-avatar>
+            <h3 class="my-5 grey--text">{{ firstName }} {{ lastName }}</h3>
+          </div>
+          <v-list>
+            <v-list-item>
+              <v-row>
+                <v-col>
+                  <span class="font-weight-bold"> Email: </span>
+                </v-col>
+                <v-col>
+                  {{ email }}
+                </v-col>
+              </v-row>
+            </v-list-item>
+            <v-list-item>
+              <v-row>
+                <v-col>
+                  <span class="font-weight-bold"> Phone Number: </span>
+                </v-col>
+                <v-col>
+                  {{ phoneNumber }}
+                </v-col>
+              </v-row>
+            </v-list-item>
+            <v-list-item>
+              <v-row>
+                <v-col>
+                  <span class="font-weight-bold"> Program of study: </span>
+                </v-col>
+                <v-col>
+                  {{ major }}
+                </v-col>
+              </v-row>
+            </v-list-item>
+          </v-list>
+        </v-card>
+      </v-col>
+    </v-row>
+    <div class="my-5">
       <h2 class="my-5">Holdings</h2>
       <v-row>
         <v-col
@@ -26,7 +56,7 @@
           v-for="(book, i) in holdings_"
           :key="i"
         >
-          <v-card>
+          <v-card height="100%" class="d-flex flex-column">
             <Book
               :name="book.name"
               :author="book.author"
@@ -38,6 +68,7 @@
               :forSale="book.forSale"
               :rentPrice="book.rentPrice"
             />
+            <v-spacer></v-spacer>
             <v-card-actions>
               <v-btn
                 :disabled="!book.availability"
@@ -56,13 +87,13 @@
         </v-col>
       </v-row>
     </div>
-    <div class="mx-5">
-      <h3 v-if="ownerBooks_.length > 0">
+    <div>
+      <v-card-title v-if="ownerBooks_.length > 0">
         Items uploaded and people who have holds on them
-      </h3>
+      </v-card-title>
       <v-row class="my-5 mb-8">
         <v-col v-for="(book, i) in ownerBooks_" :key="i">
-          <v-card>
+          <v-card height="100%" class="d-flex flex-column">
             <Book
               :name="book.name"
               :author="book.author"
@@ -75,6 +106,8 @@
               :rentPrice="book.rentPrice"
             />
           </v-card>
+            <v-spacer></v-spacer>
+
           <div class="mt-5" v-if="book._id === holdCount_.bookId">
             <span class="font-weight-bold"> Number of holds: </span>
             <span class="green--text font-weight-bold">{{

@@ -24,7 +24,7 @@
         v-for="(note, i) in filteredNotes"
         :key="i"
       >
-        <v-card>
+        <v-card height="100%" class="d-flex flex-column">
           <Note
             :providerId="note.providerId"
             :courseId="note.courseId"
@@ -34,6 +34,7 @@
             :semester="note.semester"
           />
         </v-card>
+            <v-spacer></v-spacer>
       </v-col>
     </v-row>
   </v-container>
