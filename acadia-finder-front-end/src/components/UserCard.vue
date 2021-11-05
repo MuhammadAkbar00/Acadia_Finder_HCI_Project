@@ -1,12 +1,13 @@
 <template>
   <v-container>
-    <v-card class="text-center ma-3 bg" :style="{ backgroundColor: '#FFFFFF' }">
+    <v-card
+      class="text-center ma-3 bg d-flex flex-column"
+      :style="{ backgroundColor: '#FFFFFF' }"
+      height="100%"
+    >
       <v-responsive class="pt-4">
         <v-avatar>
-          <img
-            :src="getLink(profilePicture)"
-            alt=""
-          />
+          <img :src="getLink(profilePicture)" alt="" />
         </v-avatar>
       </v-responsive>
       <v-card-text>
@@ -20,33 +21,35 @@
           <span class="font-weight-bold"> Email: </span>{{ email }}
         </div>
       </v-card-text>
+      <v-spacer></v-spacer>
       <v-card-actions v-if="this.checkFriendshipStatus() === 'friends'">
-        <v-btn color="#FFFFFF" @click="unfriendFriendRequest()">
-          <v-icon x-small>mdi-account-plus</v-icon>
+        <v-btn color="#FFFFFF" rounded @click="unfriendFriendRequest()">
+          <v-icon small class="mr-1">mdi-account-plus</v-icon>
           <span class="add-friend">Unfriend</span>
         </v-btn>
       </v-card-actions>
       <v-card-actions v-else-if="this.checkFriendshipStatus() === 'incoming'">
-        <v-btn color="#FFFFFF" @click="acceptFriendRequest()">
-          <v-icon x-small>mdi-account-plus</v-icon>
+        <v-btn color="#FFFFFF" rounded @click="acceptFriendRequest()">
+          <v-icon small class="mr-1">mdi-account-plus</v-icon>
           <span class="add-friend">Accept</span>
         </v-btn>
-        <v-btn color="#FFFFFF" @click="declineFriendRequest()">
-          <v-icon x-small>mdi-account-minus</v-icon>
+        <v-btn color="#FFFFFF" rounded @click="declineFriendRequest()">
+          <v-icon small class="mr-1">mdi-account-minus</v-icon>
           <span class="add-friend">Decline</span>
         </v-btn>
       </v-card-actions>
       <v-card-actions v-else-if="this.checkFriendshipStatus() === 'outgoing'">
-        <v-btn color="#FFFFFF" @click="cancelFriendRequest()">
-          <v-icon x-small>mdi-account-plus</v-icon>
+        <v-btn color="#FFFFFF" rounded @click="cancelFriendRequest()">
+          <v-icon small class="mr-1">mdi-account-plus</v-icon>
           <span class="add-friend">Cancel</span>
         </v-btn>
       </v-card-actions>
       <v-card-actions v-else-if="this.checkFriendshipStatus() === 'owner'">
+        <v-btn disabled rounded text>You</v-btn>
       </v-card-actions>
       <v-card-actions v-else>
-        <v-btn color="#FFFFFF" @click="sendFriendRequest()">
-          <v-icon x-small>mdi-account-plus</v-icon>
+        <v-btn color="#FFFFFF" rounded @click="sendFriendRequest()">
+          <v-icon small class="mr-1">mdi-account-plus</v-icon>
           <span class="add-friend">Add</span>
         </v-btn>
       </v-card-actions>
@@ -198,7 +201,9 @@ export default {
     },
 
     getLink(link) {
-      if(!link) { return "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
+      if (!link) {
+        return "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+      }
       let currLink = "http://localhost:3000/" + link;
       return currLink;
     },

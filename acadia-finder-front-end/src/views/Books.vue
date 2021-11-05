@@ -26,7 +26,7 @@
         v-for="(book, i) in filteredBooks"
         :key="i"
       >
-        <v-card @click="redirect(book._id)" height="100%" class="d-flex flex-column">
+        <v-card height="100%" class="d-flex flex-column" outlined>
           <Book
             :name="book.name"
             :author="book.author"
@@ -40,21 +40,24 @@
           />
           <v-spacer></v-spacer>
           <v-card-actions>
-            <v-btn
-              v-if="isLoggedIn && current_user._id != book.userId"
-              outlined
-              rounded
-              text
-              :disabled="!book.availability"
-              @click="addToHoldings(book, user_id)"
-              class="text-capitalize font-weight-bold"
-            >
-              See book details
-            </v-btn>
-            <div v-else-if="current_user._id == book.userId" class="red--text">
-              Can't buy/rent. You are the owner.
+            <div v-if="isLoggedIn && current_user._id != book.userId">
+              <v-btn
+                outlined
+                rounded
+                text
+                :disabled="!book.availability"
+                @click="addToHoldings(book, user_id)"
+                class="text-capitalize font-weight-bold"
+              >
+                Place a hold
+              </v-btn>
             </div>
-            <div v-else>
+            <div v-else-if="current_user._id == book.userId" class="red--text">
+              <v-btn disabled rounded text>
+                Your book
+              </v-btn>
+            </div>
+            <div v-if="!isLoggedIn">
               <v-btn
                 text
                 rounded
@@ -68,10 +71,22 @@
                 to ask the seller/renter to hold it for you
               </span>
             </div>
-            <span v-if="!book.availability" class="red--text mx-2">
-              Item not available anymore
-            </span>
+            <v-spacer></v-spacer>
+            <div>
+              <v-btn
+                outlined
+                rounded
+                text
+                @click="bookDetails(book._id)"
+                class="text-capitalize font-weight-bold"
+              >
+                See book details
+              </v-btn>
+            </div>
           </v-card-actions>
+          <div v-if="!book.availability" class="red--text mx-2">
+            Item not available anymore
+          </div>
           <div class="pa-4 red--text" v-if="errors && errors.id == book._id">
             {{ errors.error }}
           </div>
@@ -122,9 +137,9 @@ export default {
       const payload = { book, user_id };
       this.hold(payload);
     },
-    redirect(id) {
-      return this.$router.push(`book/${id}`)
-    }
+    bookDetails(id) {
+      return this.$router.push(`book/${id}`);
+    },
   },
   created() {
     this.loadBooks();
