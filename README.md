@@ -36,7 +36,18 @@ A web application that helps students buy, sell or rent books amongst themselves
 - create password reset endpoint
 - add password validation
 - add login validation
-- Remember login
+- Remember login ()
+
+
+- remove providerId from notes - Tamea
+- add breakpoint to holdings cols for user Profile page - Noor
+- Change "Course name" on book card in books.vue to "Course Id"
+- confirmation on logout, delete, add books, add notes, etc (sweetalert)
+- disable submit for contactus page - Tamea
+- make card height fix on user profile - Noor 
+- holdings - Noor
+- create admin endpoint, model, and admin login page - Muhammad
+-
 
 
 

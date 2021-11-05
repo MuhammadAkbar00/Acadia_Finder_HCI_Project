@@ -13,6 +13,7 @@ import UserProfile from "./views/UserProfile.vue";
 import Friends from "./views/Friends.vue";
 import ViewBook from "./views/ViewBook.vue";
 import MessageSentConfirmation from "./views/MessageSentConfirmation.vue";
+import Admin from "./views/Admin.vue";
 
 Vue.use(Router);
 
@@ -86,5 +87,10 @@ export default new Router({
       name: "messageSent",
       component: MessageSentConfirmation
     },
+    {
+      path: "/admin",
+      name: "admin",
+      component: Admin
+    }
   ]
 });
