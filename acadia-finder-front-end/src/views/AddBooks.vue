@@ -4,7 +4,7 @@
       <v-row justify="center" class="mt-10 pa-5">
         <v-col lg="6" sm="12" md="8">
           <h2 class="mb-5">Add Book Form</h2>
-          <form @submit.prevent="submit">
+          <form @submit.prevent="submit" ref="form" v-on:keyup="validator">
             <validation-provider
               v-slot="{ errors }"
               name="Name"
@@ -108,7 +108,7 @@
               ></v-checkbox>
             </validation-provider>
 
-            <v-btn dark class="mr-4" color="green" type="submit" rounded>
+            <v-btn class="mr-4 white--text" color="green" type="submit" rounded :disabled="!validated">
               submit
             </v-btn>
             <v-btn dark @click="clear" color="red" rounded> clear </v-btn>
@@ -166,6 +166,8 @@ export default {
     show1: false,
     user_id: "617da58dab4ec46974ea7351",
     url: "",
+    validated: false,
+    errors: ""
   }),
 
   computed: {
@@ -181,7 +183,7 @@ export default {
     },
 
     async submit() {
-      if (this.$refs.observer.validate()) {
+      if (await this.$refs.observer.validate()) {
         const formData = new FormData();
         formData.append("name", this.name);
         formData.append("courseId", this.courseId);
@@ -208,6 +210,14 @@ export default {
             }
           );
       }
+    },
+    async validator() {
+      if (this.$refs.form.checkValidity()) {
+        if (await this.$refs.observer.validate()) {
+          return (this.validated = true);
+        }
+      }
+      this.validated = false;
     },
     clear() {
       this.name = "";

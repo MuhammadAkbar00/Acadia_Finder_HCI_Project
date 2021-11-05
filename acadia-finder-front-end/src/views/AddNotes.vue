@@ -4,7 +4,7 @@
       <v-row justify="center" class="mt-10 pa-5">
         <v-col lg="6" sm="12" md="8">
           <h2 class="mb-5">Add Notes Form</h2>
-          <form @submit.prevent="submit">
+          <form @submit.prevent="submit" ref="form" v-on:keyup="validator">
             <validation-provider
               v-slot="{ errors }"
               name="Course ID"
@@ -56,7 +56,7 @@
               ></v-text-field>
             </validation-provider>
 
-            <v-btn dark class="mr-4" color="green" type="submit" rounded>
+            <v-btn class="mr-4 white--text" color="green" type="submit" rounded :disabled="!validated">
               submit
             </v-btn>
             <v-btn dark @click="clear" color="red" rounded> clear </v-btn>
@@ -106,6 +106,8 @@ export default {
     datePosted: "",
     description: "",
     semester: "",
+    validated: false,
+    errors: ""
   }),
 
   methods: {
@@ -127,7 +129,7 @@ export default {
     },
 
     async submit() {
-      if (this.$refs.observer.validate()) {
+      if (await this.$refs.observer.validate()) {
         const formData = new FormData();
         formData.append("courseId", this.courseId);
         formData.append("providerId", this.providerId);
@@ -150,6 +152,14 @@ export default {
             }
           );
       }
+    },
+      async validator() {
+      if (this.$refs.form.checkValidity()) {
+        if (await this.$refs.observer.validate()) {
+          return (this.validated = true);
+        }
+      }
+      this.validated = false;
     },
     clear() {
       this.courseId = "";

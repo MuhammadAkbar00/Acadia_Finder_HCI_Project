@@ -24,7 +24,7 @@
             <span class="green--text">${{ rentPrice }}</span>
           </div>
           <div>
-            <span class="font-weight-bold">course name:</span> {{ courseId }}
+            <span class="font-weight-bold">Course Id:</span> {{ courseId }}
           </div>
         </div>
       </v-col>

@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="main-text">
     <v-card-title>
       <h3>
         {{ courseId }}
@@ -7,12 +7,10 @@
     </v-card-title>
     <v-row align="center">
       <v-col cols="12" lg="8" md="8" sm="12">
-        <p class="ml-5">Description: {{ description }}</p>
+        <div class="ml-5">Semester: {{ semester }}</div>
         <p class="ml-5">Date: {{ datePosted }}</p>
         <div class="pa-5">
-          <div>Semester: {{ semester }}</div>
-          <div>ProviderId: {{ providerId }}</div>
-          <div>CourseId: {{ courseId }}</div>
+          <p >Description: {{ description }}</p>
         </div>
       </v-col>
       <v-col cols="12" lg="4" md="4" sm="12">
@@ -77,7 +75,7 @@ export default {
 </script>
 
 <style scoped>
-.noor {
-  margin: 40px;
+.main-text {
+  font-family: Times, serif, sans-serif;
 }
 </style>
