@@ -49,5 +49,9 @@ A web application that helps students buy, sell or rent books amongst themselves
 - create admin endpoint, model, and admin login page - Muhammad
 -
 
+### New Notes
+- file upload validation for books and note files
+- fix file upload button style
+- 
 
 

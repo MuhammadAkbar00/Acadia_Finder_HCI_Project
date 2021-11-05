@@ -46,6 +46,18 @@
             </validation-provider>
             <validation-provider
               v-slot="{ errors }"
+              name="Email"
+              rules="required|email"
+            >
+              <v-text-field
+                v-model="email"
+                :error-messages="errors"
+                label="E-mail"
+                required
+              ></v-text-field>
+            </validation-provider>
+            <validation-provider
+              v-slot="{ errors }"
               name="Password"
               rules="required"
               vid="password"
@@ -87,18 +99,6 @@
                 v-model="phoneNumber"
                 :error-messages="errors"
                 label="Phone Number"
-                required
-              ></v-text-field>
-            </validation-provider>
-            <validation-provider
-              v-slot="{ errors }"
-              name="Email"
-              rules="required|email"
-            >
-              <v-text-field
-                v-model="email"
-                :error-messages="errors"
-                label="E-mail"
                 required
               ></v-text-field>
             </validation-provider>
