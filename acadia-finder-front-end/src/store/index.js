@@ -25,7 +25,8 @@ export default new Vuex.Store({
       "bookId": ""
     },
     ownerHoldsUsers: [],
-    ownerBooks: []
+    ownerBooks: [],
+    contactMessages: []
   },
   mutations: {
     GET_BOOKS(state, books) {
@@ -39,6 +40,9 @@ export default new Vuex.Store({
     },
     SET_CURRENT_USER(state, user) {
       state.current_user = user
+    },
+    GET_MESSAGES(state, contact) {
+      state.contactMessages = contact
     }
   },
   actions: {
@@ -48,6 +52,15 @@ export default new Vuex.Store({
       return axios.get("http://localhost:3000/books")
         .then(response => {
           commit("GET_BOOKS", response.data)
+        }).catch(err => {
+          console.log(err)
+        })
+    },
+    // Get all ContactUs Messages
+    getContactUsMessages({ commit }) {
+      return axios.get("http://localhost:3000/contact")
+        .then(response => {
+          commit("GET_MESSAGES", response.data)
         }).catch(err => {
           console.log(err)
         })
@@ -196,15 +209,22 @@ export default new Vuex.Store({
         })
       })
 
+    },
+
+    // Delete book by id - admin
+    deleteItem({}, obj) {
+      const url = "http://localhost:3000/" + obj.collection_name +"/" + obj.itemId
+      console.log(url)
+      axios.delete(url).then((res) => {
+        console.log(res)
+        window.location.reload()
+      }).catch((err) => {
+        console.log(err)
+      })
     }
   },
   modules: {}
 
 }
 );
-
-
-
-
-
 
