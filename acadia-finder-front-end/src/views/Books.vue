@@ -26,7 +26,12 @@
         v-for="(book, i) in filteredBooks"
         :key="i"
       >
-        <v-card @click="redirect(book._id)" height="100%" class="d-flex flex-column">
+        <v-card
+          @click="redirect(book._id)"
+          height="100%"
+          class="d-flex flex-column"
+          outlined
+        >
           <Book
             :name="book.name"
             :author="book.author"
@@ -123,8 +128,8 @@ export default {
       this.hold(payload);
     },
     redirect(id) {
-      return this.$router.push(`book/${id}`)
-    }
+      return this.$router.push(`book/${id}`);
+    },
   },
   created() {
     this.loadBooks();

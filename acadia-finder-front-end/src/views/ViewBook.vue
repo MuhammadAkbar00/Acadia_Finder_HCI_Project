@@ -1,80 +1,63 @@
 <template>
-  <v-container class="grey lighten-5 mt-15 pt-15">
+  <v-container class="mt-15 pt-15">
     <v-row no-gutters>
-      <v-col cols="12" sm="4">
-        <v-card class="pa-2" outlined tile> One of three columns </v-card>
-      </v-col>
-      <v-col cols="12" sm="4">
-        <v-card class="mx-auto" max-width="344" outlined>
-          <v-list-item three-line>
-            <v-list-item-content>
-              <div class="text-overline mb-4">{{ book.courseId }}</div>
-              <v-list-item-title class="text-h5 mb-1">
-                {{ book.name }}
-              </v-list-item-title>
-              <v-list-item-subtitle
-                >Author: {{ book.author }}
-              </v-list-item-subtitle>
-              <v-list-item-subtitle
-                >Selling Price: {{ book.buyPrice }}
-              </v-list-item-subtitle>
-              <v-list-item-subtitle
-                >Rent Price: {{ book.rentPrice }}
-              </v-list-item-subtitle>
-            </v-list-item-content>
-            <v-col cols="12" lg="4" md="4" sm="12">
-              <v-img width="200" :src="getLink(book.bookImage)"></v-img>
-            </v-col>
-          </v-list-item>
-
+      <v-col>
+        <v-card outlined>
+          <Book
+            :name="book.name"
+            :author="book.author"
+            :buyPrice="book.buyPrice"
+            :edition="book.edition"
+            :bookImage="book.bookImage"
+            :courseId="book.courseId"
+            :forRent="book.forRent"
+            :forSale="book.forSale"
+            :rentPrice="book.rentPrice"
+          />
           <v-card-actions>
-            <v-btn outlined rounded text v-if="book.forSale"> Buy </v-btn>
-            <v-btn outlined rounded text v-if="book.forRent"> Rent </v-btn>
+            <v-btn outlined rounded text @click="addToHoldings(book, user_id)">
+              Add to holdings
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
-      <v-col cols="12" sm="4">
-        <v-card class="pa-2" outlined tile> One of three columns </v-card>
-      </v-col>
     </v-row>
-    <v-row no-gutters>
+    <v-row>
       <v-col cols="12" sm="4">
-        <v-card class="pa-2" outlined tile> One of three columns </v-card>
-      </v-col>
-      <v-col cols="12" sm="4">
-        <v-text-field v-model="text" label="Outlined" outlined></v-text-field>
-        <v-btn dark small color="pink" @click="addComment()"> Add </v-btn>
+        <v-text-field
+          v-model="text"
+          label="Type something ..."
+          class="mt-5"
+          @keyup="textval(text)"
+        ></v-text-field>
+        <div class="red--text mb-5" v-if="textErrors">
+          {{ textErrors }}
+        </div>
+        <v-btn dark color="green" rounded @click="addComment()"> Add comment </v-btn>
       </v-col>
       <v-col cols="12" sm="4"> </v-col>
     </v-row>
-    <v-row no-gutters>
-      <v-col cols="12" sm="4">
-        <v-col
-          cols="12"
-          lg="6"
-          md="12"
-          sm="12"
-          v-for="(comment, i) in this.comments"
-          :key="i"
-        >
-          <v-card class="mx-auto" max-width="344">
-            <v-card-text>
-              <div>
-                <v-avatar size="30" contain>
-                  <img
-                    v-if="comment.user.profilePicture"
-                    :src="getLink(comment.user.profilePicture)"
-                  />
-                </v-avatar>
-                {{ comment.user.firstName }} {{ comment.user.lastName }}
-              </div>
-              <p class="grey--text mb-2">{{ formatDate(comment.date) }}</p>
-              <div class="text--primary">
-                {{ comment.text }}
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-col>
+    <v-row>
+      <v-col
+        class="my-2"
+        cols="12"
+        v-for="(comment, i) in this.comments"
+        :key="i"
+      >
+        <div>
+          <v-avatar size="30" contain>
+            <img
+              v-if="comment.user.profilePicture"
+              :src="getLink(comment.user.profilePicture)"
+            />
+            <v-icon v-else size="150"> mdi-account </v-icon>
+          </v-avatar>
+          {{ comment.user.userName }}
+        </div>
+        <p class="grey--text mb-2">{{ formatDate(comment.date) }}</p>
+        <div class="text--primary">
+          {{ comment.text }}
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -83,6 +66,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import axios from "axios";
+import Book from "../components/Book.vue";
 export default {
   data() {
     return {
@@ -90,10 +74,14 @@ export default {
       user: {},
       comments: {},
       text: "",
+      textErrors: "",
       commentRules: [(v) => !!v || "Username is required"],
+      user_id: "",
     };
   },
-  components: {},
+  components: {
+    Book,
+  },
   computed: {
     ...mapState(["current_user"]),
   },
@@ -111,17 +99,23 @@ export default {
           console.log(err);
         });
     },
+    textval(val) {
+      if (val !== "") {
+        this.textErrors = "";
+      }
+    },
     getLink(link) {
       let currLink = "http://localhost:3000/" + link;
       let path2 = currLink.replace(/\\/g, "/");
       return path2;
     },
     // get current user
-    ...mapActions(["getUser"]),
+    ...mapActions(["getUser", "hold"]),
     // Get the user with token given
     async getUser_() {
       await this.getUser();
       this.user = this.current_user;
+      this.user_id = this.current_user._id;
     },
     // Get Comments
     async getComments() {
@@ -157,7 +151,9 @@ export default {
     // Add Comment
     addComment() {
       if (this.text === "") {
-        return alert("Text Cannot Be Empty");
+        // return alert("Text Cannot Be Empty");
+        this.textErrors = "Comment Cannot Be Empty";
+        return;
       }
       return axios
         .post(`http://localhost:3000/books/${this.$route.params.id}/comment`, {
@@ -192,6 +188,10 @@ export default {
         " " +
         strTime
       );
+    },
+    addToHoldings(book, user_id) {
+      const payload = { book, user_id };
+      this.hold(payload);
     },
   },
   created() {

@@ -19,17 +19,10 @@
         <v-img width="100" :src="providerId"></v-img>
       </v-col>
     </v-row>
-    <v-card-actions>
-      <v-btn outlined rounded text v-if="datePosted" @click="onClick()">
-        Download
-      </v-btn>
-    </v-card-actions>
   </v-container>
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   props: {
     courseId: {
@@ -52,26 +45,7 @@ export default {
     },
   },
   methods: {
-    onClick() {
-      return axios({
-        url: this.getLink(this.noteFile),
-        method: 'GET',
-        responseType: 'blob'
-      }).then((response) => {
-        const fileUrl = window.URL.createObjectURL(new Blob([response.data]))
-        const fileLink = document.createElement('a')
-        fileLink.href = fileUrl
 
-        fileLink.setAttribute('download',response.request.responseURL.split('note_uploads/')[1])
-        document.body.appendChild(fileLink)
-
-        fileLink.click()
-      })
-    },
-    getLink(link) {
-      let currLink = "http://localhost:3000/" + link;
-      return currLink;
-    },
   },
 };
 </script>
