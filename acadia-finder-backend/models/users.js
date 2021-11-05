@@ -30,21 +30,9 @@ const UsersSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  friends: [
-    {
-      user: {
-        type: Schema.Types.ObjectId,
-        ref: 'users',
-      },
-      status: Number,
-      enums: [
-        0,    //'add friend',
-        1,    //'requested',
-        2,    //'pending',
-        3,    //'friends'
-      ]
-    }
-  ]
+  profilePicture: {
+    type: String,
+  }
 })
 
 module.exports = mongoose.model("Users", UsersSchema)

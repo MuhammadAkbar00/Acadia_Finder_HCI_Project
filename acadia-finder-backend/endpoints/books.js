@@ -17,14 +17,14 @@ const imageStorage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  // reject file
-  if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/png') {
-    return cb(new Error('message'), true)
+  if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
+    return cb(null, true)
   }
-  return cb(new Error('message'), false)
+  return cb(null, false)
 }
 const upload = multer({
-  storage: imageStorage
+  storage: imageStorage,
+  fileFilter: fileFilter
 })
 
 // Get all books

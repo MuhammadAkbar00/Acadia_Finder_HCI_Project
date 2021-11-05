@@ -60,6 +60,12 @@
           <v-card class="mx-auto" max-width="344">
             <v-card-text>
               <div>
+                <v-avatar size="30" contain>
+                  <img
+                    v-if="comment.user.profilePicture"
+                    :src="getLink(comment.user.profilePicture)"
+                  />
+                </v-avatar>
                 {{ comment.user.firstName }} {{ comment.user.lastName }}
               </div>
               <p class="grey--text mb-2">{{ formatDate(comment.date) }}</p>

@@ -2,16 +2,17 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema
 
 const FriendshipSchema = new Schema({
-    requester: { type: Schema.Types.ObjectId, ref: 'Users'},
-    recipient: { type: Schema.Types.ObjectId, ref: 'Users'},
-    status: {
-      type: Number,
-      enums: [
-          0,    //'add friend',
-          1,    //'requested',
-          2,    //'pending',
-          3,    //'friends'
-      ]
-    }
+  friends: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Users'
+  }],
+  incomingRequests: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Users'
+  }],
+  outgoingRequests: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Users'
+  }],
   }, {timestamps: true})
   module.exports = mongoose.model('Friendsip', FriendshipSchema)

@@ -54,7 +54,14 @@
                 required
               ></v-text-field>
             </validation-provider>
-            <input type="file" @change="onFileUpload" ref="file">
+            <div>
+              <div>
+                <img v-if="url" :src="url" height="200" class="book" />
+              </div>
+              <div>
+                <input type="file" @change="onFileUpload" ref="file" />
+              </div>
+            </div>
             <validation-provider
               v-slot="{ errors }"
               name="Buying Price"
@@ -82,10 +89,7 @@
               ></v-text-field>
             </validation-provider>
 
-            <validation-provider
-              v-slot="{ errors }"
-              name="For Rent"
-            >
+            <validation-provider v-slot="{ errors }" name="For Rent">
               <v-checkbox
                 v-model="forRent"
                 :error-messages="errors"
@@ -94,10 +98,7 @@
                 type="checkbox"
               ></v-checkbox>
             </validation-provider>
-            <validation-provider
-              v-slot="{ errors }"
-              name="For Sale"
-            >
+            <validation-provider v-slot="{ errors }" name="For Sale">
               <v-checkbox
                 v-model="forSale"
                 :error-messages="errors"
@@ -164,6 +165,7 @@ export default {
     forSale: false,
     show1: false,
     user_id: "617da58dab4ec46974ea7351",
+    url: "",
   }),
 
   computed: {
@@ -180,20 +182,20 @@ export default {
 
     async submit() {
       if (this.$refs.observer.validate()) {
-        const formData = new FormData()
-        formData.append('name', this.name);
-        formData.append('courseId', this.courseId);
-        formData.append('edition', this.edition);
-        formData.append('author', this.author);
-        formData.append('userId', this.user_id);
-        formData.append('buyPrice', this.buyPrice);
-        formData.append('rentPrice', this.rentPrice);
-        formData.append('forRent', this.forRent);
-        formData.append('forSale', this.forSale);
-        formData.append('bookImage', this.bookImage);
-        const headers = { 'Content-Type': 'multipart/form-data' }
+        const formData = new FormData();
+        formData.append("name", this.name);
+        formData.append("courseId", this.courseId);
+        formData.append("edition", this.edition);
+        formData.append("author", this.author);
+        formData.append("userId", this.user_id);
+        formData.append("buyPrice", this.buyPrice);
+        formData.append("rentPrice", this.rentPrice);
+        formData.append("forRent", this.forRent);
+        formData.append("forSale", this.forSale);
+        formData.append("bookImage", this.bookImage);
+        const headers = { "Content-Type": "multipart/form-data" };
         await axios
-          .post("http://localhost:3000/books", formData, {headers})
+          .post("http://localhost:3000/books", formData, { headers })
           .then(
             (res) => {
               console.log(res);
@@ -224,6 +226,7 @@ export default {
 
     onFileUpload(event) {
       this.bookImage = event.target.files[0];
+      this.url = URL.createObjectURL(this.bookImage);
     },
   },
 
@@ -235,3 +238,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.book {
+  margin: 50;
+}
+</style>

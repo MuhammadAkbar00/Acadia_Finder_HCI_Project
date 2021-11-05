@@ -75,6 +75,9 @@ GET http://localhost:3000/users/617da58dab4ecd46974ea7351/friendship
 DELETE http://localhost:3000/users/617c0d603b67bc21014c08d0
 
 ###
+DELETE http://localhost:3000/users
+
+###
 POST http://localhost:3000/notes
 Content-Type: application/json
 
@@ -95,6 +98,9 @@ GET http://localhost:3000/notes
 DELETE http://localhost:3000/notes/616789aeaf29979a70e4a501
 
 ###
+DELETE http://localhost:3000/notes
+
+###
 POST http://localhost:3000/friendship
 Content-Type: application/json
 
@@ -109,8 +115,18 @@ Content-Type: application/json
 GET http://localhost:3000/friendship
 
 ###
+
+GET http://localhost:3000/users
+
+###
 DELETE http://localhost:3000/friendship/616789aeaf29979a70e4a501
+
+###
+DELETE http://localhost:3000/friendship
 
 ###
 
 GET http://localhost:3000/friendship
+
+###
+DELETE http://localhost:3000/users
