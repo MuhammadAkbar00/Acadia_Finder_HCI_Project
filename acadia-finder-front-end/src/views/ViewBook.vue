@@ -15,7 +15,13 @@
             :rentPrice="book.rentPrice"
           />
           <v-card-actions>
-            <v-btn outlined rounded text @click="addToHoldings(book, user_id)">
+            <v-btn
+              outlined
+              rounded
+              text
+              @click="addToHoldings(book, user_id)"
+              class="text-capitalize font-weight-bold"
+            >
               Add to holdings
             </v-btn>
           </v-card-actions>
@@ -33,7 +39,9 @@
         <div class="red--text mb-5" v-if="textErrors">
           {{ textErrors }}
         </div>
-        <v-btn dark color="green" rounded @click="addComment()"> Add comment </v-btn>
+        <v-btn dark color="green" rounded @click="addComment()">
+          Add comment
+        </v-btn>
       </v-col>
       <v-col cols="12" sm="4"> </v-col>
     </v-row>
