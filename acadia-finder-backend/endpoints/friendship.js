@@ -17,6 +17,16 @@ router.get('/', cors(), async (req, res) => {
   }
 })
 
+// Get friendship by id
+router.get('/:id', cors(), async (req, res) => {
+  try {
+    const friendship = await Friendship.findById(req.params.id)
+    res.send(friendship)
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+  }
+})
+
 router.post('/', async (req, res) => {
   const friendship = new Friendship({
     requester: req.body.requester,
@@ -72,66 +82,17 @@ async function getFriendship(req, res, next) {
 // Add Friends
 router.post('/:idRequester/add/:idRecipient', async (req, res) => {
   try {
-    console.log("THIS IS RUNNING")
-    let UserA = await Users.findById('617da58dab4ec46974ea7351')
-    let UserB = await Users.findById('617d9b8c145fea8b14c7b54a')
+    let UserA = await Users.findById(req.params.idRequester)
+    let UserB = await Users.findById(req.params.idRecipient)
     const docA = await Friendship.findOneAndUpdate(
-      { requester: UserA, recipient: UserB },
-      { $set: { status: 1 } },
+      { "_id": UserA._id },
+      { $push: { "incomingRequests": [UserB._id] } },
       { upsert: true, new: true }
     )
     const docB = await Friendship.findOneAndUpdate(
-      { recipient: UserA, requester: UserB },
-      { $set: { status: 2 } },
+      { "_id": UserB._id },
+      { $push: { "outgoingRequests": [UserA._id] } },
       { upsert: true, new: true }
-    )
-    const updateUserA = await Users.findOneAndUpdate(
-      { _id: UserA },
-      { $push: { friends: docA._id } }
-    )
-    const updateUserB = await Users.findOneAndUpdate(
-      { _id: UserB },
-      { $push: { friends: docB._id } }
-    )
-    res.status(201).json("Hello")
-  } catch (err) {
-    res.status(400).json({ message: err.message })
-  }
-})
-
-// Accept Friend request
-router.post('/accepted', async (req, res) => {
-  try {
-    Friendship.findOneAndUpdate(
-      { requester: UserA, recipient: UserB },
-      { $set: { status: 3 } }
-    )
-    Friendship.findOneAndUpdate(
-      { recipient: UserA, requester: UserB },
-      { $set: { status: 3 } }
-    )
-    res.status(201).json("a")
-  } catch (err) {
-    res.status(400).json({ message: err.message })
-  }
-})
-
-// Decline Friend request
-router.post('/decline', async (req, res) => {
-  try {
-    const docA = await Friendship.findOneAndRemove(
-      { requester: UserA, recipient: UserB }
-    )
-    const docB = await Friendship.findOneAndRemove(
-      { recipient: UserA, requester: UserB }
-    )
-    const updateUserA = await Users.findOneAndUpdate(
-      { _id: UserA },
-      { $pull: { friends: docA._id } }
-    )
-    const updateUserB = await Users.findOneAndUpdate(
-      { _id: UserB },
-      { $pull: { friends: docB._id } }
     )
     res.status(201).json(docA)
   } catch (err) {
@@ -140,5 +101,88 @@ router.post('/decline', async (req, res) => {
 })
 
 
+// Unfriend Friend
+router.post('/:idRequester/unfriend/:idRecipient', async (req, res) => {
+  try {
+    let UserA = await Users.findById(req.params.idRequester)
+    let UserB = await Users.findById(req.params.idRecipient)
+    const docA = await Friendship.findOneAndUpdate(
+      { "_id": UserA._id },
+      { $pull: { "friends": UserB._id } },
+      { upsert: true, new: true }
+    )
+    const docB = await Friendship.findOneAndUpdate(
+      { "_id": UserB._id },
+      { $pull: { "friends": UserA._id } },
+      { upsert: true, new: true }
+    )
+    res.status(201).json(docA)
+  } catch (err) {
+    res.status(400).json({ message: err.message })
+  }
+})
+
+// Accept Friend request
+router.post('/:idRequester/accepts/:idRecipient', async (req, res) => {
+  try {
+    let UserA = await Users.findById(req.params.idRequester)
+    let UserB = await Users.findById(req.params.idRecipient)
+    const docA = await Friendship.findOneAndUpdate(
+      { "_id": UserA._id },
+      { $push: { "friends": UserB._id }, $pull: { "outgoingRequests": UserB._id } },
+      { upsert: true, new: true }
+    )
+    const docB = await Friendship.findOneAndUpdate(
+      { "_id": UserB._id },
+      { $push: { "friends": UserA._id }, $pull: { "incomingRequests": UserA._id } },
+      { upsert: true, new: true }
+    )
+    res.status(201).json(docA)
+  } catch (err) {
+    res.status(400).json({ message: err.message })
+  }
+})
+
+// Decline Friend request
+router.post('/:idRequester/decline/:idRecipient', async (req, res) => {
+  try {
+    let UserA = await Users.findById(req.params.idRequester)
+    let UserB = await Users.findById(req.params.idRecipient)
+    const docA = await Friendship.findOneAndUpdate(
+      { "_id": UserA._id },
+      { $pull: { "outgoingRequests": UserB._id } },
+      { upsert: true, new: true }
+    )
+    const docB = await Friendship.findOneAndUpdate(
+      { "_id": UserB._id },
+      { $pull: { "incomingRequests": UserA._id } },
+      { upsert: true, new: true }
+    )
+    res.status(201).json(docA)
+  } catch (err) {
+    res.status(400).json({ message: err.message })
+  }
+})
+
+// Cancel Friend request
+router.post('/:idRequester/cancel/:idRecipient', async (req, res) => {
+  try {
+    let UserA = await Users.findById(req.params.idRequester)
+    let UserB = await Users.findById(req.params.idRecipient)
+    const docA = await Friendship.findOneAndUpdate(
+      { "_id": UserA._id },
+      { $pull: { "incomingRequests": UserB._id } },
+      { upsert: true, new: true }
+    )
+    const docB = await Friendship.findOneAndUpdate(
+      { "_id": UserB._id },
+      { $pull: { "outgoingRequests": UserA._id } },
+      { upsert: true, new: true }
+    )
+    res.status(201).json(docA)
+  } catch (err) {
+    res.status(400).json({ message: err.message })
+  }
+})
 
 module.exports = router

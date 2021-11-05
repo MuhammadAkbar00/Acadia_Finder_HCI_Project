@@ -4,7 +4,10 @@
       <v-row justify="center" class="mt-10 pa-5">
         <v-col lg="6" sm="12" md="8">
           <h2 class="mb-5">Signup Form</h2>
-          <form @submit.prevent="submit">
+          <div v-if="errors" class="text-left errors red--text">
+            {{ errors }}
+          </div>
+          <form @submit.prevent="submit" ref="form" v-on:keyup="validator">
             <validation-provider
               v-slot="{ errors }"
               name="First name"
@@ -45,6 +48,7 @@
               v-slot="{ errors }"
               name="Password"
               rules="required"
+              vid="password"
             >
               <v-text-field
                 v-model="password"
@@ -54,6 +58,20 @@
                 label="Password"
                 hint="At least 8 characters"
                 @click:append="show1 = !show1"
+                required
+              ></v-text-field>
+            </validation-provider>
+            <validation-provider
+              v-slot="{ errors }"
+              name="Confirm Password"
+              rules="confirmed:password"
+            >
+              <v-text-field
+                v-model="confirmPassword"
+                :type="show1 ? 'text' : 'password'"
+                :error-messages="errors"
+                label="Confirm Password"
+                hint="Password must match"
                 required
               ></v-text-field>
             </validation-provider>
@@ -98,7 +116,13 @@
               ></v-text-field>
             </validation-provider>
 
-            <v-btn dark class="mr-4" color="green" type="submit" rounded>
+            <v-btn
+              class="mr-4 white--text"
+              color="green"
+              type="submit"
+              rounded
+              :disabled="!validated"
+            >
               submit
             </v-btn>
             <v-btn dark @click="clear" color="red" rounded> clear </v-btn>
@@ -110,7 +134,7 @@
 </template>
 
 <script>
-import { required, digits, email } from "vee-validate/dist/rules";
+import { required, digits, email, confirmed } from "vee-validate/dist/rules";
 import {
   extend,
   ValidationObserver,
@@ -136,6 +160,11 @@ extend("email", {
   message: "Email must be valid",
 });
 
+extend("confirmed", {
+  ...confirmed,
+  message: "Password must match",
+});
+
 export default {
   components: {
     ValidationProvider,
@@ -146,15 +175,18 @@ export default {
     lastName: "",
     userName: "",
     password: "",
+    confirmPassword: "",
     phoneNumber: "",
     email: "",
     major: "",
     show1: false,
+    validated: false,
+    errors: "",
   }),
 
   methods: {
     async submit() {
-      if (this.$refs.observer.validate()) {
+      if (await this.$refs.observer.validate()) {
         await axios
           .post("http://localhost:3000/users/signup", {
             firstName: this.firstName,
@@ -166,10 +198,27 @@ export default {
             major: this.major,
           })
           .then(
-            (res) => {
-              console.log(res);
-              this.$router.push("/");
-              this.$router.go();
+            async (res) => {
+              await axios
+                .post("http://localhost:3000/users/login", {
+                  email: res.data.email,
+                  password: this.password,
+                })
+                .then(
+                  (res) => {
+                    //if successfull
+                    if (res.status === 200) {
+                      localStorage.setItem("token", res.data.token);
+                      this.$router.push("/");
+                    }
+                    this.$store.state.isLoggedIn = true;
+                  },
+                  (err) => {
+                    this.errors = err.response.data.error;
+                  }
+                );
+              // this.$router.push("/login");
+              // this.$router.go();
             },
             (err) => {
               console.log(err.response);
@@ -178,14 +227,24 @@ export default {
           );
       }
     },
+    async validator() {
+      if (this.$refs.form.checkValidity()) {
+        if (await this.$refs.observer.validate()) {
+          return (this.validated = true);
+        }
+      }
+      this.validated = false;
+    },
     clear() {
       this.firstName = "";
       this.lastName = "";
       this.userName = "";
       this.password = "";
+      this.confirmPassword = "";
       this.phoneNumber = "";
       this.email = "";
       this.major = "";
+      this.errors = "";
       this.$refs.observer.reset();
     },
   },

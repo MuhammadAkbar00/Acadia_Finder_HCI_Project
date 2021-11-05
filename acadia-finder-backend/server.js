@@ -5,6 +5,8 @@ const app = express()
 
 app.use(cors())
 app.use('/book_uploads', express.static('book_uploads'))
+app.use('/profile_pictures', express.static('profile_pictures'))
+app.use('/note_uploads', express.static('note_uploads'))
 
 const mongoose = require('mongoose')
 

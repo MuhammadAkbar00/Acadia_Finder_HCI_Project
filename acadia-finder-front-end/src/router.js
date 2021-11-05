@@ -10,6 +10,7 @@ import AddBooks from "./views/AddBooks.vue";
 import AddNotes from "./views/AddNotes.vue";
 import ContactUs from "./views/ContactUs.vue";
 import UserProfile from "./views/UserProfile.vue";
+import Friends from "./views/Friends.vue";
 import ViewBook from "./views/ViewBook.vue";
 import MessageSentConfirmation from "./views/MessageSentConfirmation.vue";
 
@@ -71,6 +72,11 @@ export default new Router({
       component: UserProfile
     },
     {
+      path: "/friends",
+      name: "friends",
+      component: Friends
+    },
+    {
       path: "/book/:id",
       name: "viewbook",
       component: ViewBook
@@ -79,6 +85,6 @@ export default new Router({
       path: "/messageSent",
       name: "messageSent",
       component: MessageSentConfirmation
-    }
+    },
   ]
 });

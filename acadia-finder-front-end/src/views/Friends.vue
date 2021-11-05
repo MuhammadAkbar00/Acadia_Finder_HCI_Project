@@ -1,6 +1,6 @@
 <template>
   <v-container class="mt-15 pt-15">
-    <h1 class="my-5">Users</h1>
+    <h1 class="my-5">Friends List</h1>
     <v-row class="">
       <v-col cols="12" lg="4" md="4" sm="6">
         <v-text-field
@@ -35,12 +35,16 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import axios from "axios";
 import UserCard from "../components/UserCard.vue";
 export default {
   data() {
     return {
       usersArray: [],
+      user: "",
       search: "",
+      friendship: "",
+      friendsList: [],
     };
   },
   components: {
@@ -49,7 +53,7 @@ export default {
   computed: {
     ...mapState(["users", "current_user"]),
     filteredUsers: function () {
-      return this.usersArray.filter((user) => {
+      return this.friendsList.filter((user) => {
         let searching = this.search.toLowerCase();
         return (
           user.major.toLowerCase().match(searching) ||
@@ -60,20 +64,47 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["getUsers", "getUser"]),
+    ...mapActions(["getUser"]),
     async setUser_() {
       await this.getUser();
+      this.user = this.current_user;
+      this.getFriendship();
     },
-    async loadUsers_() {
-      await this.getUsers();
-      this.usersArray = this.users;
+    //Get Friendship
+    getFriendship() {
+      return axios
+        .get(`http://localhost:3000/friendship/${this.user._id}`)
+        .then((res) => {
+          console.log(res.data);
+          this.friendship = res.data;
+          this.getFriendUsers();
+        })
+        .catch((err) => console.log(err));
+    },
+    // Get Users
+    async getFriendUsers() {
+      let friendsArr = [];
+      const promiseMap = this.friendship.friends.map(async (userId) => {
+        await axios
+          .get(`http://localhost:3000/users/${userId}`)
+          .then((res) => {
+            friendsArr.push(res.data);
+          })
+          .catch((err) => console.log(err));
+      });
+
+      Promise.all(promiseMap).then(async () => {
+        // friendsArr.sort(function (a, b) {
+        //   return b.date.localeCompare(a.date);
+        // });
+        this.friendsList = friendsArr;
+      });
     },
   },
   created() {
     if (localStorage.getItem("token") === null) {
       this.$router.push("/login");
     }
-    this.loadUsers_();
     this.setUser_();
   },
 };

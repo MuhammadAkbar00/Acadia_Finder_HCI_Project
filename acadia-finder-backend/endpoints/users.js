@@ -3,7 +3,31 @@ const cors = require('cors');
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const User = require('../models/users');
+const Friendship = require('../models/friendship');
 const jwt = require("jsonwebtoken");
+const multer = require('multer');
+
+const fileFilter = (req, file, cb) => {
+  if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
+    return cb(null, true)
+  }
+  return cb(null, false)
+}
+
+const imageStorage = multer.diskStorage({
+  // Destination to store image     
+  destination: (req, file, cb) => {
+    cb(null, './profile_pictures')
+  },
+  filename: (req, file, cb) => {
+    cb(null, req.body._id)
+  }
+});
+
+const upload = multer({
+  storage: imageStorage,
+  fileFilter: fileFilter
+})
 
 // Get all user
 router.get('/', cors(), async (req, res) => {
@@ -35,7 +59,8 @@ router.get('/user', (req, res) => {
           email: user.email,
           phoneNumber: user.phoneNumber,
           userName: user.userName,
-          major: user.major
+          major: user.major,
+          profilePicture: user.profilePicture
         }
       })
     })
@@ -65,7 +90,25 @@ router.post('/signup', async (req, res) => {
     major: req.body.major
   })
   try {
+    User.findOne({ $or: [{ userName: user.userName }, { email: user.email }] }, function (err, result) {
+      if (err) {
+        console.log("error")
+      }
+      if (result) {
+        res.status(401).json({
+          title: "User already exists",
+          error: "This Email or Username already exists"
+        })
+      }
+    })
     const newUser = await user.save()
+    const friendship = new Friendship({
+      _id: newUser._id,
+      friends: [],
+      incomingRequests: [],
+      outgoingRequests: []
+    })
+    const newFriendship = await friendship.save()
     res.status(201).json(newUser)
   } catch (err) {
     res.status(400).json({ message: err.message })
@@ -94,6 +137,20 @@ router.post('/login', async (req, res) => {
       token: token
     })
   })
+})
+
+// Upload Profile Picture
+router.post('/uploadProfile', upload.single('profilePicture'), async (req, res) => {
+  try{
+    const user = await User.findOneAndUpdate(
+      { "_id": req.body._id },
+      { "profilePicture": req.file.path},
+      { upsert: true, new: true }
+    )
+    res.status(201).json("Nice")
+  }catch (err){
+    res.status(400).json({ message: err.message })
+  }
 })
 
 
@@ -132,46 +189,5 @@ async function getUser(req, res, next) {
   res.user = user
   next()
 }
-
-// Get friendship
-router.get('/:id/friendship', cors(), async (req, res) => {
-  console.log("Getting friendship")
-  try {
-    let { id } = req.params
-    console.log(id)
-    let user = await User.aggregate([
-      { "$match": { "_id": id } },
-      {
-        "$lookup": {
-          "from": User.collection.name,
-          "let": { "friends": "$friends" },
-          "pipeline": [
-            {
-              "$match": {
-                "friends.status": 1,
-              }
-            },
-            {
-              "$project": {
-                "name": 1,
-                "email": 1,
-                "avatar": 1
-              }
-            }
-          ],
-          "as": "friends"
-        }
-      },
-    ])
-
-    res.json({
-      user
-    })
-    // res.send(users)
-  } catch (err) {
-    res.status(500).json({ message: err.message })
-  }
-})
-
 
 module.exports = router

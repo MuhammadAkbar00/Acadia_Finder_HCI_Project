@@ -17,18 +17,7 @@
                 required
               ></v-text-field>
             </validation-provider>
-            <validation-provider
-              v-slot="{ errors }"
-              name="Note File"
-              rules="required"
-            >
-              <v-text-field
-                v-model="noteFile"
-                :error-messages="errors"
-                label="Note File"
-                required
-              ></v-text-field>
-            </validation-provider>
+            <input type="file" @change="onFileUpload" ref="file" />
 
             <validation-provider
               v-slot="{ errors }"
@@ -139,15 +128,16 @@ export default {
 
     async submit() {
       if (this.$refs.observer.validate()) {
+        const formData = new FormData();
+        formData.append("courseId", this.courseId);
+        formData.append("providerId", this.providerId);
+        formData.append("noteFile", this.noteFile);
+        formData.append("datePosted", this.datePosted);
+        formData.append("description", this.description);
+        formData.append("semester", this.semester);
+        const headers = { "Content-Type": "multipart/form-data" };
         await axios
-          .post("http://localhost:3000/notes", {
-            courseId: this.courseId,
-            providerId: this.providerId,
-            noteFile: this.noteFile,
-            datePosted: this.datePosted,
-            description: this.description,
-            semester: this.semester,
-          })
+          .post("http://localhost:3000/notes", formData, { headers } )
           .then(
             (res) => {
               console.log(res);
@@ -169,6 +159,10 @@ export default {
       this.description = "";
       this.semester = "";
       this.$refs.observer.reset();
+    },
+
+    onFileUpload(event) {
+      this.noteFile = event.target.files[0];
     },
   },
 

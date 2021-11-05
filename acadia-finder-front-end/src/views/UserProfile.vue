@@ -1,51 +1,36 @@
  <template>
-  <div class="mt-15 pt-15 mx-5">
-    <h2 class="my-10">User Profile</h2>
-    <v-row>
-      <v-col align="center">
-        <v-card class="pa-5" align="left" max-width="800">
-          <div class="text-center mt-n16">
-            <v-avatar size="150" color="blue" class="elevation-15">
-              <v-icon size="150"> mdi-account </v-icon>
-            </v-avatar>
-            <h3 class="my-5 grey--text">{{ firstName }} {{ lastName }}</h3>
-          </div>
-          <v-list>
-            <v-list-item>
-              <v-row>
-                <v-col>
-                  <span class="font-weight-bold"> Email: </span>
-                </v-col>
-                <v-col>
-                  {{ email }}
-                </v-col>
-              </v-row>
-            </v-list-item>
-            <v-list-item>
-              <v-row>
-                <v-col>
-                  <span class="font-weight-bold"> Phone Number: </span>
-                </v-col>
-                <v-col>
-                  {{ phoneNumber }}
-                </v-col>
-              </v-row>
-            </v-list-item>
-            <v-list-item>
-              <v-row>
-                <v-col>
-                  <span class="font-weight-bold"> Program of study: </span>
-                </v-col>
-                <v-col>
-                  {{ major }}
-                </v-col>
-              </v-row>
-            </v-list-item>
-          </v-list>
-        </v-card>
-      </v-col>
-    </v-row>
-    <div class="my-5">
+  <div class="mt-15 pt-5">
+    <v-card align="center" flat>
+      <v-card-title> User Profile </v-card-title>
+      <v-avatar size="150" contain @click="$refs.file.click()">
+        <img v-if="url" :src="url" />
+        <img
+          v-else-if="this.profilePicture"
+          :src="getLink(this.profilePicture)"
+        />
+        <v-icon v-else size="150"> mdi-account </v-icon>
+      </v-avatar>
+      <input
+        type="file"
+        ref="file"
+        style="display: none"
+        @change="onFileChange"
+      />
+      <h4>{{ firstName }} {{ lastName }}</h4>
+      <!-- Image uploader -->
+      <div class="mt-5">
+        <h3 class="mb-2">Personal Details</h3>
+        <div @click="redirect()"><span class="font-weight-bold"> Friends: </span>{{ friendship.friends.length }}</div>
+        <div><span class="font-weight-bold"> Email: </span>{{ email }}</div>
+        <div>
+          <span class="font-weight-bold">Phone Number: </span>{{ phoneNumber }}
+        </div>
+        <div>
+          <span class="font-weight-bold">Program of study:</span> {{ major }}
+        </div>
+      </div>
+    </v-card>
+    <div class="ma-5">
       <h2 class="my-5">Holdings</h2>
       <v-row>
         <v-col
@@ -158,7 +143,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import Book from "../components/Book.vue";
-// import axios from "axios";
+import axios from "axios";
 export default {
   components: {
     Book,
@@ -172,11 +157,17 @@ export default {
       phoneNumber: "",
       major: "",
       user_id: "",
+      profilePicture: "",
+      profilePictureFile: "",
       holdings_: [],
       loaded: false,
       ownerHoldsUsers_: [],
       ownerBooks_: [],
       holdCount_: {},
+      isModalVisible: false,
+      url: null,
+      friendship: [],
+      errors: "",
     };
   },
 
@@ -217,6 +208,8 @@ export default {
       this.phoneNumber = this.current_user.phoneNumber;
       this.major = this.current_user.major;
       this.user_id = this.current_user._id;
+      this.profilePicture = this.current_user.profilePicture;
+      this.getFriendship()
     },
     async getHoldings_() {
       await this.getUser_();
@@ -237,6 +230,54 @@ export default {
     async markSold_(bookId) {
       await this.markSold(bookId);
     },
+    async onFileChange(e) {
+      this.profilePictureFile = e.target.files[0];
+      this.url = URL.createObjectURL(this.profilePictureFile);
+      const formData = new FormData();
+      formData.append("_id", this.user_id);
+      formData.append("profilePicture", this.profilePictureFile);
+      const headers = { "Content-Type": "multipart/form-data" };
+
+      await axios
+        .post("http://localhost:3000/users/uploadProfile", formData, {
+          headers,
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          this.errors = err.response.data.error;
+        });
+    },
+    getLink(link) {
+      if (!link) {
+        return "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+      }
+      let currLink = "http://localhost:3000/" + link;
+      return currLink;
+    },
+    //Get Friendship
+    getFriendship() {
+      return axios
+        .get(`http://localhost:3000/friendship/${this.user_id}`)
+        .then((res) => {
+          console.log(res.data)
+          this.friendship = res.data;
+        })
+        .catch((err) => console.log(err));
+    },
+    redirect() {
+      this.$router.push('/friends')
+    }
   },
 };
 </script>
+<style>
+#preview img {
+  max-width: 100%;
+  max-height: 500px;
+}
+.add-hover {
+  cursor: pointer;
+}
+</style>
