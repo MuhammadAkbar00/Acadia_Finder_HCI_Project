@@ -9,10 +9,7 @@ const NotesSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  noteFile: {
-    type: String,
-    required: true
-  },
+  noteFiles: [],
   datePosted: {
     type: String,
     required: true
@@ -25,6 +22,6 @@ const NotesSchema = mongoose.Schema({
     type: String,
     required: true
   },
-})
+}, {timestamps: true})
 
 module.exports = mongoose.model("Notes", NotesSchema)

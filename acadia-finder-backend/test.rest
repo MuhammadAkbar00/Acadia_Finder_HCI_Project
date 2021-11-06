@@ -130,3 +130,37 @@ GET http://localhost:3000/friendship
 
 ###
 DELETE http://localhost:3000/users
+
+
+
+
+
+###
+DELETE http://localhost:3000/users
+
+###
+DELETE http://localhost:3000/books
+
+###
+DELETE http://localhost:3000/comments
+
+###
+DELETE http://localhost:3000/contact
+
+###
+DELETE http://localhost:3000/friendship
+
+###
+DELETE http://localhost:3000/holdings
+
+###
+DELETE http://localhost:3000/notes
+
+###
+DELETE http://localhost:3000/purchases
+
+###
+DELETE http://localhost:3000/rentals
+
+###
+DELETE http://localhost:3000/sales

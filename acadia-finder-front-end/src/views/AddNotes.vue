@@ -17,7 +17,12 @@
                 required
               ></v-text-field>
             </validation-provider>
-            <input type="file" @change="onFileUpload" ref="file" />
+            <input
+              type="file"
+              @change="onFileUpload"
+              ref="file"
+              multiple="multiple"
+            />
 
             <validation-provider
               v-slot="{ errors }"
@@ -138,9 +143,12 @@ export default {
     async submit() {
       if (await this.$refs.observer.validate()) {
         const formData = new FormData();
+        Array.from(this.noteFile).forEach((file) => {
+          formData.append("noteFiles", file);
+        });
         formData.append("courseId", this.courseId);
         formData.append("providerId", this.providerId);
-        formData.append("noteFile", this.noteFile);
+        // formData.append("noteFile", this.noteFile);
         formData.append("datePosted", this.datePosted);
         formData.append("description", this.description);
         formData.append("semester", this.semester);
@@ -185,7 +193,11 @@ export default {
     },
 
     onFileUpload(event) {
-      this.noteFile = event.target.files[0];
+      if (event.target.files.length > 8) {
+        this.$refs.file.value = null;
+        return alert("You can not upload more than 8 files");
+      }
+      this.noteFile = event.target.files;
     },
   },
 

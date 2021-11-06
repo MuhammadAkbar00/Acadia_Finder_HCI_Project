@@ -30,14 +30,16 @@
           <Note
             :providerId="note.providerId"
             :courseId="note.courseId"
-            :noteFile="note.noteFile"
+            :noteFiles="note.noteFiles"
             :datePosted="note.datePosted"
             :description="note.description"
             :semester="note.semester"
           />
           <v-spacer></v-spacer>
           <v-card-actions>
-            <v-btn outlined rounded text @click="onClick(note.noteFile)"> Download </v-btn>
+            <v-btn outlined rounded text @click="onClick(note.noteFiles)">
+              Download
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -49,6 +51,7 @@
 import axios from "axios";
 import { mapActions, mapState } from "vuex";
 import Note from "../components/Note.vue";
+
 export default {
   data() {
     return {
@@ -76,23 +79,26 @@ export default {
       await this.getNotes();
       this.notesArray = this.notes;
     },
-    onClick(noteFile) {
-      return axios({
-        url: this.getLink(noteFile),
-        method: "GET",
-        responseType: "blob",
-      }).then((response) => {
-        const fileUrl = window.URL.createObjectURL(new Blob([response.data]));
-        const fileLink = document.createElement("a");
-        fileLink.href = fileUrl;
+    onClick(noteFiles) {
+      noteFiles.map((file) => {
+        axios({
+          url: this.getLink(file.path),
+          method: "GET",
+          responseType: "blob",
+        }).then((response) => {
+          const fileUrl = window.URL.createObjectURL(new Blob([response.data]));
+          const fileLink = document.createElement("a");
+          fileLink.href = fileUrl;
 
-        fileLink.setAttribute(
-          "download",
-          response.request.responseURL.split("note_uploads/")[1]
-        );
-        document.body.appendChild(fileLink);
+          fileLink.setAttribute(
+            "download",
+            file.originalname
+            // response.request.responseURL.split("note_uploads/")[1]
+          );
+          document.body.appendChild(fileLink);
 
-        fileLink.click();
+          fileLink.click();
+        });
       });
     },
     getLink(link) {
