@@ -142,6 +142,7 @@ import {
   setInteractionMode,
 } from "vee-validate";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 setInteractionMode("eager");
 
@@ -211,6 +212,12 @@ export default {
                       localStorage.setItem("token", res.data.token);
                       this.$router.push("/");
                     }
+                    Swal.fire({
+                      icon: "success",
+                      title: "Account Successfully Created",
+                      showConfirmButton: false,
+                      timer: 2000,
+                    });
                     this.$store.state.isLoggedIn = true;
                   },
                   (err) => {

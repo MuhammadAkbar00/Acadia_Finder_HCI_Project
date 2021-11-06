@@ -56,7 +56,13 @@
               ></v-text-field>
             </validation-provider>
 
-            <v-btn class="mr-4 white--text" color="green" type="submit" rounded :disabled="!validated">
+            <v-btn
+              class="mr-4 white--text"
+              color="green"
+              type="submit"
+              rounded
+              :disabled="!validated"
+            >
               submit
             </v-btn>
             <v-btn dark @click="clear" color="red" rounded> clear </v-btn>
@@ -76,6 +82,7 @@ import {
   setInteractionMode,
 } from "vee-validate";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 setInteractionMode("eager");
 
@@ -107,7 +114,7 @@ export default {
     description: "",
     semester: "",
     validated: false,
-    errors: ""
+    errors: "",
   }),
 
   methods: {
@@ -139,11 +146,17 @@ export default {
         formData.append("semester", this.semester);
         const headers = { "Content-Type": "multipart/form-data" };
         await axios
-          .post("http://localhost:3000/notes", formData, { headers } )
+          .post("http://localhost:3000/notes", formData, { headers })
           .then(
             (res) => {
               console.log(res);
               this.$router.push("/notes");
+              Swal.fire({
+                icon: "success",
+                title: "Note Successfully Added",
+                showConfirmButton: false,
+                timer: 5000,
+              });
               this.$router.go();
             },
             (err) => {
@@ -153,7 +166,7 @@ export default {
           );
       }
     },
-      async validator() {
+    async validator() {
       if (this.$refs.form.checkValidity()) {
         if (await this.$refs.observer.validate()) {
           return (this.validated = true);

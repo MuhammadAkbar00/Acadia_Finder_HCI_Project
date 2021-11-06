@@ -108,7 +108,13 @@
               ></v-checkbox>
             </validation-provider>
 
-            <v-btn class="mr-4 white--text" color="green" type="submit" rounded :disabled="!validated">
+            <v-btn
+              class="mr-4 white--text"
+              color="green"
+              type="submit"
+              rounded
+              :disabled="!validated"
+            >
               submit
             </v-btn>
             <v-btn dark @click="clear" color="red" rounded> clear </v-btn>
@@ -129,6 +135,7 @@ import {
 } from "vee-validate";
 import axios from "axios";
 import { mapActions, mapState } from "vuex";
+import Swal from "sweetalert2";
 
 setInteractionMode("eager");
 
@@ -167,7 +174,7 @@ export default {
     user_id: "617da58dab4ec46974ea7351",
     url: "",
     validated: false,
-    errors: ""
+    errors: "",
   }),
 
   computed: {
@@ -202,6 +209,12 @@ export default {
             (res) => {
               console.log(res);
               this.$router.push("/books");
+              Swal.fire({
+                icon: "success",
+                title: "Book Successfully Added",
+                showConfirmButton: false,
+                timer: 5000,
+              });
               this.$router.go();
             },
             (err) => {
