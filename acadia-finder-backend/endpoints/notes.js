@@ -28,11 +28,20 @@ router.get('/', cors(), async (req, res) => {
   }
 })
 
-router.post('/', upload.single("noteFile"), async (req, res) => {
+router.post('/', upload.any("noteFiles"), async (req, res) => {
+  let noteFileList = []
+  req.files.map((file => {
+    const f = {
+      originalname: file.originalname,
+      mimetype: file.mimetype,
+      path: file.path,
+    }
+    noteFileList.push(f)
+  }))
   const note = new Note({
     courseId: req.body.courseId,
     providerId: req.body.providerId,
-    noteFile: req.file.path,
+    noteFiles: noteFileList,
     datePosted: req.body.datePosted,
     description: req.body.description,
     semester: req.body.semester,

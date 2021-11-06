@@ -10,11 +10,23 @@
         <div class="ml-5">Semester: {{ semester }}</div>
         <p class="ml-5">Date: {{ datePosted }}</p>
         <div class="pa-5">
-          <p >Description: {{ description }}</p>
+          <p>Description: {{ description }}</p>
         </div>
       </v-col>
       <v-col cols="12" lg="4" md="4" sm="12">
         <v-img width="100" :src="providerId"></v-img>
+      </v-col>
+      <v-col
+        v-for="(note, i) in noteFiles"
+        :key="i"
+        cols="12"
+        lg="4"
+        md="4"
+        sm="12"
+      >
+        <v-img v-if="checkFileType(note)" width="100" :src="getLink(note.path)"></v-img>
+        <v-img v-else width="100" contain src="@/assets/download_image.png"></v-img>
+        {{note.originalname}}
       </v-col>
     </v-row>
   </v-container>
@@ -29,9 +41,7 @@ export default {
     providerId: {
       type: String,
     },
-    noteFile: {
-      type: String,
-    },
+    noteFiles: [],
     datePosted: {
       type: String,
     },
@@ -43,7 +53,16 @@ export default {
     },
   },
   methods: {
-
+    getLink(link) {
+      let currLink = "http://localhost:3000/" + link;
+      return currLink;
+    },
+    checkFileType(note) {
+      if(note.mimetype.includes('image')){
+        return true
+      }
+      return false
+    }
   },
 };
 </script>
