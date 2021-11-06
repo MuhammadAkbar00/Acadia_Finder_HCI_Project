@@ -9,18 +9,22 @@
         lg="4"
         md="4"
       >
-        <v-card class="pa-6 card-font">
+        <v-card class="pa-6 card-font d-flex flex-column" height="100%" outlined>
           <div class="pb-3 main-font">"{{ contact.message }}"</div>
           <div>- Sender: {{ contact.name }}</div>
-          <div class="pb-4">- e-mail: {{ contact.email }}</div>
+          <div class="pb-4">- email: {{ contact.email }}</div>
+        <v-spacer></v-spacer>
+        <v-card-actions>
           <v-btn
             @click="deleteItem_(contact._id, 'contact')"
             block
             elevation="2"
             small
+            color="error"
           >
-            Delete
+            Delete Message
           </v-btn>
+        </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -28,19 +32,23 @@
     <h2 class="my-3">Books</h2>
     <v-row class="py-6">
       <v-col v-for="(book, i) in books" :key="i" cols="12" lg="4" md="4">
-        <v-card class="pa-6 card-font">
+        <v-card class="pa-6 card-font d-flex flex-column" height="100%" outlined>
           <div class="pb-2 main-font">Book: {{ book.name }}</div>
           <div>Course Id: {{ book.courseId }}</div>
           <div>Author: {{ book.author }}</div>
           <div class="pb-4">Edition: {{ book.edition }}</div>
+          <v-spacer></v-spacer>
+        <v-card-actions>
           <v-btn
             @click="deleteItem_(book._id, 'books')"
             block
             elevation="2"
             small
+            color="error"
           >
-            Delete
+            Delete Book
           </v-btn>
+        </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -48,26 +56,30 @@
     <h2 class="my-3">Notes</h2>
     <v-row class="py-6">
       <v-col v-for="(note, i) in notes" :key="i" cols="12" lg="4" md="4">
-        <v-card class="pa-6 card-font">
+        <v-card class="pa-6 card-font d-flex flex-column" height="100%" outlined>
           <div class="pb-2 main-font">Course Id: {{ note.courseId }}</div>
           <div>Semester Taken: {{ note.semester }}</div>
-          <div class="pb-4">Description: {{ note.description }}</div>
+          <div class="py-4">Description: {{ note.description }}</div>
+        <v-spacer></v-spacer>
+        <v-card-actions>
           <v-btn
             @click="deleteItem_(note._id, 'notes')"
             block
             elevation="2"
             small
+            color="error"
           >
-            Delete
+            Delete Note
           </v-btn>
+        </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
     <v-divider></v-divider>
     <h2 class="my-3">Users</h2>
     <v-row class="py-6">
-      <v-col v-for="(user, i) in users" :key="i">
-        <v-card class="pa-6 card-font">
+      <v-col v-for="(user, i) in users" :key="i" cols="12" lg="4" md="4">
+        <v-card class="pa-6 card-font d-flex flex-column" height="100%" outlined>
           <div class="pb-2 main-font">
             User: {{ user.firstName }} {{ user.lastName }}
           </div>
@@ -78,8 +90,9 @@
             block
             elevation="2"
             small
+            color="error"
           >
-            Delete
+            Delete User
           </v-btn>
         </v-card>
       </v-col>

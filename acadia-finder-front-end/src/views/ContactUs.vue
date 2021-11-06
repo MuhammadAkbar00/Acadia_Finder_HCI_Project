@@ -92,6 +92,7 @@ import {
   setInteractionMode,
 } from "vee-validate";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 setInteractionMode("eager");
 
@@ -115,7 +116,7 @@ export default {
     email: "",
     message: "",
     validated: false,
-    errors: ""
+    errors: "",
   }),
   methods: {
     async sendMessage() {
@@ -129,7 +130,13 @@ export default {
           .then(
             (res) => {
               console.log(res);
-              this.$router.push("/messageSent");
+              this.$router.push("/contact");
+              Swal.fire({
+                icon: "success",
+                title: "Message Successfully Sent",
+                showConfirmButton: false,
+                timer: 5000,
+              });
               this.$router.go();
             },
             (err) => {
