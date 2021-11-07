@@ -41,6 +41,7 @@
           :disabled="!book.availability"
           class="mt-5"
           @keyup="textval(text)"
+          v-on:keyup.enter="onEnter"
         ></v-text-field>
         <div class="red--text mb-5" v-if="textErrors">
           {{ textErrors }}
@@ -213,6 +214,11 @@ export default {
       const payload = { book, user_id };
       this.hold(payload);
     },
+    onEnter(){
+      if(this.book.availability){
+        this.addComment()
+      }
+    }
   },
   created() {
     this.getBooks();

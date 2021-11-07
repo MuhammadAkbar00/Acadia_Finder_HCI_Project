@@ -77,41 +77,40 @@ router.post('/', upload.single('bookImage'), async (req, res) => {
 })
 
 // Update one
-router.patch('/:id', getBook, async (req, res) => {
-  if (req.res.book.name != null) {
+router.patch('/:id', getBook,upload.single('bookImage'), async (req, res) => {
+  if (req.res.book.name != null && req.res.book.name != req.body.name) {
       res.book.name = req.body.name
   }
-  if (req.res.book.courseId != null) {
+  if (req.res.book.courseId != null && req.res.book.courseId != req.body.courseId) {
       res.book.courseId = req.body.courseId
   }
-  if (req.res.book.edition != null) {
+  if (req.res.book.edition != null && req.res.book.edition != req.body.edition) {
       res.book.edition = req.body.edition
   }
-  if (req.res.book.author != null) {
+  if (req.res.book.author != null && req.res.book.author != req.body.author) {
       res.book.author = req.body.author
   }
-  if (req.res.book.bookImage != null) {
-      res.book.bookImage = req.body.bookImage
+  if (req.res.book.bookImage != null && req.res.book.bookImage != req.body.bookImage) {
+      res.book.bookImage = req.file.path
   }
-  if (req.res.book.userId != null) {
+  if (req.res.book.userId != null && req.res.book.userId != req.body.userId) {
       res.book.userId = req.body.userId
   }
-  if (req.res.book.buyPrice != null) {
+  if (req.res.book.buyPrice != null && req.res.book.buyPrice != req.body.buyPrice) {
       res.book.buyPrice = req.body.buyPrice
   }
-  if (req.res.book.rentPrice != null) {
+  if (req.res.book.rentPrice != null && req.res.book.rentPrice != req.body.rentPrice) {
       res.book.rentPrice = req.body.rentPrice
   }
-  if (req.res.book.forRent != null) {
+  if (req.res.book.forRent != null && req.res.book.forRent != req.body.forRent) {
       res.book.forRent = req.body.forRent
   }
-  if (req.res.book.forSale != null) {
+  if (req.res.book.forSale != null && req.res.book.forSale != req.body.forSale) {
       res.book.forSale = req.body.forSale
   }
-  if (req.res.book.availability != null) {
+  if (req.res.book.availability != null && req.res.book.availability != req.body.availability) {
       res.book.availability = req.body.availability
   }
-
   try {
       const updatedBook = await res.book.save()
       res.json(updatedBook)

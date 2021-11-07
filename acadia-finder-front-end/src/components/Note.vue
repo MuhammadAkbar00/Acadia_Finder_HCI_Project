@@ -1,5 +1,10 @@
 <template>
   <v-container class="main-text">
+    <vue-gallery-slideshow
+      :images="imageGetter()"
+      :index="index"
+      @close="index = null"
+    ></vue-gallery-slideshow>
     <v-card-title>
       <h3>
         {{ courseId }}
@@ -24,16 +29,32 @@
         md="4"
         sm="12"
       >
-        <v-img v-if="checkFileType(note)" width="100" :src="getLink(note.path)"></v-img>
-        <v-img v-else width="100" contain src="@/assets/download_image.png"></v-img>
-        {{note.originalname}}
+        <v-img
+          class="add-hover"
+          v-if="checkFileType(note)"
+          width="100"
+          :src="getLink(note.path)"
+          @click="index = i"
+        />
+        <v-img v-else width="100" contain src="@/assets/download_image.png" />
+        {{ note.originalname }}
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import VueGallerySlideshow from "vue-gallery-slideshow";
 export default {
+  data() {
+    return {
+      images: ["https://placekitten.com/801/800"],
+      index: null,
+    };
+  },
+  components: {
+    VueGallerySlideshow,
+  },
   props: {
     courseId: {
       type: String,
@@ -51,6 +72,9 @@ export default {
     semester: {
       type: String,
     },
+    _id: {
+      type: String,
+    },
   },
   methods: {
     getLink(link) {
@@ -58,11 +82,20 @@ export default {
       return currLink;
     },
     checkFileType(note) {
-      if(note.mimetype.includes('image')){
-        return true
+      if (note.mimetype.includes("image")) {
+        return true;
       }
-      return false
-    }
+      return false;
+    },
+    imageGetter() {
+      let images = [];
+      this.noteFiles.map((note) => {
+        if (this.checkFileType(note)) {
+          images.push(this.getLink(note.path));
+        }
+      });
+      return images;
+    },
   },
 };
 </script>
@@ -70,5 +103,8 @@ export default {
 <style scoped>
 .main-text {
   font-family: Times, serif, sans-serif;
+}
+.add-hover {
+  cursor: pointer;
 }
 </style>

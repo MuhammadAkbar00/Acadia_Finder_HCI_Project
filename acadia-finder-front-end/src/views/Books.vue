@@ -9,6 +9,17 @@
             hide-details="auto"
             v-model="search"
           ></v-text-field>
+          <p class="mb-10">
+            Sort By Name:
+            <span v-bind:class="checkSortAsc()" @click="setSort('Ascending')"
+              >Ascending</span
+            >/<span
+              v-bind:class="checkSortDesc()"
+              class="add-hover"
+              @click="setSort('Descending')"
+              >Descending</span
+            >
+          </p>
         </div>
       </v-col>
       <v-col cols="12" lg="6" md="4" v-if="isLoggedIn">
@@ -58,9 +69,7 @@
               </v-btn>
             </div>
             <div v-else-if="current_user._id == book.userId" class="red--text">
-              <v-btn disabled rounded text>
-                Your book
-              </v-btn>
+              <v-btn disabled rounded text> Your book </v-btn>
             </div>
             <div v-if="!isLoggedIn" class="mt-5 mb-3">
               <v-btn
@@ -109,6 +118,7 @@ export default {
       booksArray: [],
       search: "",
       user_id: "",
+      sorting: "Ascending",
     };
   },
   components: {
@@ -117,12 +127,20 @@ export default {
   computed: {
     ...mapState(["books", "current_user", "errors", "isLoggedIn"]),
     filteredBooks: function () {
-      return this.booksArray.filter((book) => {
+      const filteredArr = this.booksArray.filter((book) => {
         return (
           book.name.toLowerCase().match(this.search.toLowerCase()) ||
           book.author.toLowerCase().match(this.search.toLowerCase())
         );
       });
+      if (this.sorting && this.sorting === "Ascending") {
+        filteredArr.sort((a, b) => {
+          if (a.name < b.name) return -1;
+          if (a.name > b.name) return 1;
+          return 0;
+        });
+      }
+      return filteredArr;
     },
   },
   methods: {
@@ -142,12 +160,28 @@ export default {
       this.hold(payload);
     },
     bookDetails(id) {
-      return this.$router.push(`book/${id}`);
+      return this.$router.push(`books/${id}`);
+    },
+    setSort(s) {
+      this.sorting = s;
+    },
+    checkSortAsc() {
+      if (this.sorting === "Ascending") {
+        return "add-hover active";
+      }
+      return "add-hover";
+    },
+    checkSortDesc() {
+      if (this.sorting === "Descending") {
+        return "add-hover active";
+      }
+      return "add-hover";
     },
   },
   created() {
     this.loadBooks();
     this.getUser_();
+    this.sortBy();
   },
 };
 </script>
@@ -156,5 +190,12 @@ export default {
 <style scoped>
 .color-text {
   color: blue;
+}
+.add-hover {
+  cursor: pointer;
+}
+.active {
+  font-weight: bold;
+  color: #2e608e;
 }
 </style>
