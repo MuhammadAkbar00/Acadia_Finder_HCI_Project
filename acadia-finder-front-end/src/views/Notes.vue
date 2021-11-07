@@ -11,7 +11,7 @@
           ></v-text-field>
         </div>
       </v-col>
-      <v-col cols="12" lg="6" md="4">
+      <v-col cols="12" lg="6" md="4" v-if="isLoggedIn">
         <v-btn to="/addnotes" class="float-right" rounded outlined>
           Add a note
         </v-btn>
@@ -37,8 +37,17 @@
           />
           <v-spacer></v-spacer>
           <v-card-actions>
-            <v-btn outlined rounded text @click="onClick(note.noteFiles)">
+            <v-btn
+              outlined
+              rounded
+              text
+              @click="onClick(note.noteFiles)"
+              v-if="isLoggedIn"
+            >
               Download
+            </v-btn>
+            <v-btn to="/login" v-else outlined rounded text>
+              Login to download
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -63,7 +72,7 @@ export default {
     Note,
   },
   computed: {
-    ...mapState(["notes"]),
+    ...mapState(["notes", "isLoggedIn"]),
     filteredNotes: function () {
       return this.notesArray.filter((notes) => {
         return (

@@ -54,38 +54,21 @@
                 required
               ></v-text-field>
             </validation-provider>
-            <div>
-              <div>
-                <img v-if="url" :src="url" height="200" class="book" />
-              </div>
-              <div>
-                <input type="file" @change="onFileUpload" ref="file" />
-              </div>
-            </div>
-            <validation-provider
-              v-slot="{ errors }"
-              name="Buying Price"
-              rules="required"
-            >
+
+            <validation-provider v-slot="{ errors }" name="Buying Price">
               <v-text-field
                 v-model="buyPrice"
                 :error-messages="errors"
                 label="Buying Price"
                 type="Number"
-                required
               ></v-text-field>
             </validation-provider>
-            <validation-provider
-              v-slot="{ errors }"
-              name="Rent Price"
-              rules="required"
-            >
+            <validation-provider v-slot="{ errors }" name="Rent Price">
               <v-text-field
                 v-model="rentPrice"
                 :error-messages="errors"
                 label="Rent Price"
                 type="Number"
-                required
               ></v-text-field>
             </validation-provider>
 
@@ -107,7 +90,29 @@
                 type="checkbox"
               ></v-checkbox>
             </validation-provider>
-
+            <div class="mb-10">
+              <div>
+                <img v-if="url" :src="url" height="200" class="book" />
+              </div>
+              <div class="my-2">
+                <v-btn class="text-capitalize" rounded outlined>
+                  <label for="book-file">
+                    <v-icon>mdi-upload</v-icon>
+                    Add Book image
+                  </label>
+                </v-btn>
+                <div class="red--text caption">
+                  {{ image_errors }}
+                </div>
+                <input
+                  id="book-file"
+                  type="file"
+                  @change="onFileUpload"
+                  hidden
+                  ref="file"
+                />
+              </div>
+            </div>
             <v-btn
               class="mr-4 white--text"
               color="green"
@@ -175,6 +180,7 @@ export default {
     url: "",
     validated: false,
     errors: "",
+    image_errors: "",
   }),
 
   computed: {
@@ -191,6 +197,10 @@ export default {
 
     async submit() {
       if (await this.$refs.observer.validate()) {
+        if (this.bookImage === "") {
+          this.image_errors = "File upload cannot be empty";
+          return;
+        }
         const formData = new FormData();
         formData.append("name", this.name);
         formData.append("courseId", this.courseId);
@@ -244,6 +254,8 @@ export default {
       this.forRent = false;
       this.forSale = false;
       this.user_id = "";
+      this.image_errors = "";
+      this.validated = false;
       this.$refs.observer.reset();
     },
 

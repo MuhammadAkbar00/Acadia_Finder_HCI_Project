@@ -1,7 +1,7 @@
  <template>
   <div class="mt-15 pt-5 ma-5">
     <h2 class="my-5">User Profile</h2>
-    <v-card align="center" outlined class="pb-5">
+    <v-card align="center" outlined class="pb-5 border-bottom">
       <v-avatar size="150" contain color="grey" class="mt-n15">
         <img v-if="url" :src="url" />
         <img
@@ -41,169 +41,179 @@
       </template>
     </v-toolbar>
 
-    <v-tabs-items v-model="tabs">
-      <v-tab-item>
-        <h2 class="my-5">Holdings</h2>
-        <v-row>
-          <v-col
-            cols="12"
-            lg="6"
-            md="12"
-            sm="12"
-            v-for="(book, i) in holdings_"
-            :key="i"
-          >
-            <v-card height="100%" class="d-flex flex-column" outlined>
-              <Book
-                :name="book.name"
-                :author="book.author"
-                :buyPrice="book.buyPrice"
-                :edition="book.edition"
-                :bookImage="book.bookImage"
-                :courseId="book.courseId"
-                :forRent="book.forRent"
-                :forSale="book.forSale"
-                :rentPrice="book.rentPrice"
-              />
-              <v-spacer></v-spacer>
-              <v-card-actions>
-                <v-btn
-                  :disabled="!book.availability"
-                  outlined
-                  rounded
-                  text
-                  @click="removeHold_(book._id)"
-                >
-                  Remove Hold
-                </v-btn>
-                <span class="ml-2 red--text" v-if="!book.availability">
-                  Item has been sold
-                </span>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-        <div
-          v-if="holdings_.length <= 0"
-          class="red--text py-5 font-weight-bold"
-        >
-          No holdings. See books<v-btn
-            to="/books"
-            rounded
-            text
-            class="blue--text"
-            >Here</v-btn
-          >
-        </div>
-      </v-tab-item>
-      <v-tab-item>
-        <h2 v-if="ownerBooks_.length > 0" class="my-5">Uploads</h2>
-        <v-row class="my-5 mb-8">
-          <v-col v-for="(book, i) in ownerBooks_" :key="i">
-            <v-card outlined>
-              <Book
-                :name="book.name"
-                :author="book.author"
-                :buyPrice="book.buyPrice"
-                :edition="book.edition"
-                :bookImage="book.bookImage"
-                :courseId="book.courseId"
-                :forRent="book.forRent"
-                :forSale="book.forSale"
-                :rentPrice="book.rentPrice"
-              />
-            </v-card>
-            <div class="mt-5" v-if="book._id === holdCount_.bookId">
-              <span class="font-weight-bold"> Number of holds: </span>
-              <span class="green--text font-weight-bold">{{
-                holdCount_.count
-              }}</span>
-            </div>
-            <div v-if="ownerHoldsUsers_.length > 0">
-              <h3 class="my-5">
-                List of users with hold on this book. You can contact them via
-                the email or phone number listed
-              </h3>
-              <v-row>
-                <v-col
-                  cols="12"
-                  md="6"
-                  sm="12"
-                  v-for="(user, j) in ownerHoldsUsers_"
-                  :key="j"
-                >
-                  <v-card class="pa-5">
-                    <span class="font-weight-bold"> Full name: </span
-                    >{{ user.firstName }} {{ user.lastName }}
-                    <div>
-                      <span class="font-weight-bold"> Phone number: </span
-                      >{{ user.phoneNumber }}
-                    </div>
-                    <div>
-                      <span class="font-weight-bold">Email: </span
-                      >{{ user.email }}
-                    </div>
-                  </v-card>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <v-btn
-                    rounded
-                    block
-                    @click="markSold(book._id)"
-                    :disabled="!book.availability"
-                  >
-                    Mark as sold
-                  </v-btn>
-                  <span v-if="!book.availability" class="red--text my-3">
-                    Item is not available anymore
-                  </span>
-                </v-col>
-              </v-row>
-            </div>
-            <div v-else>
-              <h4 class="red--text my-3">No holds on this item yet</h4>
-            </div>
-          </v-col>
-        </v-row>
-        <div
-          v-if="ownerBooks_.length <= 0"
-          class="red--text py-5 font-weight-bold"
-        >
-          No uploads. Click
-          <v-btn to="/addbooks" rounded text class="blue--text font-weight-bold"
-            >Here</v-btn
-          >
-          to add some
-        </div>
-      </v-tab-item>
-      <v-tab-item>
-        <h2 class="my-5">Personal Details</h2>
-        <v-row>
-          <v-col class="font-weight-bold"> Friends: </v-col>
-          <v-col v-if="friendship.friends > 0">
-            {{ friendship.friends.length }}
-            <v-btn @click="redirect()" text class="text-capitalize" color="blue"
-              >See list</v-btn
+    <v-card outlined class="pa-5 border-top">
+      <v-tabs-items v-model="tabs">
+        <v-tab-item>
+          <h2 class="my-5">Holdings</h2>
+          <v-row>
+            <v-col
+              cols="12"
+              lg="6"
+              md="12"
+              sm="12"
+              v-for="(book, i) in holdings_"
+              :key="i"
             >
-          </v-col>
-          <v-col v-else> 0 </v-col>
-        </v-row>
-        <v-row>
-          <v-col class="font-weight-bold"> Email: </v-col>
-          <v-col>{{ email }}</v-col>
-        </v-row>
-        <v-row>
-          <v-col class="font-weight-bold">Phone Number: </v-col>
-          <v-col>{{ phoneNumber }}</v-col>
-        </v-row>
-        <v-row>
-          <v-col class="font-weight-bold">Program of study:</v-col>
-          <v-col>{{ major }}</v-col>
-        </v-row>
-      </v-tab-item>
-    </v-tabs-items>
+              <v-card height="100%" class="d-flex flex-column" outlined>
+                <Book
+                  :name="book.name"
+                  :author="book.author"
+                  :buyPrice="book.buyPrice"
+                  :edition="book.edition"
+                  :bookImage="book.bookImage"
+                  :courseId="book.courseId"
+                  :forRent="book.forRent"
+                  :forSale="book.forSale"
+                  :rentPrice="book.rentPrice"
+                />
+                <v-spacer></v-spacer>
+                <v-card-actions>
+                  <v-btn
+                    :disabled="!book.availability"
+                    outlined
+                    rounded
+                    text
+                    @click="removeHold_(book._id)"
+                  >
+                    Remove Hold
+                  </v-btn>
+                  <span class="ml-2 red--text" v-if="!book.availability">
+                    Item has been sold
+                  </span>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+          </v-row>
+          <div
+            v-if="holdings_.length <= 0"
+            class="red--text py-5 font-weight-bold"
+          >
+            No holdings. See books<v-btn
+              to="/books"
+              rounded
+              text
+              class="blue--text"
+              >Here</v-btn
+            >
+          </div>
+        </v-tab-item>
+        <v-tab-item>
+          <h2 v-if="ownerBooks_.length > 0" class="my-5">Uploads</h2>
+          <v-row class="my-5 mb-8">
+            <v-col v-for="(book, i) in ownerBooks_" :key="i">
+              <v-card outlined>
+                <Book
+                  :name="book.name"
+                  :author="book.author"
+                  :buyPrice="book.buyPrice"
+                  :edition="book.edition"
+                  :bookImage="book.bookImage"
+                  :courseId="book.courseId"
+                  :forRent="book.forRent"
+                  :forSale="book.forSale"
+                  :rentPrice="book.rentPrice"
+                />
+              </v-card>
+              <div class="mt-5" v-if="book._id === holdCount_.bookId">
+                <span class="font-weight-bold"> Number of holds: </span>
+                <span class="green--text font-weight-bold">{{
+                  holdCount_.count
+                }}</span>
+              </div>
+              <div v-if="ownerHoldsUsers_.length > 0">
+                <h3 class="my-5">
+                  List of users with hold on this book. You can contact them via
+                  the email or phone number listed
+                </h3>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="6"
+                    sm="12"
+                    v-for="(user, j) in ownerHoldsUsers_"
+                    :key="j"
+                  >
+                    <v-card class="pa-5">
+                      <span class="font-weight-bold"> Full name: </span
+                      >{{ user.firstName }} {{ user.lastName }}
+                      <div>
+                        <span class="font-weight-bold"> Phone number: </span
+                        >{{ user.phoneNumber }}
+                      </div>
+                      <div>
+                        <span class="font-weight-bold">Email: </span
+                        >{{ user.email }}
+                      </div>
+                    </v-card>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-btn
+                      rounded
+                      block
+                      @click="markSold(book._id)"
+                      :disabled="!book.availability"
+                    >
+                      Mark as sold
+                    </v-btn>
+                    <span v-if="!book.availability" class="red--text my-3">
+                      Item is not available anymore
+                    </span>
+                  </v-col>
+                </v-row>
+              </div>
+              <div v-else>
+                <h4 class="red--text my-3">No holds on this item yet</h4>
+              </div>
+            </v-col>
+          </v-row>
+          <div
+            v-if="ownerBooks_.length <= 0"
+            class="red--text py-5 font-weight-bold"
+          >
+            No uploads. Click
+            <v-btn
+              to="/addbooks"
+              rounded
+              text
+              class="blue--text font-weight-bold"
+              >Here</v-btn
+            >
+            to add some
+          </div>
+        </v-tab-item>
+        <v-tab-item>
+          <h2 class="my-5">Personal Details</h2>
+          <v-row>
+            <v-col class="font-weight-bold"> Friends: </v-col>
+            <v-col v-if="loadFriends && friendship.friends.length > 0">
+              {{ friendship.friends.length }}
+              <v-btn
+                @click="redirect()"
+                text
+                class="text-capitalize"
+                color="blue"
+                >See list</v-btn
+              >
+            </v-col>
+            <v-col v-else> 0 </v-col>
+          </v-row>
+          <v-row>
+            <v-col class="font-weight-bold"> Email: </v-col>
+            <v-col>{{ email }}</v-col>
+          </v-row>
+          <v-row>
+            <v-col class="font-weight-bold">Phone Number: </v-col>
+            <v-col>{{ phoneNumber }}</v-col>
+          </v-row>
+          <v-row>
+            <v-col class="font-weight-bold">Program of study:</v-col>
+            <v-col>{{ major }}</v-col>
+          </v-row>
+        </v-tab-item>
+      </v-tabs-items>
+    </v-card>
   </div>
 </template>
 
@@ -236,6 +246,7 @@ export default {
       friendship: [],
       errors: "",
       tabs: null,
+      loadFriends: false,
     };
   },
 
@@ -310,8 +321,8 @@ export default {
         .post("http://localhost:3000/users/uploadProfile", formData, {
           headers,
         })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          // console.log(res);
         })
         .catch((err) => {
           this.errors = err.response.data.error;
@@ -330,6 +341,7 @@ export default {
         .get(`http://localhost:3000/friendship/${this.user_id}`)
         .then((res) => {
           this.friendship = res.data;
+          this.loadFriends = true;
         })
         .catch((err) => console.log(err));
     },
@@ -346,5 +358,11 @@ export default {
 }
 .add-hover {
   cursor: pointer;
+}
+.border-top {
+  border-top: none !important;
+}
+.border-bottom {
+  border-bottom: none !important;
 }
 </style>

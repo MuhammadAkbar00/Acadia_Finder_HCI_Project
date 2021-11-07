@@ -17,12 +17,6 @@
                 required
               ></v-text-field>
             </validation-provider>
-            <input
-              type="file"
-              @change="onFileUpload"
-              ref="file"
-              multiple="multiple"
-            />
 
             <validation-provider
               v-slot="{ errors }"
@@ -60,7 +54,30 @@
                 required
               ></v-text-field>
             </validation-provider>
-
+            <div class="mb-10">
+              <div class="blue--text my-3">
+                <span v-for="(note_f, i) in noteFile" :key="i">
+                  {{ note_f.name }}<span class="black--text"> ,</span>
+                </span>
+              </div>
+              <v-btn class="text-capitalize" rounded outlined>
+                <label for="note-files">
+                  <v-icon>mdi-upload</v-icon>
+                  Add note file
+                </label>
+              </v-btn>
+              <div class="red--text caption">
+                {{ file_errors }}
+              </div>
+              <input
+                id="note-files"
+                type="file"
+                @change="onFileUpload"
+                ref="file"
+                multiple="multiple"
+                hidden
+              />
+            </div>
             <v-btn
               class="mr-4 white--text"
               color="green"
@@ -70,7 +87,9 @@
             >
               submit
             </v-btn>
-            <v-btn dark @click="clear" color="red" rounded> clear </v-btn>
+            <v-btn dark @click="clear" class="secondary" rounded outlined>
+              clear
+            </v-btn>
           </form>
         </v-col>
       </v-row>
@@ -120,6 +139,7 @@ export default {
     semester: "",
     validated: false,
     errors: "",
+    file_errors: "",
   }),
 
   methods: {
@@ -142,6 +162,10 @@ export default {
 
     async submit() {
       if (await this.$refs.observer.validate()) {
+        if (this.noteFile === "") {
+          this.file_errors = "File upload cannot be empty";
+          return;
+        }
         const formData = new FormData();
         Array.from(this.noteFile).forEach((file) => {
           formData.append("noteFiles", file);
@@ -189,6 +213,8 @@ export default {
       this.datePosted = "";
       this.description = "";
       this.semester = "";
+      this.file_errors = "";
+      this.validated = false;
       this.$refs.observer.reset();
     },
 

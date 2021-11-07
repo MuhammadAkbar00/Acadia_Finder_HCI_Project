@@ -7,7 +7,8 @@
     >
       <v-responsive class="pt-4">
         <v-avatar>
-          <img :src="getLink(profilePicture)" alt="" />
+          <img v-if="profilePicture" :src="getLink(profilePicture)" alt="" />
+          <v-icon v-else size="150"> mdi-account </v-icon>
         </v-avatar>
       </v-responsive>
       <v-card-text>
