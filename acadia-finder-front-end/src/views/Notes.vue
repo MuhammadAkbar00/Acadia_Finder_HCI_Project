@@ -9,6 +9,17 @@
             hide-details="auto"
             v-model="search"
           ></v-text-field>
+          <p class="mb-10">
+            Sort By Date:
+            <span v-bind:class="checkSortAsc()" @click="setSort('Ascending')"
+              >Ascending</span
+            >/<span
+              v-bind:class="checkSortDesc()"
+              class="add-hover"
+              @click="setSort('Descending')"
+              >Descending</span
+            >
+          </p>
         </div>
       </v-col>
       <v-col cols="12" lg="6" md="4" v-if="isLoggedIn">
@@ -39,6 +50,7 @@
             :datePosted="note.datePosted"
             :description="note.description"
             :semester="note.semester"
+            :_id="note._id"
           />
           <v-spacer></v-spacer>
           <v-card-actions>
@@ -79,6 +91,7 @@ export default {
     return {
       notesArray: [],
       search: "",
+      sorting: "Ascending",
     };
   },
   components: {
@@ -87,12 +100,23 @@ export default {
   computed: {
     ...mapState(["notes", "isLoggedIn"]),
     filteredNotes: function () {
-      return this.notesArray.filter((notes) => {
+      const filteredArr = this.notesArray.filter((notes) => {
         return (
           notes.courseId.toLowerCase().match(this.search.toLowerCase()) ||
           notes.semester.toLowerCase().match(this.search.toLowerCase())
         );
       });
+      if (this.sorting && this.sorting === "Ascending") {
+        filteredArr.sort((a, b) => {
+          return b.datePosted.localeCompare(a.datePosted);
+        });
+      }
+      if (this.sorting && this.sorting === "Descending") {
+        filteredArr.sort((a, b) => {
+          return a.datePosted.localeCompare(b.datePosted);
+        });
+      }
+      return filteredArr;
     },
   },
   methods: {
@@ -112,11 +136,7 @@ export default {
           const fileLink = document.createElement("a");
           fileLink.href = fileUrl;
 
-          fileLink.setAttribute(
-            "download",
-            file.originalname
-            // response.request.responseURL.split("note_uploads/")[1]
-          );
+          fileLink.setAttribute("download", file.originalname);
           document.body.appendChild(fileLink);
 
           fileLink.click();
@@ -127,9 +147,33 @@ export default {
       let currLink = "http://localhost:3000/" + link;
       return currLink;
     },
+    setSort(s) {
+      this.sorting = s;
+    },
+    checkSortAsc() {
+      if (this.sorting === "Ascending") {
+        return "add-hover active";
+      }
+      return "add-hover";
+    },
+    checkSortDesc() {
+      if (this.sorting === "Descending") {
+        return "add-hover active";
+      }
+      return "add-hover";
+    },
   },
   created() {
     this.loadNotes();
   },
 };
 </script>
+<style scoped>
+.add-hover {
+  cursor: pointer;
+}
+.active {
+  font-weight: bold;
+  color: #2e608e;
+}
+</style>

@@ -3,7 +3,7 @@
     <validation-observer ref="observer">
       <v-row justify="center" class="mt-10 pa-5">
         <v-col lg="6" sm="12" md="8">
-          <h2 class="mb-5">Add Book Form</h2>
+          <h2 class="mb-5">Edit Book Form</h2>
           <form @submit.prevent="submit" ref="form" v-on:keyup="validator">
             <validation-provider
               v-slot="{ errors }"
@@ -74,18 +74,16 @@
 
             <validation-provider v-slot="{ errors }" name="For Rent">
               <v-checkbox
-                v-model="forRent"
+                v-bind:value="forRent"
                 :error-messages="errors"
-                value="1"
                 label="For Rent"
                 type="checkbox"
               ></v-checkbox>
             </validation-provider>
             <validation-provider v-slot="{ errors }" name="For Sale">
               <v-checkbox
-                v-model="forSale"
+                v-bind:value="forSale"
                 :error-messages="errors"
-                value="1"
                 label="For Sale"
                 type="checkbox"
               ></v-checkbox>
@@ -93,13 +91,15 @@
             <div class="mb-10">
               <div>
                 <img v-if="url" :src="url" height="200" class="book" />
+                <img
+                  v-img
+                  v-else-if="bookImage"
+                  width="100"
+                  :src="getLink(bookImage)"
+                />
               </div>
               <div class="my-2">
-                <v-btn class="text-capitalize white--text mb-10" 
-                  rounded 
-                  small
-                  color="rgb(6 67 121)"
-                >
+                <v-btn class="text-capitalize" rounded outlined>
                   <label for="book-file">
                     <v-icon>mdi-upload</v-icon>
                     Add Book image
@@ -119,21 +119,14 @@
             </div>
             <v-btn
               class="mr-4 white--text"
-              color="rgb(6 67 121)"
+              color="green"
               type="submit"
               rounded
               :disabled="!validated"
             >
-              submit
+              Edit
             </v-btn>
-            <v-btn 
-              @click="clear" 
-              class="white--text"
-              color="red darken-3" 
-              rounded
-            > 
-              clear 
-            </v-btn>
+            <v-btn dark @click="clear" color="red" rounded> clear </v-btn>
           </form>
         </v-col>
       </v-row>
@@ -192,6 +185,7 @@ export default {
     validated: false,
     errors: "",
     image_errors: "",
+    book: "",
   }),
 
   computed: {
@@ -225,14 +219,16 @@ export default {
         formData.append("bookImage", this.bookImage);
         const headers = { "Content-Type": "multipart/form-data" };
         await axios
-          .post("http://localhost:3000/books", formData, { headers })
+          .patch(`http://localhost:3000/books/${this.book._id}`, formData, {
+            headers,
+          })
           .then(
             (res) => {
               console.log(res);
               this.$router.push("/books");
               Swal.fire({
                 icon: "success",
-                title: "Book Successfully Added",
+                title: "Book Successfully Updated",
                 showConfirmButton: false,
                 timer: 5000,
               });
@@ -274,6 +270,35 @@ export default {
       this.bookImage = event.target.files[0];
       this.url = URL.createObjectURL(this.bookImage);
     },
+
+    async getBooks() {
+      return axios
+        .get(`http://localhost:3000/books/${this.$route.params.id}`)
+        .then(async (response) => {
+          if (this.current_user._id !== response.data.userId) {
+            alert("YOU ARE NOT THE OWNER");
+            this.$router.push("/books");
+          }
+          this.book = response.data;
+          this.name = response.data.name;
+          this.courseId = response.data.courseId;
+          this.edition = response.data.edition;
+          this.author = response.data.author;
+          this.bookImage = response.data.bookImage;
+          this.userId = response.data.userId;
+          this.buyPrice = response.data.buyPrice;
+          this.rentPrice = response.data.rentPrice;
+          this.forRent = response.data.forRent;
+          this.forSale = response.data.forSale;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getLink(link) {
+      let currLink = "http://localhost:3000/" + link;
+      return currLink;
+    },
   },
 
   created() {
@@ -281,6 +306,7 @@ export default {
       this.$router.push("/login");
     }
     this.getUser_();
+    this.getBooks();
   },
 };
 </script>

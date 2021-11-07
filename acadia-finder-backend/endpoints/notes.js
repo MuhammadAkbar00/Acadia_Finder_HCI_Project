@@ -17,7 +17,7 @@ const imageStorage = multer.diskStorage({
 const upload = multer({
   storage: imageStorage
 })
-// Get all books
+// Get all notes
 router.get('/', cors(), async (req, res) => {
   console.log("Getting all Notes")
   try {
@@ -51,6 +51,17 @@ router.post('/', upload.any("noteFiles"), async (req, res) => {
     res.status(201).json(newNote)
   } catch (err) {
     res.status(400).json({ message: err.message })
+  }
+})
+
+// Get note by id
+router.get('/:id', cors(), async (req, res) => {
+  console.log("Getting note " + req.params.id)
+  try {
+    const note = await Note.findById(req.params.id)
+    res.send(note)
+  } catch (err) {
+    res.status(500).json({ message: err.message })
   }
 })
 
@@ -91,6 +102,40 @@ async function getNote(req, res, next) {
   res.note = note
   next()
 }
+
+// Update one
+router.patch('/:id', getNote, upload.any("noteFiles"), async (req, res) => {
+  if (req.res.note.courseId != null && req.res.note.courseId != req.body.courseId) {
+    res.note.courseId = req.body.courseId
+  }
+  if (req.res.note.noteFiles != null && req.file) {
+    let noteFileList = []
+    req.files.map((file => {
+      const f = {
+        originalname: file.originalname,
+        mimetype: file.mimetype,
+        path: file.path,
+      }
+      noteFileList.push(f)
+    }))
+    res.note.noteFiles = noteFileList
+  }
+  if (req.res.note.datePosted != null && req.res.note.datePosted != req.body.datePosted) {
+    res.note.datePosted = req.body.datePosted
+  }
+  if (req.res.note.description != null && req.res.note.description != req.body.description) {
+    res.note.description = req.body.description
+  }
+  if (req.res.note.semester != null && req.res.note.semester != req.body.semester) {
+    res.note.semester = req.body.semester
+  }
+  try {
+    const updatedNote = await res.note.save()
+    res.json(updatedNote)
+  } catch (err) {
+    res.status(400).json({ message: err.message })
+  }
+})
 
 
 module.exports = router
