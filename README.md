@@ -49,5 +49,7 @@ A web application that helps students buy, sell or rent books amongst themselves
 - fix file upload button style
 -  Fix number of friends (user Profile)
 - confirm deletes
+- price counters shouldn't allow negatives
+- rent/buy price shouldn't be displayed in available books if no rent/buy price is given (it also mess the commemt since it has an empty field)
 
 

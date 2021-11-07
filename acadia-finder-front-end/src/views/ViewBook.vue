@@ -2,7 +2,7 @@
   <v-container class="mt-15 pt-15">
     <v-row no-gutters>
       <v-col>
-        <v-card outlined>
+        <v-card outlined class="pa-2">
           <Book
             :name="book.name"
             :author="book.author"
@@ -16,12 +16,13 @@
           />
           <v-card-actions>
             <v-btn
-              outlined
               rounded
               text
               :disabled="!book.availability"
               @click="addToHoldings(book, user_id)"
-              class="text-capitalize font-weight-bold"
+              class="white--text font-weight-bold"
+              color="rgb(6 67 121)"
+              small
             >
               Add to holdings
             </v-btn>
@@ -36,7 +37,7 @@
       <v-col cols="12" sm="4">
         <v-text-field
           v-model="text"
-          :label="!book.availability ? 'Item has been sold' :'Type something ...'"
+          :label="!book.availability ? 'Item has been sold' :'Comment on book ...'"
           :disabled="!book.availability"
           class="mt-5"
           @keyup="textval(text)"
@@ -45,11 +46,11 @@
           {{ textErrors }}
         </div>
         <v-btn
-          :disabled="!book.availability"
-          color="green"
-          rounded
+          color="rgb(6 67 121)" 
+          class="white--text"
+          rounded 
           @click="addComment()"
-          class="text--white"
+          :disabled="!book.availability"
         >
           Add comment
         </v-btn>

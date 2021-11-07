@@ -12,7 +12,12 @@
         </div>
       </v-col>
       <v-col cols="12" lg="6" md="4" v-if="isLoggedIn">
-        <v-btn to="/addbooks" class="float-right" rounded outlined>
+        <v-btn 
+          to="/addbooks" 
+          class="float-right white--text" 
+          color="rgb(6 67 121)"
+          rounded 
+        >
           Add a book
         </v-btn>
       </v-col>
@@ -26,7 +31,7 @@
         v-for="(book, i) in filteredBooks"
         :key="i"
       >
-        <v-card height="100%" class="d-flex flex-column" outlined>
+        <v-card height="100%" class="d-flex flex-column pa-3" outlined>
           <Book
             :name="book.name"
             :author="book.author"
@@ -42,12 +47,12 @@
           <v-card-actions>
             <div v-if="isLoggedIn && current_user._id != book.userId">
               <v-btn
-                outlined
-                rounded
-                text
-                :disabled="!book.availability"
                 @click="addToHoldings(book, user_id)"
-                class="text-capitalize font-weight-bold"
+                class="text-capitalize font-weight-bold white--text"
+                color="rgb(6 67 121)"
+                small
+                rounded
+                :disabled="!book.availability"
               >
                 Place a hold
               </v-btn>
@@ -57,28 +62,27 @@
                 Your book
               </v-btn>
             </div>
-            <div v-if="!isLoggedIn">
+            <div v-if="!isLoggedIn" class="mt-5 mb-3">
               <v-btn
-                text
                 rounded
-                outlined
-                color="primary"
-                class="text-capitalize"
+                small
+                color="rgb(6 67 121)"
+                class="white--text"
                 to="/login"
                 >Login</v-btn
               >
               <span class="font-weight-bold">
-                to ask the seller/renter to hold it for you
+                 to ask the owner to hold it for you
               </span>
             </div>
             <v-spacer></v-spacer>
             <div>
               <v-btn
-                outlined
-                rounded
-                text
+                class="text-capitalize font-weight-bold white--text"
                 @click="bookDetails(book._id)"
-                class="text-capitalize font-weight-bold"
+                rounded
+                color="rgb(6 67 121)"
+                small
               >
                 See book details
               </v-btn>

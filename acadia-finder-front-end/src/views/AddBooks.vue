@@ -95,7 +95,11 @@
                 <img v-if="url" :src="url" height="200" class="book" />
               </div>
               <div class="my-2">
-                <v-btn class="text-capitalize" rounded outlined>
+                <v-btn class="text-capitalize white--text mb-10" 
+                  rounded 
+                  small
+                  color="rgb(6 67 121)"
+                >
                   <label for="book-file">
                     <v-icon>mdi-upload</v-icon>
                     Add Book image
@@ -115,14 +119,21 @@
             </div>
             <v-btn
               class="mr-4 white--text"
-              color="green"
+              color="rgb(6 67 121)"
               type="submit"
               rounded
               :disabled="!validated"
             >
               submit
             </v-btn>
-            <v-btn dark @click="clear" color="red" rounded> clear </v-btn>
+            <v-btn 
+              @click="clear" 
+              class="white--text"
+              color="red darken-3" 
+              rounded
+            > 
+              clear 
+            </v-btn>
           </form>
         </v-col>
       </v-row>

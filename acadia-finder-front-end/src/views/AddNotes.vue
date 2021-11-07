@@ -60,7 +60,12 @@
                   {{ note_f.name }}<span class="black--text"> ,</span>
                 </span>
               </div>
-              <v-btn class="text-capitalize" rounded outlined>
+              <v-btn 
+                class="text-capitalize white--text mb-10" 
+                rounded 
+                small
+                color="rgb(6 67 121)"
+              >
                 <label for="note-files">
                   <v-icon>mdi-upload</v-icon>
                   Add note file
@@ -80,14 +85,19 @@
             </div>
             <v-btn
               class="mr-4 white--text"
-              color="green"
+              color="rgb(6 67 121)"
               type="submit"
               rounded
               :disabled="!validated"
             >
               submit
             </v-btn>
-            <v-btn dark @click="clear" class="secondary" rounded outlined>
+            <v-btn 
+              @click="clear" 
+              class="white--text" 
+              rounded 
+              color="red darken-3"
+            >
               clear
             </v-btn>
           </form>

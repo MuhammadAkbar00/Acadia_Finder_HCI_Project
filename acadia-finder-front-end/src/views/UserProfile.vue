@@ -20,8 +20,7 @@
         <v-btn
           text
           rounded
-          dark
-          color="green"
+          color="rgb(6 67 121)"
           class="text-capitalize"
           @click="$refs.file.click()"
           >Change profile photo</v-btn
@@ -54,7 +53,7 @@
               v-for="(book, i) in holdings_"
               :key="i"
             >
-              <v-card height="100%" class="d-flex flex-column" outlined>
+              <v-card height="100%" class="d-flex flex-column pa-2" outlined>
                 <Book
                   :name="book.name"
                   :author="book.author"
@@ -70,9 +69,10 @@
                 <v-card-actions>
                   <v-btn
                     :disabled="!book.availability"
-                    outlined
+                    class="white--text"
                     rounded
-                    text
+                    small
+                    color="red darken-3"
                     @click="removeHold_(book._id)"
                   >
                     Remove Hold
@@ -86,13 +86,13 @@
           </v-row>
           <div
             v-if="holdings_.length <= 0"
-            class="red--text py-5 font-weight-bold"
+            class="red--text text--darken-3 py-5 font-weight-bold"
           >
             No holdings. See books<v-btn
               to="/books"
               rounded
               text
-              class="blue--text"
+              color="rgb(6 67 121)"
               >Here</v-btn
             >
           </div>
@@ -152,6 +152,9 @@
                     <v-btn
                       rounded
                       block
+                      small
+                      class="white--text mt-3"
+                      color="rgb(6 67 121)"
                       @click="markSold(book._id)"
                       :disabled="!book.availability"
                     >
@@ -170,14 +173,14 @@
           </v-row>
           <div
             v-if="ownerBooks_.length <= 0"
-            class="red--text py-5 font-weight-bold"
+            class="red--text text--darken-3 py-5 font-weight-bold"
           >
             No uploads. Click
             <v-btn
               to="/addbooks"
               rounded
               text
-              class="blue--text font-weight-bold"
+              color="rgb(6 67 121)"
               >Here</v-btn
             >
             to add some
@@ -193,7 +196,7 @@
                 @click="redirect()"
                 text
                 class="text-capitalize"
-                color="blue"
+                color="rgb(6 67 121)"
                 >See list</v-btn
               >
             </v-col>

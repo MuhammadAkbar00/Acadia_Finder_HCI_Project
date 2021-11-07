@@ -12,7 +12,12 @@
         </div>
       </v-col>
       <v-col cols="12" lg="6" md="4" v-if="isLoggedIn">
-        <v-btn to="/addnotes" class="float-right" rounded outlined>
+        <v-btn 
+          to="/addnotes" 
+          class="float-right white--text" 
+          color="rgb(6 67 121)"
+          rounded 
+        >
           Add a note
         </v-btn>
       </v-col>
@@ -38,15 +43,23 @@
           <v-spacer></v-spacer>
           <v-card-actions>
             <v-btn
-              outlined
+              class="white--text mt-5"
+              color="rgb(6 67 121)"
+              small
               rounded
-              text
               @click="onClick(note.noteFiles)"
               v-if="isLoggedIn"
             >
               Download
             </v-btn>
-            <v-btn to="/login" v-else outlined rounded text>
+            <v-btn 
+              to="/login" 
+              v-else 
+              class="white--text mt-5"
+              small
+              color="rgb(6 67 121)"
+              rounded
+            >
               Login to download
             </v-btn>
           </v-card-actions>

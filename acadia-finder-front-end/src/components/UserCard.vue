@@ -1,3 +1,4 @@
+
 <template>
   <v-container>
     <v-card
@@ -24,23 +25,23 @@
       </v-card-text>
       <v-spacer></v-spacer>
       <v-card-actions v-if="this.checkFriendshipStatus() === 'friends'">
-        <v-btn color="#FFFFFF" rounded @click="unfriendFriendRequest()">
+        <v-btn color="red darken-3" class="white--text" small rounded @click="unfriendFriendRequest()">
           <v-icon small class="mr-1">mdi-account-plus</v-icon>
           <span class="add-friend">Unfriend</span>
         </v-btn>
       </v-card-actions>
       <v-card-actions v-else-if="this.checkFriendshipStatus() === 'incoming'">
-        <v-btn color="#FFFFFF" rounded @click="acceptFriendRequest()">
+        <v-btn color="rgb(6 67 121)" class="white--text" small rounded @click="acceptFriendRequest()">
           <v-icon small class="mr-1">mdi-account-plus</v-icon>
           <span class="add-friend">Accept</span>
         </v-btn>
-        <v-btn color="#FFFFFF" rounded @click="declineFriendRequest()">
+        <v-btn color="red darken-3" class="white--text" small rounded @click="declineFriendRequest()">
           <v-icon small class="mr-1">mdi-account-minus</v-icon>
           <span class="add-friend">Decline</span>
         </v-btn>
       </v-card-actions>
       <v-card-actions v-else-if="this.checkFriendshipStatus() === 'outgoing'">
-        <v-btn color="#FFFFFF" rounded @click="cancelFriendRequest()">
+        <v-btn color="red darken-3" class="white--text" small rounded @click="cancelFriendRequest()">
           <v-icon small class="mr-1">mdi-account-plus</v-icon>
           <span class="add-friend">Cancel</span>
         </v-btn>
@@ -49,7 +50,7 @@
         <v-btn disabled rounded text>You</v-btn>
       </v-card-actions>
       <v-card-actions v-else>
-        <v-btn color="#FFFFFF" rounded @click="sendFriendRequest()">
+        <v-btn color="rgb(6 67 121)" class="white--text" small rounded @click="sendFriendRequest()">
           <v-icon small class="mr-1">mdi-account-plus</v-icon>
           <span class="add-friend">Add</span>
         </v-btn>

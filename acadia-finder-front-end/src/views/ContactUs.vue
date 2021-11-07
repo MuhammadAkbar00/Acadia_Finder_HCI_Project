@@ -62,7 +62,7 @@
                 <v-btn
                   rounded
                   class="white--text mr-4"
-                  color="light-blue darken-4"
+                  color="rgb(6 67 121)"
                   type="submit"
                   :disabled="!validated"
                   >Submit</v-btn

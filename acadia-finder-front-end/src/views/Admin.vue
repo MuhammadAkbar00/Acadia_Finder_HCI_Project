@@ -20,18 +20,19 @@
           <div class="pb-3 main-font">"{{ contact.message }}"</div>
           <div>- Sender: {{ contact.name }}</div>
           <div class="pb-4">- email: {{ contact.email }}</div>
-          <v-spacer></v-spacer>
-          <v-card-actions>
-            <v-btn
-              @click="deleteItem_(contact._id, 'contact')"
+        <v-spacer></v-spacer>
+        <v-card-actions>
+          <v-btn
+            @click="deleteItem_(contact._id, 'contact')"
               block
-              elevation="2"
+              rounded
               small
-              color="error"
-            >
-              Delete Message
-            </v-btn>
-          </v-card-actions>
+              color="red darken-3"
+              class="white--text mr-4"
+          >
+            Delete Message
+          </v-btn>
+        </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -49,17 +50,18 @@
           <div>Author: {{ book.author }}</div>
           <div class="pb-4">Edition: {{ book.edition }}</div>
           <v-spacer></v-spacer>
-          <v-card-actions>
-            <v-btn
-              @click="deleteItem_(book._id, 'books')"
+        <v-card-actions>
+          <v-btn
+            @click="deleteItem_(book._id, 'books')"
               block
-              elevation="2"
+              rounded
               small
-              color="error"
-            >
-              Delete Book
-            </v-btn>
-          </v-card-actions>
+              color="red darken-3"
+              class="white--text mr-4"
+          >
+            Delete Book
+          </v-btn>
+        </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -75,18 +77,19 @@
           <div class="pb-2 main-font">Course Id: {{ note.courseId }}</div>
           <div>Semester Taken: {{ note.semester }}</div>
           <div class="py-4">Description: {{ note.description }}</div>
-          <v-spacer></v-spacer>
-          <v-card-actions>
-            <v-btn
-              @click="deleteItem_(note._id, 'notes')"
+        <v-spacer></v-spacer>
+        <v-card-actions>
+          <v-btn
+            @click="deleteItem_(note._id, 'notes')"
               block
-              elevation="2"
+              rounded
               small
-              color="error"
-            >
-              Delete Note
-            </v-btn>
-          </v-card-actions>
+              color="red darken-3"
+              class="white--text mr-4"
+          >
+            Delete Note
+          </v-btn>
+        </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -106,10 +109,11 @@
           <div class="pb-4">email: {{ user.email }}</div>
           <v-btn
             @click="deleteItem_(user._id, 'users')"
-            block
-            elevation="2"
-            small
-            color="error"
+              block
+              rounded
+              small
+              color="red darken-3"
+              class="white--text mr-4"
           >
             Delete User
           </v-btn>
