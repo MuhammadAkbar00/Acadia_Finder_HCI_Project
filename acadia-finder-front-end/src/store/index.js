@@ -26,7 +26,8 @@ export default new Vuex.Store({
     },
     ownerHoldsUsers: [],
     ownerBooks: [],
-    contactMessages: []
+    contactMessages: [],
+    adminLoggedIn: false
   },
   mutations: {
     GET_BOOKS(state, books) {

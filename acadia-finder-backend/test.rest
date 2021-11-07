@@ -9,6 +9,19 @@ Content-Type: application/json
   "dateSold": "08/08/08",
   "listedPrice": 9000
 }
+
+###
+POST http://localhost:3000/admin
+Content-Type: application/json
+
+{
+  "password": "112233",
+  "firstName": "Muhammad",
+  "lastName": "Akbar",
+  "email": "makbar@gmail.com"
+}
+
+
 ###
 POST http://localhost:3000/books
 Content-Type: application/json

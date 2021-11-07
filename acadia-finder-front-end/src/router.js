@@ -13,6 +13,7 @@ import UserProfile from "./views/UserProfile.vue";
 import Friends from "./views/Friends.vue";
 import ViewBook from "./views/ViewBook.vue";
 import Admin from "./views/Admin.vue";
+import AdminLogin from "./views/AdminLogin.vue";
 
 Vue.use(Router);
 
@@ -85,6 +86,11 @@ export default new Router({
       path: "/admin",
       name: "admin",
       component: Admin
+    },
+    {
+      path: "/admin_login",
+      name: "admin_login",
+      component: AdminLogin
     }
   ]
 });
