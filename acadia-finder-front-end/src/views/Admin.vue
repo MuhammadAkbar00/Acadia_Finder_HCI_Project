@@ -17,10 +17,11 @@
         <v-card-actions>
           <v-btn
             @click="deleteItem_(contact._id, 'contact')"
-            block
-            elevation="2"
-            small
-            color="error"
+              block
+              rounded
+              small
+              color="red darken-3"
+              class="white--text mr-4"
           >
             Delete Message
           </v-btn>
@@ -41,10 +42,11 @@
         <v-card-actions>
           <v-btn
             @click="deleteItem_(book._id, 'books')"
-            block
-            elevation="2"
-            small
-            color="error"
+              block
+              rounded
+              small
+              color="red darken-3"
+              class="white--text mr-4"
           >
             Delete Book
           </v-btn>
@@ -64,10 +66,11 @@
         <v-card-actions>
           <v-btn
             @click="deleteItem_(note._id, 'notes')"
-            block
-            elevation="2"
-            small
-            color="error"
+              block
+              rounded
+              small
+              color="red darken-3"
+              class="white--text mr-4"
           >
             Delete Note
           </v-btn>
@@ -87,10 +90,11 @@
           <div class="pb-4">email: {{ user.email }}</div>
           <v-btn
             @click="deleteItem_(user._id, 'users')"
-            block
-            elevation="2"
-            small
-            color="error"
+              block
+              rounded
+              small
+              color="red darken-3"
+              class="white--text mr-4"
           >
             Delete User
           </v-btn>

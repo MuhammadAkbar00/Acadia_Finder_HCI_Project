@@ -117,15 +117,22 @@
             </validation-provider>
 
             <v-btn
-              class="mr-4 white--text"
-              color="green"
+              class="mr-4 mt-10 white--text"
+              color="rgb(6 67 121)"
               type="submit"
               rounded
               :disabled="!validated"
             >
               submit
             </v-btn>
-            <v-btn dark @click="clear" color="red" rounded> clear </v-btn>
+            <v-btn 
+              rounded
+              class="mt-10 white--text"
+              color="red darken-3" 
+              @click="clear" 
+            > 
+              clear 
+            </v-btn>
           </form>
         </v-col>
       </v-row>
