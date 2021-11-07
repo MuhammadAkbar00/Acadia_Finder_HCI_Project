@@ -59,7 +59,7 @@
             <div v-if="isLoggedIn && current_user._id != book.userId">
               <v-btn
                 @click="addToHoldings(book, user_id)"
-                class="text-capitalize font-weight-bold white--text"
+                class="font-weight-bold white--text"
                 color="rgb(6 67 121)"
                 small
                 rounded
@@ -87,7 +87,7 @@
             <v-spacer></v-spacer>
             <div>
               <v-btn
-                class="text-capitalize font-weight-bold white--text"
+                class="font-weight-bold white--text"
                 @click="bookDetails(book._id)"
                 rounded
                 color="rgb(6 67 121)"

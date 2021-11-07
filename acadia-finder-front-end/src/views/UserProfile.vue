@@ -100,8 +100,8 @@
         <v-tab-item>
           <h2 v-if="ownerBooks_.length > 0" class="my-5">Uploads</h2>
           <v-row class="my-5 mb-8">
-            <v-col v-for="(book, i) in ownerBooks_" :key="i">
-              <v-card outlined>
+            <v-col cols="12" lg="6" md="12" sm="12" v-for="(book, i) in ownerBooks_" :key="i">
+              <v-card  outlined>
                 <Book
                   :name="book.name"
                   :author="book.author"
@@ -167,7 +167,7 @@
                 </v-row>
               </div>
               <div v-else>
-                <h4 class="red--text my-3">No holds on this item yet</h4>
+                <h4 class="red--text text--darken-3 mb-10">No holds on this item yet</h4>
               </div>
             </v-col>
           </v-row>
