@@ -95,7 +95,7 @@
                 <img v-if="url" :src="url" height="200" class="book" />
               </div>
               <div class="my-2">
-                <v-btn class="text-capitalize white--text mb-10" 
+                <v-btn class="white--text mb-10" 
                   rounded 
                   small
                   color="rgb(6 67 121)"
@@ -234,7 +234,7 @@ export default {
                 icon: "success",
                 title: "Book Successfully Added",
                 showConfirmButton: false,
-                timer: 5000,
+                timer: 2000,
               });
               this.$router.go();
             },

@@ -61,7 +61,7 @@
                 </span>
               </div>
               <v-btn 
-                class="text-capitalize white--text mb-10" 
+                class="white--text mb-10" 
                 rounded 
                 small
                 color="rgb(6 67 121)"
@@ -189,7 +189,7 @@ export default {
                 icon: "success",
                 title: "Note Successfully Added",
                 showConfirmButton: false,
-                timer: 5000,
+                timer: 2000,
               });
               this.$router.go();
             },

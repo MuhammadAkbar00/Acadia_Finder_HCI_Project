@@ -1,7 +1,7 @@
 <template>
   <v-container class="mt-15 pt-15 text-center">
     <v-form @submit.prevent="loginUser" v-model="valid" ref="form">
-      <h1>Admin Login</h1>
+      <h1 class="mb-10">Admin Login</h1>
       <v-row justify="center">
         <v-col cols="12" md="6">
           <v-text-field
@@ -23,7 +23,12 @@
           <div v-if="errors" class="text-left errors">
             {{ errors }}
           </div>
-          <v-btn block rounded dark class="mt-5" color="green" type="submit"
+          <v-btn 
+            block 
+            rounded 
+            class="mt-15 white--text" 
+            color="rgb(6 67 121)" 
+            type="submit"
             >Login</v-btn
           >
         </v-col>

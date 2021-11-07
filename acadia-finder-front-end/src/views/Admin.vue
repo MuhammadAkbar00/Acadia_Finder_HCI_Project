@@ -1,9 +1,10 @@
 <template>
   <v-container class="mt-15 pt-10">
-    <h2 class="my-3">Messages</h2>
-    <p>
+    <p class="mb-15"> 
       Hi <span class="font-weight-bold"> {{ name }} </span>
+      , you are currently logged in as an Admin
     </p>
+    <h2 class="my-3">Messages</h2>
     <v-row class="py-6">
       <v-col
         v-for="(contact, i) in contactMessages"
@@ -120,7 +121,13 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-btn rounded color="red" dark @click="logout()">Logout</v-btn>
+    <v-btn  
+      rounded 
+      color="red darken-3" 
+      class="white--text mt-8"
+      @click="logout()"
+    >
+      Logout</v-btn>
   </v-container>
 </template>
 <script>
