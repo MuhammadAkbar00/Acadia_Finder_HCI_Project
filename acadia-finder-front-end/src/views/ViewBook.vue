@@ -19,11 +19,15 @@
               outlined
               rounded
               text
+              :disabled="!book.availability"
               @click="addToHoldings(book, user_id)"
               class="text-capitalize font-weight-bold"
             >
               Add to holdings
             </v-btn>
+            <div v-if="!book.availability" class="red--text mx-2">
+              Item not available anymore
+            </div>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -32,14 +36,21 @@
       <v-col cols="12" sm="4">
         <v-text-field
           v-model="text"
-          label="Type something ..."
+          :label="!book.availability ? 'Item has been sold' :'Type something ...'"
+          :disabled="!book.availability"
           class="mt-5"
           @keyup="textval(text)"
         ></v-text-field>
         <div class="red--text mb-5" v-if="textErrors">
           {{ textErrors }}
         </div>
-        <v-btn dark color="green" rounded @click="addComment()">
+        <v-btn
+          :disabled="!book.availability"
+          color="green"
+          rounded
+          @click="addComment()"
+          class="text--white"
+        >
           Add comment
         </v-btn>
       </v-col>
