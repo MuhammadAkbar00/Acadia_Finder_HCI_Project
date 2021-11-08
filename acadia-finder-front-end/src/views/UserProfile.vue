@@ -55,29 +55,29 @@
             >
               <v-card height="100%" class="d-flex flex-column pa-2" outlined>
                 <Book
-                  :name="book.name"
-                  :author="book.author"
-                  :buyPrice="book.buyPrice"
-                  :edition="book.edition"
-                  :bookImage="book.bookImage"
-                  :courseId="book.courseId"
-                  :forRent="book.forRent"
-                  :forSale="book.forSale"
-                  :rentPrice="book.rentPrice"
+                  :name="book.book.name"
+                  :author="book.book.author"
+                  :buyPrice="book.book.buyPrice"
+                  :edition="book.book.edition"
+                  :bookImage="book.book.bookImage"
+                  :courseId="book.book.courseId"
+                  :forRent="book.book.forRent"
+                  :forSale="book.book.forSale"
+                  :rentPrice="book.book.rentPrice"
                 />
                 <v-spacer></v-spacer>
                 <v-card-actions>
                   <v-btn
-                    :disabled="!book.availability"
+                    :disabled="!book.book.availability"
                     class="white--text"
                     rounded
                     small
                     color="red darken-3"
-                    @click="removeHold_(book._id)"
+                    @click="removeHold_(book.book._id)"
                   >
                     Remove Hold
                   </v-btn>
-                  <span class="ml-2 red--text" v-if="!book.availability">
+                  <span class="ml-2 red--text" v-if="!book.book.availability">
                     Item has been sold
                   </span>
                 </v-card-actions>
@@ -100,27 +100,34 @@
         <v-tab-item>
           <h2 v-if="ownerBooks_.length > 0" class="my-5">Uploads</h2>
           <v-row class="my-5 mb-8">
-            <v-col cols="12" lg="6" md="12" sm="12" v-for="(book, i) in ownerBooks_" :key="i">
-              <v-card  outlined>
+            <v-col
+              cols="12"
+              lg="6"
+              md="12"
+              sm="12"
+              v-for="(book, i) in ownerBooks_"
+              :key="i"
+            >
+              <v-card outlined>
                 <Book
-                  :name="book.name"
-                  :author="book.author"
-                  :buyPrice="book.buyPrice"
-                  :edition="book.edition"
-                  :bookImage="book.bookImage"
-                  :courseId="book.courseId"
-                  :forRent="book.forRent"
-                  :forSale="book.forSale"
-                  :rentPrice="book.rentPrice"
+                  :name="book.book.name"
+                  :author="book.book.author"
+                  :buyPrice="book.book.buyPrice"
+                  :edition="book.book.edition"
+                  :bookImage="book.book.bookImage"
+                  :courseId="book.book.courseId"
+                  :forRent="book.book.forRent"
+                  :forSale="book.book.forSale"
+                  :rentPrice="book.book.rentPrice"
                 />
               </v-card>
-              <div class="mt-5" v-if="book._id === holdCount_.bookId">
+              <div class="mt-5" v-if="book.count > 0">
                 <span class="font-weight-bold"> Number of holds: </span>
-                <span class="green--text font-weight-bold">{{
-                  holdCount_.count
-                }}</span>
+                <span class="green--text font-weight-bold">
+                  {{ book.count }}
+                </span>
               </div>
-              <div v-if="ownerHoldsUsers_.length > 0">
+              <div v-if="book.users.length > 0">
                 <h3 class="my-5">
                   List of users with hold on this book. You can contact them via
                   the email or phone number listed
@@ -130,20 +137,22 @@
                     cols="12"
                     md="6"
                     sm="12"
-                    v-for="(user, j) in ownerHoldsUsers_"
+                    v-for="(user, j) in book.users"
                     :key="j"
                   >
                     <v-card class="pa-5">
-                      <span class="font-weight-bold"> Full name: </span
-                      >{{ user.firstName }} {{ user.lastName }}
-                      <div>
-                        <span class="font-weight-bold"> Phone number: </span
-                        >{{ user.phoneNumber }}
-                      </div>
-                      <div>
-                        <span class="font-weight-bold">Email: </span
-                        >{{ user.email }}
-                      </div>
+                      <v-row class="font-weight-bold">
+                        <v-col> Full name: </v-col>
+                        <v-col> {{ user.firstName }} {{ user.lastName }}</v-col>
+                      </v-row>
+                      <v-row class="font-weight-bold">
+                        <v-col> Phone Number: </v-col>
+                        <v-col> {{ user.phoneNumber }}</v-col>
+                      </v-row>
+                      <v-row class="font-weight-bold">
+                        <v-col>  Email: </v-col>
+                        <v-col> {{ user.email }}</v-col>
+                      </v-row>
                     </v-card>
                   </v-col>
                 </v-row>
@@ -155,19 +164,21 @@
                       small
                       class="white--text mt-3"
                       color="rgb(6 67 121)"
-                      @click="markSold(book._id)"
-                      :disabled="!book.availability"
+                      @click="markSold(book.book._id)"
+                      :disabled="!book.book.availability"
                     >
                       Mark as sold
                     </v-btn>
-                    <span v-if="!book.availability" class="red--text my-3">
+                    <span v-if="!book.book.availability" class="red--text my-3">
                       Item is not available anymore
                     </span>
                   </v-col>
                 </v-row>
               </div>
               <div v-else>
-                <h4 class="red--text text--darken-3 mb-10">No holds on this item yet</h4>
+                <h4 class="red--text text--darken-3 mb-10">
+                  No holds on this item yet
+                </h4>
               </div>
             </v-col>
           </v-row>
@@ -176,11 +187,7 @@
             class="red--text text--darken-3 py-5 font-weight-bold"
           >
             No uploads. Click
-            <v-btn
-              to="/addbooks"
-              rounded
-              text
-              color="rgb(6 67 121)"
+            <v-btn to="/addbooks" rounded text color="rgb(6 67 121)"
               >Here</v-btn
             >
             to add some
@@ -241,9 +248,7 @@ export default {
       profilePictureFile: "",
       holdings_: [],
       loaded: false,
-      ownerHoldsUsers_: [],
       ownerBooks_: [],
-      holdCount_: {},
       isModalVisible: false,
       url: null,
       friendship: [],
@@ -254,13 +259,7 @@ export default {
   },
 
   computed: {
-    ...mapState([
-      "current_user",
-      "holdings",
-      "ownerHoldsUsers",
-      "holdCount",
-      "ownerBooks",
-    ]),
+    ...mapState(["current_user", "holdings", "ownerBooks"]),
   },
 
   created() {
@@ -305,9 +304,8 @@ export default {
       await this.getUser_();
       await this.getBooks();
       await this.getHoldsAndUsers(this.current_user._id);
-      this.ownerHoldsUsers_ = this.ownerHoldsUsers;
       this.ownerBooks_ = this.ownerBooks;
-      this.holdCount_ = this.holdCount;
+      console.log("=======", this.ownerBooks_);
     },
     async markSold_(bookId) {
       await this.markSold(bookId);

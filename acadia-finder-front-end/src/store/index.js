@@ -150,22 +150,21 @@ export default new Vuex.Store({
     getHoldsAndUsers({ }, userID) {
       this.state.ownerBooks.splice(0);
       this.state.books.forEach((book) => {
-        this.state.holdCount.count = 0;
-        this.state.holdCount.bookId = ""
-        this.state.ownerHoldsUsers.splice(0);
         if (book.userId === userID) {
-          console.log(book)
-
-          this.state.ownerBooks.push(book);
+          const bookObj = {
+            book: book,
+            count: 0,
+            users: []
+          }
+          this.state.ownerBooks.push(bookObj);
           axios.get("http://localhost:3000/holdings").then((response) => {
             response.data.forEach((holding) => {
               if (holding.bookId === book._id) {
-                this.state.holdCount.count++
-                this.state.holdCount.bookId = book._id
+                bookObj.count++;
                 axios.get("http://localhost:3000/users").then((result) => {
                   result.data.forEach((user) => {
                     if (user._id === holding.userId) {
-                      this.state.ownerHoldsUsers.push(user)
+                      bookObj.users.push(user)
                     }
                   })
                 })
