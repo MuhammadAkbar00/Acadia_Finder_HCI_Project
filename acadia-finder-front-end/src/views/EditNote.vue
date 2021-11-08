@@ -61,13 +61,18 @@
                   <span v-else>{{ note_f.name }}<span class="black--text"> ,</span></span>
                 </span>
               </div>
-              <v-btn class="text-capitalize" rounded outlined>
+              <v-btn 
+                  class="white--text mb-10" 
+                  rounded 
+                  small
+                  color="rgb(6 67 121)"
+                >
                 <label for="note-files">
                   <v-icon>mdi-upload</v-icon>
                   Add note file
                 </label>
               </v-btn>
-              <div class="red--text caption">
+              <div class="red--text text-darken-3 caption">
                 {{ file_errors }}
               </div>
               <input
@@ -81,14 +86,19 @@
             </div>
             <v-btn
               class="mr-4 white--text"
-              color="green"
+              color="rgb(6 67 121)"
               type="submit"
               rounded
               :disabled="!validated"
             >
-              Edit
+              Submit
             </v-btn>
-            <v-btn dark @click="clear" class="secondary" rounded outlined>
+            <v-btn
+              @click="clear" 
+              class="white--text" 
+              color="red darken-3"
+              rounded
+            >
               clear
             </v-btn>
           </form>

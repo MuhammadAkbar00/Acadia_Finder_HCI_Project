@@ -105,7 +105,7 @@
                     Add Book image
                   </label>
                 </v-btn>
-                <div class="red--text caption">
+                <div class="red--text text--darken-3 caption">
                   {{ image_errors }}
                 </div>
                 <input

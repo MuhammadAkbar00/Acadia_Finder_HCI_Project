@@ -169,7 +169,7 @@
                     >
                       Mark as sold
                     </v-btn>
-                    <span v-if="!book.book.availability" class="red--text my-3">
+                    <span v-if="!book.book.availability" class="red--text text--darken-3 my-3">
                       Item is not available anymore
                     </span>
                   </v-col>

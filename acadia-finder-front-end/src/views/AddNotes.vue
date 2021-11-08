@@ -71,7 +71,7 @@
                   Add note file
                 </label>
               </v-btn>
-              <div class="red--text caption">
+              <div class="red--text text--darken-3 caption">
                 {{ file_errors }}
               </div>
               <input

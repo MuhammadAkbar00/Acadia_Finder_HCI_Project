@@ -26,7 +26,7 @@
             >
               Add to holdings
             </v-btn>
-            <div v-if="!book.availability" class="red--text mx-2">
+            <div v-if="!book.availability" class="red--text text--darken-3 mx-2">
               Item not available anymore
             </div>
           </v-card-actions>
@@ -43,7 +43,7 @@
           @keyup="textval(text)"
           v-on:keyup.enter="onEnter"
         ></v-text-field>
-        <div class="red--text mb-5" v-if="textErrors">
+        <div class="red--text text--darken-3 mb-5" v-if="textErrors">
           {{ textErrors }}
         </div>
         <v-btn

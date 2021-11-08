@@ -3,7 +3,7 @@
     <h2 class="mb-10">All Books Available</h2>
     <div v-if="booksArray.length === 0">
       <div>
-        <span class="red--text font-weight-bold"> No books available.</span>
+        <span class="red--text text--darken-3 font-weight-bold"> No books available. </span>
         <span v-if="isLoggedIn">
           Click
           <v-btn small color="rgb(6 67 121)" dark rounded to="/addbooks"
@@ -61,7 +61,7 @@
           >Descending</v-btn
         >
       </v-row>
-      <v-row v-else class="red--text my-10 pa-5">
+      <v-row v-else class="red--text text--darken-3 my-10 pa-5">
         <h3>No matches</h3>
       </v-row>
       <v-row>
@@ -103,7 +103,7 @@
               </div>
               <div
                 v-else-if="current_user._id == book.userId"
-                class="red--text"
+                class="red--text text--darken-3"
               >
                 <v-btn disabled rounded text> Your book </v-btn>
               </div>
@@ -133,10 +133,10 @@
                 </v-btn>
               </div>
             </v-card-actions>
-            <div v-if="!book.availability" class="red--text mx-2">
+            <div v-if="!book.availability" class="red--text text--darken-3 mx-2">
               Item not available anymore
             </div>
-            <div class="pa-4 red--text" v-if="errors && errors.id == book._id">
+            <div class="pa-4 red--text text--darken-3" v-if="errors && errors.id == book._id">
               {{ errors.error }}
             </div>
           </v-card>
