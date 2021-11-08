@@ -1,6 +1,21 @@
 <template>
   <v-container class="mt-15 pt-15">
     <h2 class="mb-10">Available Notes</h2>
+        <div v-if="filteredNotes.length === 0">
+      <div>
+        <span class="red--text font-weight-bold"> No notes available.</span>
+        <span v-if="isLoggedIn">
+          Click
+          <v-btn small color="rgb(6 67 121)" dark rounded to="/addnotes">here</v-btn>
+          to add notes
+        </span>
+        <span v-else>
+          <v-btn small color="rgb(6 67 121)" dark rounded to="/login">Login</v-btn>
+          to add notes
+        </span>
+      </div>
+    </div>
+    <div v-else>
     <v-row class="my-10">
       <v-col cols="12" lg="6" md="8">
         <div>
@@ -79,6 +94,7 @@
         </v-card>
       </v-col>
     </v-row>
+    </div>
   </v-container>
 </template>
 

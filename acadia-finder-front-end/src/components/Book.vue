@@ -19,11 +19,11 @@
         </div>
 
         <div class="pa-5">
-          <div>
+          <div v-if="buyPrice">
             <span class="font-weight-bold">Selling Price: </span
             ><span class="green--text"> ${{ buyPrice }}</span>
           </div>
-          <div>
+          <div  v-if="rentPrice">
             <span class="font-weight-bold">Rent Price: </span>
             <span class="green--text">${{ rentPrice }}</span>
           </div>

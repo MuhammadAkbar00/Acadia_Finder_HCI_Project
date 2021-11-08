@@ -1,122 +1,141 @@
 <template>
   <v-container class="mt-10 pt-15">
     <h2 class="mb-10">All Books Available</h2>
-    <v-row class="my-10">
-      <v-col cols="12" lg="6" md="8">
-        <div>
-          <v-text-field
-            label="Search for a book by Name or Author"
-            hide-details="auto"
-            v-model="search"
-          ></v-text-field>
-        </div>
-      </v-col>
-      <v-col cols="12" lg="6" md="4" v-if="isLoggedIn">
+    <div v-if="filteredBooks.length === 0">
+      <div>
+        <span class="red--text font-weight-bold"> No books available.</span>
+        <span v-if="isLoggedIn">
+          Click
+          <v-btn small color="rgb(6 67 121)" dark rounded to="/addbooks">here</v-btn>
+          to add books
+        </span>
+        <span v-else>
+          <v-btn small color="rgb(6 67 121)" dark rounded to="/login">Login</v-btn>
+          to add books
+        </span>
+      </div>
+    </div>
+    <div v-else>
+      <v-row class="my-10">
+        <v-col cols="12" lg="6" md="8">
+          <div>
+            <v-text-field
+              label="Search for a book by Name or Author"
+              hide-details="auto"
+              v-model="search"
+            ></v-text-field>
+          </div>
+        </v-col>
+        <v-col cols="12" lg="6" md="4" v-if="isLoggedIn">
+          <v-btn
+            to="/addbooks"
+            class="float-right white--text"
+            color="rgb(6 67 121)"
+            rounded
+          >
+            Add a book
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row>
+        <span class="mt-1 mx-3"> Sort By Name:</span>
         <v-btn
-          to="/addbooks"
-          class="float-right white--text"
-          color="rgb(6 67 121)"
+          small
+          color="grey"
           rounded
-        >
-          Add a book
+          v-bind:class="checkSortAsc()"
+          @click="setSort('Ascending')"
+          >Ascending
         </v-btn>
-      </v-col>
-    </v-row>
-    <v-row>
-      <span class="mt-1 mx-3"> Sort By Name:</span>
-      <v-btn
-        small
-        color="grey"
-        rounded
-        v-bind:class="checkSortAsc()"
-        @click="setSort('Ascending')"
-        >Ascending
-      </v-btn>
-      <v-divider vertical class="mx-2"> </v-divider>
-      <v-btn
-        small
-        color="grey"
-        rounded
-        v-bind:class="checkSortDesc()"
-        @click="setSort('Descending')"
-        >Descending</v-btn
-      >
-    </v-row>
-    <v-row>
-      <v-col
-        cols="12"
-        lg="6"
-        md="12"
-        sm="12"
-        v-for="(book, i) in filteredBooks"
-        :key="i"
-      >
-        <v-card height="100%" class="d-flex flex-column pa-3" outlined>
-          <Book
-            :name="book.name"
-            :bookId="book._id"
-            :author="book.author"
-            :buyPrice="book.buyPrice"
-            :edition="book.edition"
-            :bookImage="book.bookImage"
-            :courseId="book.courseId"
-            :forRent="book.forRent"
-            :forSale="book.forSale"
-            :rentPrice="book.rentPrice"
-            :userId="book.userId"
-          />
-          <v-spacer></v-spacer>
-          <v-card-actions>
-            <div v-if="isLoggedIn && current_user._id != book.userId">
-              <v-btn
-                @click="addToHoldings(book, user_id)"
-                class="font-weight-bold white--text"
-                color="rgb(6 67 121)"
-                small
-                rounded
-                :disabled="!book.availability"
-              >
-                Place a hold
-              </v-btn>
-            </div>
-            <div v-else-if="current_user._id == book.userId" class="red--text">
-              <v-btn disabled rounded text> Your book </v-btn>
-            </div>
-            <div v-if="!isLoggedIn" class="mt-5 mb-3">
-              <v-btn
-                rounded
-                small
-                color="rgb(6 67 121)"
-                class="white--text"
-                to="/login"
-                >Login</v-btn
-              >
-              <span class="font-weight-bold">
-                to ask the owner to hold it for you
-              </span>
-            </div>
+        <v-divider vertical class="mx-2"> </v-divider>
+        <v-btn
+          small
+          color="grey"
+          rounded
+          v-bind:class="checkSortDesc()"
+          @click="setSort('Descending')"
+          >Descending</v-btn
+        >
+      </v-row>
+      <v-row>
+        <v-col
+          cols="12"
+          lg="6"
+          md="12"
+          sm="12"
+          v-for="(book, i) in filteredBooks"
+          :key="i"
+        >
+          <v-card height="100%" class="d-flex flex-column pa-3" outlined>
+            <Book
+              :name="book.name"
+              :bookId="book._id"
+              :author="book.author"
+              :buyPrice="book.buyPrice"
+              :edition="book.edition"
+              :bookImage="book.bookImage"
+              :courseId="book.courseId"
+              :forRent="book.forRent"
+              :forSale="book.forSale"
+              :rentPrice="book.rentPrice"
+              :userId="book.userId"
+            />
             <v-spacer></v-spacer>
-            <div>
-              <v-btn
-                class="font-weight-bold white--text"
-                @click="bookDetails(book._id)"
-                rounded
-                color="rgb(6 67 121)"
-                small
+            <v-card-actions>
+              <div v-if="isLoggedIn && current_user._id != book.userId">
+                <v-btn
+                  @click="addToHoldings(book, user_id)"
+                  class="font-weight-bold white--text"
+                  color="rgb(6 67 121)"
+                  small
+                  rounded
+                  :disabled="!book.availability"
+                >
+                  Place a hold
+                </v-btn>
+              </div>
+              <div
+                v-else-if="current_user._id == book.userId"
+                class="red--text"
               >
-                See book details
-              </v-btn>
+                <v-btn disabled rounded text> Your book </v-btn>
+              </div>
+              <div v-if="!isLoggedIn" class="mt-5 mb-3">
+                <v-btn
+                  rounded
+                  small
+                  color="rgb(6 67 121)"
+                  class="white--text"
+                  to="/login"
+                  >Login</v-btn
+                >
+                <span class="font-weight-bold">
+                  to ask the owner to hold it for you
+                </span>
+              </div>
+              <v-spacer></v-spacer>
+              <div>
+                <v-btn
+                  class="font-weight-bold white--text"
+                  @click="bookDetails(book._id)"
+                  rounded
+                  color="rgb(6 67 121)"
+                  small
+                >
+                  See book details
+                </v-btn>
+              </div>
+            </v-card-actions>
+            <div v-if="!book.availability" class="red--text mx-2">
+              Item not available anymore
             </div>
-          </v-card-actions>
-          <div v-if="!book.availability" class="red--text mx-2">
-            Item not available anymore
-          </div>
-          <div class="pa-4 red--text" v-if="errors && errors.id == book._id">
-            {{ errors.error }}
-          </div>
-        </v-card>
-      </v-col>
-    </v-row>
+            <div class="pa-4 red--text" v-if="errors && errors.id == book._id">
+              {{ errors.error }}
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
   </v-container>
 </template>
 
