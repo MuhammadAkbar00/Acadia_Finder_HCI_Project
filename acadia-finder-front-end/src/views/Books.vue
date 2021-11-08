@@ -9,29 +9,38 @@
             hide-details="auto"
             v-model="search"
           ></v-text-field>
-          <p class="mb-10">
-            Sort By Name:
-            <span v-bind:class="checkSortAsc()" @click="setSort('Ascending')"
-              >Ascending</span
-            >/<span
-              v-bind:class="checkSortDesc()"
-              class="add-hover"
-              @click="setSort('Descending')"
-              >Descending</span
-            >
-          </p>
         </div>
       </v-col>
       <v-col cols="12" lg="6" md="4" v-if="isLoggedIn">
-        <v-btn 
-          to="/addbooks" 
-          class="float-right white--text" 
+        <v-btn
+          to="/addbooks"
+          class="float-right white--text"
           color="rgb(6 67 121)"
-          rounded 
+          rounded
         >
           Add a book
         </v-btn>
       </v-col>
+    </v-row>
+    <v-row>
+      <span class="mt-1 mx-3"> Sort By Name:</span>
+      <v-btn
+        small
+        color="grey"
+        rounded
+        v-bind:class="checkSortAsc()"
+        @click="setSort('Ascending')"
+        >Ascending
+      </v-btn>
+      <v-divider vertical class="mx-2"> </v-divider>
+      <v-btn
+        small
+        color="grey"
+        rounded
+        v-bind:class="checkSortDesc()"
+        @click="setSort('Descending')"
+        >Descending</v-btn
+      >
     </v-row>
     <v-row>
       <v-col
@@ -45,6 +54,7 @@
         <v-card height="100%" class="d-flex flex-column pa-3" outlined>
           <Book
             :name="book.name"
+            :bookId="book._id"
             :author="book.author"
             :buyPrice="book.buyPrice"
             :edition="book.edition"
@@ -53,6 +63,7 @@
             :forRent="book.forRent"
             :forSale="book.forSale"
             :rentPrice="book.rentPrice"
+            :userId="book.userId"
           />
           <v-spacer></v-spacer>
           <v-card-actions>
@@ -81,7 +92,7 @@
                 >Login</v-btn
               >
               <span class="font-weight-bold">
-                 to ask the owner to hold it for you
+                to ask the owner to hold it for you
               </span>
             </div>
             <v-spacer></v-spacer>
@@ -181,7 +192,6 @@ export default {
   created() {
     this.loadBooks();
     this.getUser_();
-    this.sortBy();
   },
 };
 </script>
@@ -191,11 +201,9 @@ export default {
 .color-text {
   color: blue;
 }
-.add-hover {
-  cursor: pointer;
-}
 .active {
   font-weight: bold;
-  color: #2e608e;
+  background-color: #064379 !important;
+  color: white;
 }
 </style>

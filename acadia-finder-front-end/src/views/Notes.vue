@@ -51,6 +51,7 @@
             :description="note.description"
             :semester="note.semester"
             :_id="note._id"
+            :userId="note.providerId"
           />
           <v-spacer></v-spacer>
           <v-card-actions>
