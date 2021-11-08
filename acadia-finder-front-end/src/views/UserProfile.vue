@@ -305,7 +305,6 @@ export default {
       await this.getBooks();
       await this.getHoldsAndUsers(this.current_user._id);
       this.ownerBooks_ = this.ownerBooks;
-      console.log("=======", this.ownerBooks_);
     },
     async markSold_(bookId) {
       await this.markSold(bookId);
@@ -323,7 +322,6 @@ export default {
           headers,
         })
         .then(() => {
-          // console.log(res);
         })
         .catch((err) => {
           this.errors = err.response.data.error;

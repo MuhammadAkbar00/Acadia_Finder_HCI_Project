@@ -1,16 +1,20 @@
 <template>
   <v-container class="mt-10 pt-15">
     <h2 class="mb-10">All Books Available</h2>
-    <div v-if="filteredBooks.length === 0">
+    <div v-if="booksArray.length === 0">
       <div>
         <span class="red--text font-weight-bold"> No books available.</span>
         <span v-if="isLoggedIn">
           Click
-          <v-btn small color="rgb(6 67 121)" dark rounded to="/addbooks">here</v-btn>
+          <v-btn small color="rgb(6 67 121)" dark rounded to="/addbooks"
+            >here</v-btn
+          >
           to add books
         </span>
         <span v-else>
-          <v-btn small color="rgb(6 67 121)" dark rounded to="/login">Login</v-btn>
+          <v-btn small color="rgb(6 67 121)" dark rounded to="/login"
+            >Login</v-btn
+          >
           to add books
         </span>
       </div>
@@ -37,7 +41,7 @@
           </v-btn>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row v-if="filteredBooks.length > 0">
         <span class="mt-1 mx-3"> Sort By Name:</span>
         <v-btn
           small
@@ -56,6 +60,9 @@
           @click="setSort('Descending')"
           >Descending</v-btn
         >
+      </v-row>
+      <v-row v-else class="red--text my-10 pa-5">
+        <h3>No matches</h3>
       </v-row>
       <v-row>
         <v-col
@@ -169,6 +176,14 @@ export default {
           if (a.name > b.name) return 1;
           return 0;
         });
+      }
+      if (this.sorting && this.sorting === "Descending") {
+        filteredArr.sort((a, b) => {
+          if (a.name < b.name) return -1;
+          if (a.name > b.name) return 1;
+          return 0;
+        });
+        filteredArr.reverse();
       }
       return filteredArr;
     },
