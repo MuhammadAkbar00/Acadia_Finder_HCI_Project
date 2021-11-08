@@ -12,7 +12,7 @@
         <v-card elevation="0" class="pt-2">
           <v-img src="../assets/logo2.png" max-height="110" contain></v-img>
           <v-card-text>
-            <div v-if="errors" class="text-left errors red--text">
+            <div v-if="errors" class="text-left errors red--text text--darken-3">
               {{ errors }}
             </div>
             <form

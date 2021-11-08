@@ -4,7 +4,7 @@
       <v-row justify="center" class="mt-10 pa-5">
         <v-col lg="6" sm="12" md="8">
           <h2 class="mb-5">Signup Form</h2>
-          <div v-if="errors" class="text-left errors red--text">
+          <div v-if="errors" class="text-left errors red--text text--darken-3">
             {{ errors }}
           </div>
           <form @submit.prevent="submit" ref="form" v-on:keyup="validator">

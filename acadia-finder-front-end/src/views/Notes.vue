@@ -3,7 +3,7 @@
     <h2 class="mb-10">Available Notes</h2>
     <div v-if="notesArray.length === 0">
       <div>
-        <span class="red--text font-weight-bold"> No notes available. </span>
+        <span class="red--text text--darken-3 font-weight-bold"> No notes available. </span>
         <span v-if="isLoggedIn">
           Click
           <v-btn small color="rgb(6 67 121)" dark rounded to="/addnotes"
@@ -61,7 +61,7 @@
           >Descending</v-btn
         >
       </v-row>
-      <v-row v-else class="red--text my-10 pa-5">
+      <v-row v-else class="red--text text--darken-3 my-10 pa-5">
         <h3> No matches </h3>
       </v-row>
       <v-row>

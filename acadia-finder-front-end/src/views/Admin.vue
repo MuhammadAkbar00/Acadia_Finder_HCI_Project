@@ -1,5 +1,12 @@
 <template>
   <v-container class="mt-15 pt-10">
+    <v-btn  
+      rounded 
+      color="rgb(6 67 121)" 
+      class="float-right white--text mt-8"
+      @click="logout()"
+    >
+      Logout</v-btn>
     <p class="mb-15"> 
       Hi <span class="font-weight-bold"> {{ name }} </span>
       , you are currently logged in as an Admin
@@ -121,13 +128,6 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-btn  
-      rounded 
-      color="red darken-3" 
-      class="white--text mt-8"
-      @click="logout()"
-    >
-      Logout</v-btn>
   </v-container>
 </template>
 <script>

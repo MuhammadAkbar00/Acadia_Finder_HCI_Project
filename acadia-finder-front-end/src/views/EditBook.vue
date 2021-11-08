@@ -99,13 +99,18 @@
                 />
               </div>
               <div class="my-2">
-                <v-btn class="text-capitalize" rounded outlined>
+                <v-btn 
+                  class="white--text mb-10" 
+                  color="rgb(6 67 121)"
+                  rounded
+                  small 
+                >
                   <label for="book-file">
                     <v-icon>mdi-upload</v-icon>
                     Add Book image
                   </label>
                 </v-btn>
-                <div class="red--text caption">
+                <div class="red--text text--darken-3 caption">
                   {{ image_errors }}
                 </div>
                 <input
@@ -119,14 +124,20 @@
             </div>
             <v-btn
               class="mr-4 white--text"
-              color="green"
+              color="rgb(6 67 121)"
               type="submit"
               rounded
               :disabled="!validated"
             >
-              Edit
+              Submit
             </v-btn>
-            <v-btn dark @click="clear" color="red" rounded> clear </v-btn>
+            <v-btn 
+              @click="clear" 
+              color="red darken-3" 
+              class="white--text"
+              rounded
+            > clear 
+            </v-btn>
           </form>
         </v-col>
       </v-row>
