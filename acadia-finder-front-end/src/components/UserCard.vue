@@ -1,67 +1,116 @@
 
 <template>
   <v-container>
-    <v-card
-      class="text-center ma-3 bg d-flex flex-column"
-      :style="{ backgroundColor: '#FFFFFF' }"
-      height="100%"
-    >
-      <v-responsive class="pt-4">
-        <v-avatar>
-          <img v-if="profilePicture" :src="getLink(profilePicture)" alt="" />
-          <v-icon v-else size="150"> mdi-account </v-icon>
-        </v-avatar>
-      </v-responsive>
-      <v-card-text>
-        <div class="subheading font-weight-bold text-capitalize">
-          {{ firstName + " " + lastName }}
-        </div>
-        <div class="grey--text">
-          <span class="font-weight-bold">Program: </span>{{ major }}
-        </div>
-        <div class="grey--text">
-          <span class="font-weight-bold"> Email: </span>{{ email }}
-        </div>
-      </v-card-text>
-      <v-spacer></v-spacer>
-      <v-card-actions v-if="this.checkFriendshipStatus() === 'friends'">
-        <v-btn color="red darken-3" class="white--text" small rounded @click="unfriendFriendRequest()">
-          <v-icon small class="mr-1">mdi-account-plus</v-icon>
-          <span class="add-friend">Unfriend</span>
-        </v-btn>
-      </v-card-actions>
-      <v-card-actions v-else-if="this.checkFriendshipStatus() === 'incoming'">
-        <v-btn color="rgb(6 67 121)" class="white--text" small rounded @click="acceptFriendRequest()">
-          <v-icon small class="mr-1">mdi-account-plus</v-icon>
-          <span class="add-friend">Accept</span>
-        </v-btn>
-        <v-btn color="red darken-3" class="white--text" small rounded @click="declineFriendRequest()">
-          <v-icon small class="mr-1">mdi-account-minus</v-icon>
-          <span class="add-friend">Decline</span>
-        </v-btn>
-      </v-card-actions>
-      <v-card-actions v-else-if="this.checkFriendshipStatus() === 'outgoing'">
-        <v-btn color="red darken-3" class="white--text" small rounded @click="cancelFriendRequest()">
-          <v-icon small class="mr-1">mdi-account-plus</v-icon>
-          <span class="add-friend">Cancel</span>
-        </v-btn>
-      </v-card-actions>
-      <v-card-actions v-else-if="this.checkFriendshipStatus() === 'owner'">
-        <v-btn disabled rounded text>You</v-btn>
-      </v-card-actions>
-      <v-card-actions v-else>
-        <v-btn color="rgb(6 67 121)" class="white--text" small rounded @click="sendFriendRequest()">
-          <v-icon small class="mr-1">mdi-account-plus</v-icon>
-          <span class="add-friend">Add</span>
-        </v-btn>
-      </v-card-actions>
-    </v-card>
+    <v-row align="stretch">
+      <v-col>
+        <v-card
+          outlined
+          class="text-center ma-3 d-flex flex-column"
+          height="100%"
+        >
+          <v-responsive class="pt-4">
+            <v-avatar>
+              <img
+                v-if="profilePicture"
+                :src="getLink(profilePicture)"
+                alt=""
+              />
+              <v-icon v-else size="60"> mdi-account </v-icon>
+            </v-avatar>
+          </v-responsive>
+          <v-card-text style="overflow-y: auto; height: 100px">
+            <div class="subheading font-weight-bold text-capitalize">
+              {{ firstName + " " + lastName }}
+            </div>
+            <div class="mt-2">
+              <span class="font-weight-bold">Program: </span>{{ major }}
+            </div>
+            <div class="mt-2" v-if="this.checkFriendshipStatus() === 'friends'">
+              <div>
+                <span class="font-weight-bold">Email: </span>{{ email }}
+              </div>
+              <div>
+                <span class="font-weight-bold">Phone Number: </span
+                >{{ phoneNumber }}
+              </div>
+            </div>
+          </v-card-text>
+          <v-spacer></v-spacer>
+          <v-card-actions v-if="this.checkFriendshipStatus() === 'friends'">
+            <v-btn
+              color="red darken-3"
+              class="white--text"
+              small
+              rounded
+              @click="unfriendFriendRequest()"
+            >
+              <v-icon small class="mr-1">mdi-account-plus</v-icon>
+              <span class="add-friend">Unfriend</span>
+            </v-btn>
+          </v-card-actions>
+          <v-card-actions
+            v-else-if="this.checkFriendshipStatus() === 'incoming'"
+          >
+            <v-btn
+              color="rgb(6 67 121)"
+              class="white--text"
+              small
+              rounded
+              @click="acceptFriendRequest()"
+            >
+              <v-icon small class="mr-1">mdi-account-plus</v-icon>
+              <span class="add-friend">Accept</span>
+            </v-btn>
+            <v-btn
+              color="red darken-3"
+              class="white--text"
+              small
+              rounded
+              @click="declineFriendRequest()"
+            >
+              <v-icon small class="mr-1">mdi-account-minus</v-icon>
+              <span class="add-friend">Decline</span>
+            </v-btn>
+          </v-card-actions>
+          <v-card-actions
+            v-else-if="this.checkFriendshipStatus() === 'outgoing'"
+          >
+            <v-btn
+              color="red darken-3"
+              class="white--text"
+              small
+              rounded
+              @click="cancelFriendRequest()"
+            >
+              <v-icon small class="mr-1">mdi-account-plus</v-icon>
+              <span class="add-friend">Cancel</span>
+            </v-btn>
+          </v-card-actions>
+          <v-card-actions v-else-if="this.checkFriendshipStatus() === 'owner'">
+            <v-btn disabled rounded text>You</v-btn>
+          </v-card-actions>
+          <v-card-actions v-else>
+            <v-btn
+              color="rgb(6 67 121)"
+              class="white--text"
+              small
+              rounded
+              @click="sendFriendRequest()"
+            >
+              <v-icon small class="mr-1">mdi-account-plus</v-icon>
+              <span class="add-friend">Add</span>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
 import axios from "axios";
 import { mapActions, mapState } from "vuex";
+import Swal from "sweetalert2";
 export default {
   data() {
     return {
@@ -122,10 +171,21 @@ export default {
 
     // Accept Friend Request
     acceptFriendRequest() {
-      return axios
-        .post(
-          `http://localhost:3000/friendship/${this.current_user._id}/accepts/${this._id}`
-        )
+      Swal.fire({
+        title: "Accept ?",
+        text: "User will see your email and phone number, and you will see theirs",
+        showCancelButton: true,
+        confirmButtonText: "Accept",
+      })
+        .then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            Swal.fire("Accepted!", "", "success");
+            return axios.post(
+              `http://localhost:3000/friendship/${this.current_user._id}/accepts/${this._id}`
+            );
+          }
+        })
         .then((res) => {
           console.log(res);
           this.forceRerender();
@@ -148,12 +208,22 @@ export default {
 
     // Decline Friend Request
     unfriendFriendRequest() {
-      return axios
-        .post(
-          `http://localhost:3000/friendship/${this.current_user._id}/unfriend/${this._id}`
-        )
-        .then((res) => {
-          console.log(res);
+      Swal.fire({
+        title: "Unfriend ?",
+        text: "You will no longer be able to see their email and phone number",
+        showCancelButton: true,
+        confirmButtonText: "Unfriend",
+      })
+        .then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            Swal.fire("Friend removed", "", "success");
+            return axios.post(
+              `http://localhost:3000/friendship/${this.current_user._id}/unfriend/${this._id}`
+            );
+          }
+        })
+        .then(() => {
           this.forceRerender();
         })
         .catch((err) => console.log(err));

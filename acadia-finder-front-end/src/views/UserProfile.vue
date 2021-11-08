@@ -2,14 +2,16 @@
   <div class="mt-15 pt-5 ma-5">
     <h2 class="my-5">User Profile</h2>
     <v-card align="center" outlined class="pb-5 border-bottom">
-      <v-avatar size="150" contain color="grey" class="mt-n15">
-        <img v-if="url" :src="url" />
-        <img
-          v-else-if="this.profilePicture"
-          :src="getLink(this.profilePicture)"
-        />
-        <v-icon v-else size="150"> mdi-account </v-icon>
-      </v-avatar>
+      <div class="mt-n3">
+        <v-avatar size="150" contain color="grey" class="mt-n15">
+          <img v-if="url" :src="url" />
+          <img
+            v-else-if="this.profilePicture"
+            :src="getLink(this.profilePicture)"
+          />
+          <v-icon v-else size="150"> mdi-account </v-icon>
+        </v-avatar>
+      </div>
       <input
         type="file"
         ref="file"
@@ -103,12 +105,12 @@
             <v-col
               cols="12"
               lg="6"
-              md="12"
+              md="6"
               sm="12"
               v-for="(book, i) in ownerBooks_"
               :key="i"
             >
-              <v-card outlined>
+              <v-card outlined height="100%" class="pa-5 d-flex flex-column pa-3">
                 <Book
                   :name="book.book.name"
                   :author="book.book.author"
@@ -120,66 +122,72 @@
                   :forSale="book.book.forSale"
                   :rentPrice="book.book.rentPrice"
                 />
-              </v-card>
-              <div class="mt-5" v-if="book.count > 0">
-                <span class="font-weight-bold"> Number of holds: </span>
-                <span class="green--text font-weight-bold">
-                  {{ book.count }}
-                </span>
-              </div>
-              <div v-if="book.users.length > 0">
-                <h3 class="my-5">
-                  List of users with hold on this book. You can contact them via
-                  the email or phone number listed
-                </h3>
-                <v-row>
-                  <v-col
-                    cols="12"
-                    md="6"
-                    sm="12"
-                    v-for="(user, j) in book.users"
-                    :key="j"
-                  >
-                    <v-card class="pa-5">
-                      <v-row class="font-weight-bold">
-                        <v-col> Full name: </v-col>
-                        <v-col> {{ user.firstName }} {{ user.lastName }}</v-col>
-                      </v-row>
-                      <v-row class="font-weight-bold">
-                        <v-col> Phone Number: </v-col>
-                        <v-col> {{ user.phoneNumber }}</v-col>
-                      </v-row>
-                      <v-row class="font-weight-bold">
-                        <v-col>  Email: </v-col>
-                        <v-col> {{ user.email }}</v-col>
-                      </v-row>
-                    </v-card>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col>
-                    <v-btn
-                      rounded
-                      block
-                      small
-                      class="white--text mt-3"
-                      color="rgb(6 67 121)"
-                      @click="markSold(book.book._id)"
-                      :disabled="!book.book.availability"
+                <div class="mt-5" v-if="book.count > 0">
+                  <span class="font-weight-bold"> Number of holds: </span>
+                  <span class="green--text font-weight-bold">
+                    {{ book.count }}
+                  </span>
+                </div>
+                <div v-if="book.users.length > 0">
+                  <h3 class="my-5">
+                    List of users with hold on this book. You can contact them
+                    via the email/phone number listed
+                  </h3>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      lg="12"
+                      md="6"
+                      sm="12"
+                      v-for="(user, j) in book.users"
+                      :key="j"
                     >
-                      Mark as sold
-                    </v-btn>
-                    <span v-if="!book.book.availability" class="red--text my-3">
-                      Item is not available anymore
-                    </span>
-                  </v-col>
-                </v-row>
-              </div>
-              <div v-else>
-                <h4 class="red--text text--darken-3 mb-10">
-                  No holds on this item yet
-                </h4>
-              </div>
+                      <v-card class="pa-5">
+                        <v-row class="font-weight-bold">
+                          <v-col> Full name: </v-col>
+                          <v-col>
+                            {{ user.firstName }} {{ user.lastName }}</v-col
+                          >
+                        </v-row>
+                        <v-row class="font-weight-bold">
+                          <v-col> Phone Number: </v-col>
+                          <v-col> {{ user.phoneNumber }}</v-col>
+                        </v-row>
+                        <v-row class="font-weight-bold">
+                          <v-col> Email: </v-col>
+                          <v-col> {{ user.email }}</v-col>
+                        </v-row>
+                      </v-card>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <v-btn
+                        rounded
+                        block
+                        small
+                        class="white--text mt-3"
+                        color="rgb(6 67 121)"
+                        @click="markSold(book.book._id)"
+                        :disabled="!book.book.availability"
+                      >
+                        Mark as sold
+                      </v-btn>
+                      <span
+                        v-if="!book.book.availability"
+                        class="red--text my-3"
+                      >
+                        Item is not available anymore
+                      </span>
+                    </v-col>
+                  </v-row>
+                </div>
+                <div v-else>
+                  <h4 class="red--text text--darken-3 mb-10">
+                    No holds on this item yet
+                  </h4>
+                </div>
+              </v-card>
             </v-col>
           </v-row>
           <div
@@ -321,8 +329,7 @@ export default {
         .post("http://localhost:3000/users/uploadProfile", formData, {
           headers,
         })
-        .then(() => {
-        })
+        .then(() => {})
         .catch((err) => {
           this.errors = err.response.data.error;
         });
