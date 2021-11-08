@@ -5,7 +5,7 @@
       <v-col cols="12" lg="4" md="4" sm="6">
         <v-text-field
           v-model="search"
-          placeholder="Search by Program"
+          placeholder="Search by Name"
           dense
         ></v-text-field>
       </v-col>

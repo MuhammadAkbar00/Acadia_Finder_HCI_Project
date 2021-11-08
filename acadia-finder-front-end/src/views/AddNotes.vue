@@ -182,16 +182,14 @@ export default {
         await axios
           .post("http://localhost:3000/notes", formData, { headers })
           .then(
-            (res) => {
-              console.log(res);
+            () => {
               this.$router.push("/notes");
               Swal.fire({
                 icon: "success",
                 title: "Note Successfully Added",
                 showConfirmButton: false,
-                timer: 2000,
+                timer: 1500,
               });
-              this.$router.go();
             },
             (err) => {
               console.log(err.response);

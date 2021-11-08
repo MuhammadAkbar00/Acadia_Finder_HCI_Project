@@ -218,21 +218,19 @@ export default {
                     if (res.status === 200) {
                       localStorage.setItem("token", res.data.token);
                       this.$router.push("/");
+                      Swal.fire({
+                        icon: "success",
+                        title: "Account Successfully Created",
+                        showConfirmButton: false,
+                        timer: 2000,
+                      });
                     }
-                    Swal.fire({
-                      icon: "success",
-                      title: "Account Successfully Created",
-                      showConfirmButton: false,
-                      timer: 2000,
-                    });
                     this.$store.state.isLoggedIn = true;
                   },
                   (err) => {
                     this.errors = err.response.data.error;
                   }
                 );
-              // this.$router.push("/login");
-              // this.$router.go();
             },
             (err) => {
               console.log(err.response);

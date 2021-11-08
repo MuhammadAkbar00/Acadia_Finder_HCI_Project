@@ -234,9 +234,8 @@ export default {
                 icon: "success",
                 title: "Book Successfully Added",
                 showConfirmButton: false,
-                timer: 2000,
+                timer: 1500,
               });
-              this.$router.go();
             },
             (err) => {
               console.log(err.response);
