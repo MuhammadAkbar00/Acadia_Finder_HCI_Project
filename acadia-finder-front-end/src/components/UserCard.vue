@@ -18,7 +18,7 @@
               <v-icon v-else size="60"> mdi-account </v-icon>
             </v-avatar>
           </v-responsive>
-          <v-card-text style="overflow-y: auto; height: 130px">
+          <v-card-text style="overflow-y: auto; height: 140px">
             <div class="subheading font-weight-bold text-capitalize">
               {{ firstName + " " + lastName }}
             </div>
