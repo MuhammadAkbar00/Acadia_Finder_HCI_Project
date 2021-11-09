@@ -57,29 +57,29 @@
             >
               <v-card height="100%" class="d-flex flex-column pa-2" outlined>
                 <Book
-                  :name="book.book.name"
-                  :author="book.book.author"
-                  :buyPrice="book.book.buyPrice"
-                  :edition="book.book.edition"
-                  :bookImage="book.book.bookImage"
-                  :courseId="book.book.courseId"
-                  :forRent="book.book.forRent"
-                  :forSale="book.book.forSale"
-                  :rentPrice="book.book.rentPrice"
+                  :name="book.name"
+                  :author="book.author"
+                  :buyPrice="book.buyPrice"
+                  :edition="book.edition"
+                  :bookImage="book.bookImage"
+                  :courseId="book.courseId"
+                  :forRent="book.forRent"
+                  :forSale="book.forSale"
+                  :rentPrice="book.rentPrice"
                 />
                 <v-spacer></v-spacer>
                 <v-card-actions>
                   <v-btn
-                    :disabled="!book.book.availability"
+                    :disabled="!book.availability"
                     class="white--text"
                     rounded
                     small
                     color="red darken-3"
-                    @click="removeHold_(book.book._id)"
+                    @click="removeHold_(book._id)"
                   >
                     Remove Hold
                   </v-btn>
-                  <span class="ml-2 red--text" v-if="!book.book.availability">
+                  <span class="ml-2 red--text" v-if="!book.availability">
                     Item has been sold
                   </span>
                 </v-card-actions>
