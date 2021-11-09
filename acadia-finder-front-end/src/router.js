@@ -13,6 +13,7 @@ import UserProfile from "./views/UserProfile.vue";
 import Friends from "./views/Friends.vue";
 import ViewBook from "./views/ViewBook.vue";
 import Admin from "./views/Admin.vue";
+import About from "./views/About.vue";
 import AdminLogin from "./views/AdminLogin.vue";
 import EditBook from "./views/EditBook.vue";
 import EditNote from "./views/EditNote.vue";
@@ -99,6 +100,11 @@ export default new Router({
       component: Admin
     },
     {
+    path: "/about",
+    name: "about",
+    component: About
+  },
+  {
       path: "/admin_login",
       name: "admin_login",
       component: AdminLogin
