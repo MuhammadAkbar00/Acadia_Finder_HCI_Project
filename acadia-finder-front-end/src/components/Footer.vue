@@ -34,7 +34,7 @@ export default {
       },      
       {
         name: "Contact Us", 
-        link: "/contactus"
+        link: "/contact"
       }
     ]
   }),
