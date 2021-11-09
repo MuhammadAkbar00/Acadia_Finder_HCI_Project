@@ -14,6 +14,7 @@ import Friends from "./views/Friends.vue";
 import ViewBook from "./views/ViewBook.vue";
 import MessageSentConfirmation from "./views/MessageSentConfirmation.vue";
 import Admin from "./views/Admin.vue";
+import About from "./views/About.vue";
 
 Vue.use(Router);
 
@@ -91,6 +92,11 @@ export default new Router({
       path: "/admin",
       name: "admin",
       component: Admin
-    }
+    },
+    {
+    path: "/about",
+    name: "about",
+    component: About
+  },
   ]
 });

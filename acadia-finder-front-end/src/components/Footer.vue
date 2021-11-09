@@ -8,8 +8,9 @@
         text
         rounded
         class="my-2"
+        :to="link.link"
       >
-        {{ link }}
+        {{ link.name }}
       </v-btn>
       <v-col class="py-4 text-center white--text" cols="12">
         {{ new Date().getFullYear() }} — <strong>Acadia Finder</strong>
@@ -22,7 +23,20 @@
 export default {
   name: 'Footer',
   data: () => ({
-    links: ["Home", "About Us", "Contact Us"],
+    links: [
+      {
+        name: "Home", 
+        link: "/"
+      },      
+      {
+        name: "About Us", 
+        link: "/about"
+      },      
+      {
+        name: "Contact Us", 
+        link: "/contactus"
+      }
+    ]
   }),
 };
 </script>
