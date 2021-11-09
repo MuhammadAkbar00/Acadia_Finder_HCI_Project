@@ -12,9 +12,11 @@ import ContactUs from "./views/ContactUs.vue";
 import UserProfile from "./views/UserProfile.vue";
 import Friends from "./views/Friends.vue";
 import ViewBook from "./views/ViewBook.vue";
-import MessageSentConfirmation from "./views/MessageSentConfirmation.vue";
 import Admin from "./views/Admin.vue";
 import About from "./views/About.vue";
+import AdminLogin from "./views/AdminLogin.vue";
+import EditBook from "./views/EditBook.vue";
+import EditNote from "./views/EditNote.vue";
 
 Vue.use(Router);
 
@@ -53,7 +55,11 @@ export default new Router({
       component: Notes
     },
     {
-
+      path: "/notes/edit/:id",
+      name: "editnotes",
+      component: EditNote
+    },
+    {
       path: "/addbooks",
       name: "addbooks",
       component: AddBooks
@@ -79,14 +85,14 @@ export default new Router({
       component: Friends
     },
     {
-      path: "/book/:id",
+      path: "/books/:id",
       name: "viewbook",
       component: ViewBook
     },
     {
-      path: "/messageSent",
-      name: "messageSent",
-      component: MessageSentConfirmation
+      path: "/books/edit/:id",
+      name: "editbook",
+      component: EditBook
     },
     {
       path: "/admin",
@@ -98,5 +104,10 @@ export default new Router({
     name: "about",
     component: About
   },
+  {
+      path: "/admin_login",
+      name: "admin_login",
+      component: AdminLogin
+    }
   ]
 });

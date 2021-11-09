@@ -3,7 +3,7 @@
     <validation-observer ref="observer">
       <v-row justify="center" class="mt-10 pa-5">
         <v-col lg="6" sm="12" md="8">
-          <h2 class="mb-5">Add Notes Form</h2>
+          <h2 class="mb-5">Edit Notes Form</h2>
           <form @submit.prevent="submit" ref="form" v-on:keyup="validator">
             <validation-provider
               v-slot="{ errors }"
@@ -57,21 +57,22 @@
             <div class="mb-10">
               <div class="blue--text my-3">
                 <span v-for="(note_f, i) in noteFiles" :key="i">
-                  {{ note_f.name }}<span class="black--text"> ,</span>
+                  <span v-if="'originalname' in note_f">{{ note_f.originalname }}<span class="black--text"> ,</span></span>
+                  <span v-else>{{ note_f.name }}<span class="black--text"> ,</span></span>
                 </span>
               </div>
               <v-btn 
-                class="white--text mb-10" 
-                rounded 
-                small
-                color="rgb(6 67 121)"
-              >
+                  class="white--text mb-10" 
+                  rounded 
+                  small
+                  color="rgb(6 67 121)"
+                >
                 <label for="note-files">
                   <v-icon>mdi-upload</v-icon>
                   Add note file
                 </label>
               </v-btn>
-              <div class="red--text text--darken-3 caption">
+              <div class="red--text text-darken-3 caption">
                 {{ file_errors }}
               </div>
               <input
@@ -90,13 +91,13 @@
               rounded
               :disabled="!validated"
             >
-              submit
+              Submit
             </v-btn>
-            <v-btn 
+            <v-btn
               @click="clear" 
               class="white--text" 
-              rounded 
               color="red darken-3"
+              rounded
             >
               clear
             </v-btn>
@@ -151,6 +152,8 @@ export default {
     validated: false,
     errors: "",
     file_errors: "",
+    note: "",
+    user_id: ""
   }),
   computed: {
     ...mapState(["current_user"]),
@@ -161,7 +164,28 @@ export default {
     async getUser_() {
       await this.getUser();
       this.user_id = this.current_user._id;
-      this.providerId = this.current_user._id;
+      this.getNotes()
+    },
+    async getNotes() {
+      return axios
+        .get(`http://localhost:3000/notes/${this.$route.params.id}`)
+        .then(async (response) => {
+          if (this.user_id !== response.data.providerId) {
+            alert("YOU ARE NOT THE OWNER");
+            this.$router.push("/notes");
+          }
+          this.note = response.data
+          this.courseId = response.data.courseId;
+          this.providerId = response.data.providerId;
+          this.noteFiles = response.data.noteFiles;
+          this.datePosted = response.data.datePosted;
+          this.description = response.data.description;
+          this.semester = response.data.semester;
+          console.log(this.noteFiles)
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     async submit() {
       if (await this.$refs.observer.validate()) {
@@ -180,16 +204,18 @@ export default {
         formData.append("semester", this.semester);
         const headers = { "Content-Type": "multipart/form-data" };
         await axios
-          .post("http://localhost:3000/notes", formData, { headers })
+          .patch(`http://localhost:3000/notes/${this.note._id}`, formData, { headers })
           .then(
-            () => {
+            (res) => {
+              console.log(res);
               this.$router.push("/notes");
               Swal.fire({
                 icon: "success",
-                title: "Note Successfully Added",
+                title: "Note Successfully Edited",
                 showConfirmButton: false,
-                timer: 1500,
+                timer: 5000,
               });
+              this.$router.go();
             },
             (err) => {
               console.log(err.response);
@@ -224,6 +250,7 @@ export default {
         return alert("You can not upload more than 8 files");
       }
       this.noteFiles = event.target.files;
+      this.validator()
     },
   },
 

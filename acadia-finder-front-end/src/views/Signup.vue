@@ -4,7 +4,7 @@
       <v-row justify="center" class="mt-10 pa-5">
         <v-col lg="6" sm="12" md="8">
           <h2 class="mb-5">Signup Form</h2>
-          <div v-if="errors" class="text-left errors red--text">
+          <div v-if="errors" class="text-left errors red--text text--darken-3">
             {{ errors }}
           </div>
           <form @submit.prevent="submit" ref="form" v-on:keyup="validator">
@@ -41,6 +41,18 @@
                 v-model="userName"
                 :error-messages="errors"
                 label="Username"
+                required
+              ></v-text-field>
+            </validation-provider>
+            <validation-provider
+              v-slot="{ errors }"
+              name="Email"
+              rules="required|email"
+            >
+              <v-text-field
+                v-model="email"
+                :error-messages="errors"
+                label="E-mail"
                 required
               ></v-text-field>
             </validation-provider>
@@ -90,18 +102,6 @@
                 required
               ></v-text-field>
             </validation-provider>
-            <validation-provider
-              v-slot="{ errors }"
-              name="Email"
-              rules="required|email"
-            >
-              <v-text-field
-                v-model="email"
-                :error-messages="errors"
-                label="E-mail"
-                required
-              ></v-text-field>
-            </validation-provider>
 
             <validation-provider
               v-slot="{ errors }"
@@ -117,15 +117,22 @@
             </validation-provider>
 
             <v-btn
-              class="mr-4 white--text"
-              color="green"
+              class="mr-4 mt-10 white--text"
+              color="rgb(6 67 121)"
               type="submit"
               rounded
               :disabled="!validated"
             >
               submit
             </v-btn>
-            <v-btn dark @click="clear" color="red" rounded> clear </v-btn>
+            <v-btn 
+              rounded
+              class="mt-10 white--text"
+              color="red darken-3" 
+              @click="clear" 
+            > 
+              clear 
+            </v-btn>
           </form>
         </v-col>
       </v-row>
@@ -142,6 +149,7 @@ import {
   setInteractionMode,
 } from "vee-validate";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 setInteractionMode("eager");
 
@@ -210,6 +218,12 @@ export default {
                     if (res.status === 200) {
                       localStorage.setItem("token", res.data.token);
                       this.$router.push("/");
+                      Swal.fire({
+                        icon: "success",
+                        title: "Account Successfully Created",
+                        showConfirmButton: false,
+                        timer: 2000,
+                      });
                     }
                     this.$store.state.isLoggedIn = true;
                   },
@@ -217,8 +231,6 @@ export default {
                     this.errors = err.response.data.error;
                   }
                 );
-              // this.$router.push("/login");
-              // this.$router.go();
             },
             (err) => {
               console.log(err.response);

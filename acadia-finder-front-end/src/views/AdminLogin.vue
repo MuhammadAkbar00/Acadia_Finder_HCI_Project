@@ -1,7 +1,7 @@
 <template>
   <v-container class="mt-15 pt-15 text-center">
     <v-form @submit.prevent="loginUser" v-model="valid" ref="form">
-      <h1 class="pb-5">Log in to Your Account</h1>
+      <h1 class="mb-10">Admin Login</h1>
       <v-row justify="center">
         <v-col cols="12" md="6">
           <v-text-field
@@ -31,11 +31,6 @@
             type="submit"
             >Login</v-btn
           >
-          <div class="my-10 pt-5">
-            Don't have an Account yet? You can
-            <router-link to="/signup">Sign up</router-link>
-            now
-          </div>
         </v-col>
       </v-row>
     </v-form>
@@ -60,7 +55,7 @@ export default {
     async loginUser() {
       if (this.$refs.form.validate()) {
         await axios
-          .post("http://localhost:3000/users/login", {
+          .post("http://localhost:3000/admin/login", {
             email: this.email,
             password: this.password,
           })
@@ -68,10 +63,12 @@ export default {
             (res) => {
               //if successfull
               if (res.status === 200) {
-                localStorage.setItem("token", res.data.token);
-                this.$router.push("/");
+                // localStorage.setItem("admin_token", res.data.admin_token);
+                localStorage.setItem("admin_token", res.data.admin_token);
+                localStorage.setItem("admin", res.data.admin.name);
+                this.$router.push("/admin");
               }
-              this.$store.state.isLoggedIn = true;
+              this.$store.state.adminLoggedIn = true;
             },
             (err) => {
               this.errors = err.response.data.error;

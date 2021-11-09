@@ -32,22 +32,24 @@ A web application that helps students buy, sell or rent books amongst themselves
 - use vuetify website `https://vuetifyjs.com/en/introduction/why-vuetify/`
 
 ### To Do
-- centre books on screen resize
-- create password reset endpoint
-- add password validation
+- create password reset endpoint (not doing)
+- add password validation (done?)
 - add login validation
-- Remember login ()
+- Remember login () (not doing)
 
 
-- remove providerId from notes - Tamea
 - add breakpoint to holdings cols for user Profile page - Noor
-- Change "Course name" on book card in books.vue to "Course Id"
-- confirmation on logout, delete, add books, add notes, etc (sweetalert)
-- disable submit for contactus page - Tamea
 - make card height fix on user profile - Noor 
 - holdings - Noor
 - create admin endpoint, model, and admin login page - Muhammad
--
 
+
+### New Notes
+- file upload validation for books and note files
+- fix file upload button style
+-  Fix number of friends (user Profile)
+- confirm deletes
+- price counters shouldn't allow negatives
+- rent/buy price shouldn't be displayed in available books if no rent/buy price is given (it also mess the commemt since it has an empty field)
 
 

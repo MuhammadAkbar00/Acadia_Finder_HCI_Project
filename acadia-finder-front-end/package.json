@@ -1,5 +1,5 @@
 {
-  "name": "acadia-finder-front-end",
+  "name": "acadia-finder",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,8 +10,11 @@
   "dependencies": {
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
+    "sweetalert2": "^11.1.9",
+    "v-img": "^0.2.0",
     "vee-validate": "^3.4.13",
     "vue": "^2.6.11",
+    "vue-gallery-slideshow": "^1.5.2",
     "vue-router": "^3.5.3",
     "vuetify": "^2.4.0",
     "vuex": "^3.6.2"

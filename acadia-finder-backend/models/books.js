@@ -20,7 +20,6 @@ const BooksSchema = mongoose.Schema({
   },
   bookImage: {
     type: String,
-    required: false,
   },
   userId: {
     type: String,
@@ -28,11 +27,9 @@ const BooksSchema = mongoose.Schema({
   },
   buyPrice: {
     type: Number,
-    required: true
   },
   rentPrice: {
     type: Number,
-    required: true
   },
   forRent: {
     type: Boolean,

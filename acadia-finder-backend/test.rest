@@ -9,6 +9,19 @@ Content-Type: application/json
   "dateSold": "08/08/08",
   "listedPrice": 9000
 }
+
+###
+POST http://localhost:3000/admin
+Content-Type: application/json
+
+{
+  "password": "112233",
+  "firstName": "Muhammad",
+  "lastName": "Akbar",
+  "email": "makbar@gmail.com"
+}
+
+
 ###
 POST http://localhost:3000/books
 Content-Type: application/json
@@ -130,3 +143,37 @@ GET http://localhost:3000/friendship
 
 ###
 DELETE http://localhost:3000/users
+
+
+
+
+
+###
+DELETE http://localhost:3000/users
+
+###
+DELETE http://localhost:3000/books
+
+###
+DELETE http://localhost:3000/comments
+
+###
+DELETE http://localhost:3000/contact
+
+###
+DELETE http://localhost:3000/friendship
+
+###
+DELETE http://localhost:3000/holdings
+
+###
+DELETE http://localhost:3000/notes
+
+###
+DELETE http://localhost:3000/purchases
+
+###
+DELETE http://localhost:3000/rentals
+
+###
+DELETE http://localhost:3000/sales
