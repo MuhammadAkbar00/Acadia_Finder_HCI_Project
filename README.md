@@ -2,8 +2,13 @@
 
 A web application that helps students buy, sell or rent books amongst themselves.
 
+## Requirements
+- install mongodb, vue, node, vscode
+- create a mongodb with name `acadia_finder_db`
 ## Getting started
 - cd to main project folder `acadia-finder-hci-project`
+
+
 ### to run the backend
 - cd to `acadia-finder-backend`
 - run `npm install`
