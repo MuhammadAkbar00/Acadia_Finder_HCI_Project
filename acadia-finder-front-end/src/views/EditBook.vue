@@ -190,6 +190,7 @@ export default {
     rentPrice: "",
     forRent: false,
     forSale: false,
+    availability: Boolean,
     show1: false,
     user_id: "",
     url: "",
@@ -228,6 +229,7 @@ export default {
         formData.append("forRent", this.forRent);
         formData.append("forSale", this.forSale);
         formData.append("bookImage", this.bookImage);
+        formData.append("availability", this.availability);
         const headers = { "Content-Type": "multipart/form-data" };
         await axios
           .patch(`http://localhost:3000/books/${this.book._id}`, formData, {
@@ -271,6 +273,7 @@ export default {
       this.rentPrice = "";
       this.forRent = false;
       this.forSale = false;
+      this.availability = Boolean;
       this.user_id = "";
       this.image_errors = "";
       this.validated = false;
@@ -301,6 +304,7 @@ export default {
           this.rentPrice = response.data.rentPrice;
           this.forRent = response.data.forRent;
           this.forSale = response.data.forSale;
+          this.availability = response.data.availability;
         })
         .catch((err) => {
           console.log(err);

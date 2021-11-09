@@ -270,6 +270,9 @@ export default {
     },
 
     onFileUpload(event) {
+      if(event.target.files.length === 0) {
+        return null
+      }
       this.bookImage = event.target.files[0];
       this.url = URL.createObjectURL(this.bookImage);
     },

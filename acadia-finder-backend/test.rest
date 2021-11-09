@@ -129,7 +129,7 @@ GET http://localhost:3000/friendship
 
 ###
 
-GET http://localhost:3000/users
+GET http://localhost:3000/books
 
 ###
 DELETE http://localhost:3000/friendship/616789aeaf29979a70e4a501
@@ -139,7 +139,7 @@ DELETE http://localhost:3000/friendship
 
 ###
 
-GET http://localhost:3000/friendship
+GET http://localhost:3000/notes
 
 ###
 DELETE http://localhost:3000/users

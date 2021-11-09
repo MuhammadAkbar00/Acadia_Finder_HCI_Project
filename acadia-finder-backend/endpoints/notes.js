@@ -108,7 +108,7 @@ router.patch('/:id', getNote, upload.any("noteFiles"), async (req, res) => {
   if (req.res.note.courseId != null && req.res.note.courseId != req.body.courseId) {
     res.note.courseId = req.body.courseId
   }
-  if (req.res.note.noteFiles != null && req.file) {
+  if (req.res.note.noteFiles != null && req.files.length > 0) {
     let noteFileList = []
     req.files.map((file => {
       const f = {
