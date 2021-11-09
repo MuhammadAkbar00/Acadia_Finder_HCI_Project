@@ -2,8 +2,8 @@
   <v-footer color="primary" padless dark>
     <v-row justify="center" no-gutters>
       <v-btn
-        v-for="link in links"
-        :key="link"
+        v-for="(link, i) in links"
+        :key="i"
         color="white"
         text
         rounded

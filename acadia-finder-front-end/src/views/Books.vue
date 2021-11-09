@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-15 pt-15">
+  <v-container class="mt-10 pt-15">
     <h2 class="mb-10">All Books Available</h2>
     <div v-if="booksArray.length === 0">
       <div>
