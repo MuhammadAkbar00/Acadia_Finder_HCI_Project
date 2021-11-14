@@ -17,17 +17,19 @@
             label="Password"
             :rules="passwordRules"
             required
-            type="password"
             placeholder=" "
+            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="show1 ? 'text' : 'password'"
+            @click:append="show1 = !show1"
           ></v-text-field>
           <div v-if="errors" class="text-left errors">
             {{ errors }}
           </div>
-          <v-btn 
-            block 
-            rounded 
-            class="mt-15 white--text" 
-            color="rgb(6 67 121)" 
+          <v-btn
+            block
+            rounded
+            class="mt-15 white--text"
+            color="rgb(6 67 121)"
             type="submit"
             >Login</v-btn
           >
@@ -42,6 +44,7 @@ import axios from "axios";
 export default {
   data: () => ({
     valid: false,
+    show1: false,
     errors: "",
     email: "",
     emailRules: [

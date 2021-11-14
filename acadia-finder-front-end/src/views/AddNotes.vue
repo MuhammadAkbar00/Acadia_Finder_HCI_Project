@@ -55,7 +55,7 @@
               ></v-text-field>
             </validation-provider>
             <div class="mb-10">
-              <div class="blue--text my-3">
+              <div class="green--text my-3">
                 <span v-for="(note_f, i) in noteFiles" :key="i">
                   {{ note_f.name }}<span class="black--text"> ,</span>
                 </span>
